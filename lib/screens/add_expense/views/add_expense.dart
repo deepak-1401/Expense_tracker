@@ -1,4 +1,9 @@
+import 'package:budget_manager/screens/add_expense/views/icon.dart';
+import 'package:budget_manager/screens/add_expense/views/newcategory.dart';
+import 'package:budget_manager/models/category.dart' as model;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 class AddExpense extends StatefulWidget {
@@ -13,10 +18,75 @@ class _AddExpenseState extends State<AddExpense> {
   TextEditingController CategoryController = TextEditingController();
   TextEditingController DateController = TextEditingController();
 
+  IconData selectedIcon = AppIcons.transport; // default icon
+
   @override
   void initState() {
     DateController.text = DateFormat('dd-MM-yyyy').format(DateTime.now());
     super.initState();
+  }
+
+  List<model.Category> categories = [];
+  model.Category? selectedCategory;
+
+  void openIconPicker() {
+    List<IconData> iconList = [
+      AppIcons.food,
+      AppIcons.coffee,
+      AppIcons.restaurant,
+      AppIcons.shopping,
+      AppIcons.transport,
+      AppIcons.bike,
+      AppIcons.flight,
+      AppIcons.home,
+      AppIcons.rent,
+      AppIcons.bills,
+      AppIcons.electricity,
+      AppIcons.wifi,
+      AppIcons.phone,
+      AppIcons.education,
+      AppIcons.book,
+      AppIcons.health,
+      AppIcons.hospital,
+      AppIcons.medicine,
+      AppIcons.movie,
+
+      AppIcons.fitness,
+      AppIcons.income,
+      AppIcons.investment,
+
+      AppIcons.other,
+    ];
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Color(0xFF161D47),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return GridView.builder(
+          padding: EdgeInsets.all(16),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 5,
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+          ),
+          itemCount: iconList.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  selectedIcon = iconList[index];
+                });
+                Navigator.pop(context);
+              },
+              child: Icon(iconList[index], color: Colors.white, size: 28),
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -67,6 +137,7 @@ class _AddExpenseState extends State<AddExpense> {
                   ),
                   const SizedBox(height: 22),
                   TextFormField(
+                    readOnly: true,
                     textAlignVertical: TextAlignVertical.center,
                     controller: CategoryController,
                     decoration: InputDecoration(
@@ -84,11 +155,40 @@ class _AddExpenseState extends State<AddExpense> {
                             color: Color(0xFF9B4EFF),
                             shape: BoxShape.circle,
                           ),
+
                           child: Icon(
-                            Icons.category_sharp,
+                            Icons.list_alt_outlined,
                             color: Colors.white,
                             size: 18,
                           ),
+                        ),
+                      ),
+                      suffixIcon: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: IconButton(
+                          onPressed: () {
+                            //print("Category button pressed");
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return NewCategory(
+                                  onSave: (name, icon, color) {
+                                    setState(() {
+                                      categories.add(
+                                        model.Category(
+                                          name: name,
+                                          icon: icon,
+                                          color: color,
+                                        ),
+                                      );
+                                    });
+                                  },
+                                );
+                              },
+                            );
+                          },
+
+                          icon: Icon(Icons.add, color: Colors.white, size: 24),
                         ),
                       ),
                     ),
