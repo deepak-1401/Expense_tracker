@@ -59,3 +59,166 @@ class AppIcons {
   static const IconData gift = Icons.card_giftcard;
   static const IconData other = Icons.category;
 }
+
+final List<
+  Map<
+    String,
+    dynamic
+  >
+>
+icons = [
+  {
+    'name': 'food',
+    'icon': AppIcons.food,
+  },
+
+  {
+    'name': 'coffee',
+    'icon': AppIcons.coffee,
+  },
+
+  {
+    'name': 'restaurant',
+    'icon': AppIcons.restaurant,
+  },
+
+  {
+    'name': 'shopping',
+    'icon': AppIcons.shopping,
+  },
+
+  {
+    'name': 'transport',
+    'icon': AppIcons.transport,
+  },
+
+  {
+    'name': 'bike',
+    'icon': AppIcons.bike,
+  },
+
+  {
+    'name': 'flight',
+    'icon': AppIcons.flight,
+  },
+
+  {
+    'name': 'home',
+    'icon': AppIcons.home,
+  },
+
+  {
+    'name': 'rent',
+    'icon': AppIcons.rent,
+  },
+
+  {
+    'name': 'bills',
+    'icon': AppIcons.bills,
+  },
+
+  {
+    'name': 'electricity',
+    'icon': AppIcons.electricity,
+  },
+
+  {
+    'name': 'wifi',
+    'icon': AppIcons.wifi,
+  },
+
+  {
+    'name': 'phone',
+    'icon': AppIcons.phone,
+  },
+
+  {
+    'name': 'education',
+    'icon': AppIcons.education,
+  },
+
+  {
+    'name': 'book',
+    'icon': AppIcons.book,
+  },
+
+  {
+    'name': 'health',
+    'icon': AppIcons.health,
+  },
+
+  {
+    'name': 'hospital',
+    'icon': AppIcons.hospital,
+  },
+
+  {
+    'name': 'medicine',
+    'icon': AppIcons.medicine,
+  },
+
+  {
+    'name': 'movie',
+    'icon': AppIcons.movie,
+  },
+
+  {
+    'name': 'games',
+    'icon': AppIcons.games,
+  },
+
+  {
+    'name': 'music',
+    'icon': AppIcons.music,
+  },
+
+  {
+    'name': 'fitness',
+    'icon': AppIcons.fitness,
+  },
+
+  {
+    'name': 'gym',
+    'icon': AppIcons.gym,
+  },
+
+  {
+    'name': 'work',
+    'icon': AppIcons.work,
+  },
+
+  {
+    'name': 'business',
+    'icon': AppIcons.business,
+  },
+
+  {
+    'name': 'salary',
+    'icon': AppIcons.salary,
+  },
+
+  {
+    'name': 'income',
+    'icon': AppIcons.income,
+  },
+
+  {
+    'name': 'investment',
+    'icon': AppIcons.investment,
+  },
+
+  {
+    'name': 'stocks',
+    'icon': AppIcons.stocks,
+  },
+
+  {
+    'name': 'gift',
+    'icon': AppIcons.gift,
+  },
+
+  {
+    'name': 'other',
+    'icon': AppIcons.other,
+  },
+];

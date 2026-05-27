@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:budget_manager/screens/add_expense/views/add_expense.dart';
 import 'package:budget_manager/screens/home/views/main_screen.dart';
 import 'package:budget_manager/screens/setting/settings.dart';
@@ -7,38 +5,64 @@ import 'package:budget_manager/screens/stats/stats.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreen
+    extends
+        StatefulWidget {
+  const HomeScreen({
+    super.key,
+  });
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<
+    HomeScreen
+  >
+  createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState
+    extends
+        State<
+          HomeScreen
+        > {
   // var WidgetList = [MainScreen(), StatScreen(), Setting()];
   int index = 0;
   Color SelectedItem = Colors.white;
   Color UnselectedItem = Colors.grey;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return Scaffold(
       // appBar: AppBar(),
       bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+        borderRadius: const BorderRadius.vertical(
+          top: Radius.circular(
+            30,
+          ),
+        ),
         // curve in the icon
         child: BottomNavigationBar(
-          onTap: (value) => {
-            setState(() {
-              index = value;
-            }),
+          onTap:
+              (
+                value,
+              ) => {
+                setState(
+                  () {
+                    index = value;
+                  },
+                ),
 
-            print(value),
-          },
+                print(
+                  value,
+                ),
+              },
           showSelectedLabels: false,
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Color(0xFF11183D),
+          backgroundColor: Color(
+            0xFF11183D,
+          ),
           elevation: 3,
 
           // for  creating new Icons
@@ -46,30 +70,44 @@ class _HomeScreenState extends State<HomeScreen> {
             BottomNavigationBarItem(
               icon: Icon(
                 CupertinoIcons.home,
-                color: index == 0 ? SelectedItem : UnselectedItem,
+                color:
+                    index ==
+                        0
+                    ? SelectedItem
+                    : UnselectedItem,
               ),
 
               label: 'home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.add_circled),
+              icon: Icon(
+                CupertinoIcons.add_circled,
+              ),
               label: 'ADD',
             ),
             BottomNavigationBarItem(
               icon: Icon(
                 CupertinoIcons.graph_square,
-                color: index == 1 ? SelectedItem : UnselectedItem,
+                color:
+                    index ==
+                        1
+                    ? SelectedItem
+                    : UnselectedItem,
               ),
               label: 'stats',
             ),
 
-            // BottomNavigationBarItem(
-            //   icon: Icon(
-            //     CupertinoIcons.settings,
-            //     color: index == 2 ? SelectedItem : UnselectedItem,
-            //   ),
-            //   label: 'settings',
-            // ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                CupertinoIcons.settings,
+                color:
+                    index ==
+                        2
+                    ? SelectedItem
+                    : UnselectedItem,
+              ),
+              label: 'settings',
+            ),
           ],
         ),
       ),
@@ -96,11 +134,15 @@ class _HomeScreenState extends State<HomeScreen> {
       //     child: const Icon(CupertinoIcons.add),
       //   ),
       // ),
-      body: index == 0
+      body:
+          index ==
+              0
           ? MainScreen()
-          : index == 1
+          : index ==
+                1
           ? AddExpense()
-          : index == 2
+          : index ==
+                2
           ? StatScreen()
           : Setting(),
     );

@@ -1,96 +1,122 @@
+import 'package:budget_manager/screens/add_expense/blocs/create_categoryblocs/create_category_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
 import 'package:flutter/material.dart';
+import 'package:expense_repository/expense_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
+import 'package:budget_manager/screens/add_expense/views/add_expense.dart';
 
-class NewCategory extends StatefulWidget {
-  final Function(String name, IconData icon, Color color) onSave;
+class NewCategory
+    extends
+        StatefulWidget {
+  final Function(
+    String name,
+    IconData icon,
+    Color color,
+  )
+  onSave;
 
-  const NewCategory({super.key, required this.onSave});
+  const NewCategory({
+    super.key,
+    required this.onSave,
+  });
 
   @override
-  State<NewCategory> createState() => _NewCategoryState();
+  State<
+    NewCategory
+  >
+  createState() => _NewCategoryState();
 }
 
-class _NewCategoryState extends State<NewCategory> {
+class _NewCategoryState
+    extends
+        State<
+          NewCategory
+        > {
   final TextEditingController nameController = TextEditingController();
+  //final CategoryIconController = TextEditingController();
+  //final CategoryColorController = TextEditingController();
+  //TextEditingController CategorynameController = TextEditingController();
+  final TextEditingController iconController = TextEditingController();
+  final TextEditingController colorController = TextEditingController();
 
-  IconData selectedIcon = Icons.category;
-  Color selectedColor = Colors.blue;
-
-  // 👉 YOUR ICON LIST (replace with your AppIcons if you have one)
-  final List<IconData> icons = [
-    AppIcons.food,
-    AppIcons.coffee,
-    AppIcons.restaurant,
-    AppIcons.shopping,
-    AppIcons.transport,
-    AppIcons.bike,
-    AppIcons.flight,
-    AppIcons.home,
-    AppIcons.rent,
-    AppIcons.bills,
-    AppIcons.electricity,
-    AppIcons.wifi,
-    AppIcons.phone,
-    AppIcons.education,
-    AppIcons.book,
-    AppIcons.health,
-    AppIcons.hospital,
-    AppIcons.medicine,
-    AppIcons.movie,
-    AppIcons.games,
-    AppIcons.music,
-    AppIcons.fitness,
-    AppIcons.gym,
-    AppIcons.work,
-    AppIcons.business,
-    AppIcons.salary,
-    AppIcons.income,
-    AppIcons.investment,
-    AppIcons.stocks,
-    AppIcons.gift,
-    AppIcons.other,
-  ];
+  IconData? selectedIcon;
+  Color? selectedColor;
+  String? selectedIconName;
 
   void openIconPicker() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(0xFF161D47),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      backgroundColor: const Color(
+        0xFF161D47,
       ),
-      builder: (context) {
-        return GridView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: icons.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(
+            20,
           ),
-          itemBuilder: (context, index) {
-            final icon = icons[index];
-
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedIcon = icon;
-                });
-                Navigator.pop(context);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: selectedIcon == icon
-                      ? const Color(0xFF8B4CFF)
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white24),
-                ),
-                child: Icon(icon, color: Colors.white),
+        ),
+      ),
+      builder:
+          (
+            context,
+          ) {
+            return GridView.builder(
+              padding: const EdgeInsets.all(
+                16,
               ),
+              itemCount: icons.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+              ),
+              itemBuilder:
+                  (
+                    context,
+                    index,
+                  ) {
+                    final item = icons[index];
+                    final icon = item['icon'];
+
+                    return GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            selectedIcon = icon;
+
+                            selectedIconName = item['name'];
+                          },
+                        );
+                        Navigator.pop(
+                          context,
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color:
+                              selectedIcon ==
+                                  icon
+                              ? const Color(
+                                  0xFF8B4CFF,
+                                )
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(
+                            12,
+                          ),
+                          border: Border.all(
+                            color: Colors.white24,
+                          ),
+                        ),
+                        child: Icon(
+                          icon,
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  },
             );
           },
-        );
-      },
     );
   }
 
@@ -107,35 +133,60 @@ class _NewCategoryState extends State<NewCategory> {
 
     showModalBottomSheet(
       context: context,
-      builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(16),
-          child: Wrap(
-            spacing: 10,
-            children: colors.map((color) {
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedColor = color;
-                  });
-                  Navigator.pop(context);
-                },
-                child: CircleAvatar(backgroundColor: color),
-              );
-            }).toList(),
-          ),
-        );
-      },
+      builder:
+          (
+            context,
+          ) {
+            return Container(
+              padding: const EdgeInsets.all(
+                16,
+              ),
+              child: Wrap(
+                spacing: 10,
+                children: colors.map(
+                  (
+                    color,
+                  ) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(
+                          () {
+                            selectedColor = color;
+                          },
+                        );
+                        Navigator.pop(
+                          context,
+                        );
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: color,
+                      ),
+                    );
+                  },
+                ).toList(),
+              ),
+            );
+          },
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return AlertDialog(
-      backgroundColor: const Color(0xFF161D47),
+      backgroundColor: const Color(
+        0xFF161D47,
+      ),
+
       title: const Text(
         "Create Category",
-        style: TextStyle(color: Color(0xFF8B4CFF), fontWeight: FontWeight.w600),
+        style: TextStyle(
+          color: Color(
+            0xFF8B4CFF,
+          ),
+          fontWeight: FontWeight.w600,
+        ),
       ),
 
       content: Column(
@@ -144,82 +195,159 @@ class _NewCategoryState extends State<NewCategory> {
           // NAME
           TextFormField(
             controller: nameController,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(
+              color: Colors.white,
+            ),
             decoration: InputDecoration(
               hintText: "name",
-              hintStyle: const TextStyle(color: Colors.white54),
+              hintStyle: const TextStyle(
+                color: Colors.white54,
+              ),
               filled: true,
-              fillColor: const Color(0xFF0F1330),
+              fillColor: const Color(
+                0xFF0F1330,
+              ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(
+                  10,
+                ),
               ),
             ),
           ),
 
-          const SizedBox(height: 15),
+          const SizedBox(
+            height: 15,
+          ),
 
           // ICON
           TextFormField(
+            controller: iconController,
             readOnly: true,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(
+              color: Colors.white,
+            ),
             decoration: InputDecoration(
               hintText: "icon",
-              hintStyle: const TextStyle(color: Colors.white54),
+              hintStyle: const TextStyle(
+                color: Colors.white54,
+              ),
               filled: true,
-              fillColor: const Color(0xFF0F1330),
-              prefixIcon: Icon(selectedIcon, color: Colors.white),
+              fillColor: const Color(
+                0xFF0F1330,
+              ),
+              prefixIcon: Icon(
+                selectedIcon ??
+                    Icons.category,
+                color: Colors.white,
+              ),
               suffixIcon: IconButton(
                 onPressed: openIconPicker,
-                icon: const Icon(Icons.expand_more, color: Colors.white),
+                icon: const Icon(
+                  Icons.expand_more,
+                  color: Colors.white,
+                ),
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(
+                  10,
+                ),
               ),
             ),
           ),
 
-          const SizedBox(height: 15),
+          const SizedBox(
+            height: 15,
+          ),
 
           // COLOR
           TextFormField(
+            controller: colorController,
             readOnly: true,
             onTap: openColorPicker,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(
+              color: Colors.white,
+            ),
             decoration: InputDecoration(
               hintText: "color",
-              hintStyle: const TextStyle(color: Colors.white54),
+              hintStyle: const TextStyle(
+                color: Colors.white54,
+              ),
               filled: true,
-              fillColor: const Color(0xFF0F1330),
+              fillColor: const Color(
+                0xFF0F1330,
+              ),
               prefixIcon: Container(
-                margin: const EdgeInsets.all(10),
+                margin: const EdgeInsets.all(
+                  10,
+                ),
                 width: 10,
                 height: 10,
                 decoration: BoxDecoration(
-                  color: selectedColor,
+                  color:
+                      selectedColor ??
+                      Colors.blue,
                   shape: BoxShape.circle,
                 ),
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(
+                  10,
+                ),
               ),
             ),
           ),
 
-          const SizedBox(height: 20),
+          const SizedBox(
+            height: 20,
+          ),
 
           // SAVE BUTTON
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF8B4CFF),
+                backgroundColor: const Color(
+                  0xFF8B4CFF,
+                ),
               ),
-              onPressed: () {
-                widget.onSave(nameController.text, selectedIcon, selectedColor);
 
-                Navigator.pop(context);
+              onPressed: () {
+                final category = Category(
+                  categoryId: const Uuid().v1(),
+
+                  name: nameController.text,
+
+                  icon:
+                      selectedIconName ??
+                      '',
+
+                  color:
+                      selectedColor ==
+                          null
+                      ? ''
+                      : '#${selectedColor!.value.toRadixString(16)}',
+
+                  todayExpense: 0,
+                );
+
+                context
+                    .read<
+                      CreateCategoryBloc
+                    >()
+                    .add(
+                      CreateCategory(
+                        category: category,
+                      ),
+                    );
+
+                Navigator.pop(
+                  context,
+                );
               },
-              child: const Text("Save Category"),
+
+              child: const Text(
+                "Save Category",
+              ),
             ),
           ),
         ],
