@@ -4,21 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
-import 'package:budget_manager/screens/add_expense/views/add_expense.dart';
 
 class NewCategory
     extends
         StatefulWidget {
-  final Function(
-    String name,
-    IconData icon,
-    Color color,
-  )
-  onSave;
-
   const NewCategory({
     super.key,
-    required this.onSave,
   });
 
   @override

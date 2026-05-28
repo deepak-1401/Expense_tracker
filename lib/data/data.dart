@@ -1,41 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-List<Map<String, dynamic>> transactionData = [
+List<
+  Map<
+    String,
+    dynamic
+  >
+>
+transactionData = [
   {
     'icon': FontAwesomeIcons.burger,
-    'color': const Color(0xFFFF9A3D),
+    'color': const Color(
+      0xFFFF9A3D,
+    ),
     'name': 'Food',
 
     'todayExpense': -500.0,
     'date': 'Today',
+    'PaymentMethod': 'Credit Card',
   },
 
   {
     'icon': FontAwesomeIcons.bagShopping,
-    'color': const Color(0xFF9A5DFF),
+    'color': const Color(
+      0xFF9A5DFF,
+    ),
     'name': 'Shopping',
 
     'todayExpense': -1200.0,
     'date': 'Today',
+    'PaymentMethod': 'Debit Card',
   },
 
   {
     'icon': FontAwesomeIcons.plane,
-    'color': const Color(0xFF00E5FF),
+    'color': const Color(
+      0xFF00E5FF,
+    ),
     'name': 'Travel',
 
     'todayExpense': -2000.0,
     'date': 'Today',
+    'PaymentMethod': 'Cash',
   },
 
   {
     'icon': FontAwesomeIcons.gamepad,
-    'color': const Color(0xFFFF4B5C),
+    'color': const Color(
+      0xFFFF4B5C,
+    ),
     'name': 'Entertainment',
 
     'todayExpense': -999.0,
     'date': 'Today',
+    'PaymentMethod': 'Credit Card',
   },
 
   // {
@@ -45,6 +63,7 @@ List<Map<String, dynamic>> transactionData = [
 
   //   'todayExpense': -1500.0,
   //   'date': 'Today',
+  //   'PaymentMethod': 'Credit Card',
   // },
 
   // {
@@ -54,6 +73,7 @@ List<Map<String, dynamic>> transactionData = [
 
   //   'todayExpense': -3500.0,
   //   'date': 'Today',
+  //   'PaymentMethod': 'Debit Card',
   // },
 
   // {
@@ -63,6 +83,7 @@ List<Map<String, dynamic>> transactionData = [
 
   //   'todayExpense': -2500.0,
   //   'date': 'Today',
+  //   'PaymentMethod': 'Credit Card',
   // },
 
   // {
@@ -72,6 +93,7 @@ List<Map<String, dynamic>> transactionData = [
 
   //   'todayExpense': -1800.0,
   //   'date': 'Today',
+  //   'PaymentMethod': 'Debit Card',
   // },
 
   // {
@@ -81,6 +103,7 @@ List<Map<String, dynamic>> transactionData = [
 
   //   'todayExpense': -5000.0,
   //   'date': 'Today',
+  //   'PaymentMethod': 'Credit Card',
   // },
 
   // {
@@ -90,5 +113,6 @@ List<Map<String, dynamic>> transactionData = [
 
   //   'todayExpense': 25000.0,
   //   'date': 'Today',
+  //   'PaymentMethod': 'Credit Card',
   // },
 ];

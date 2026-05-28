@@ -359,7 +359,7 @@ class MainScreen
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      transactionData[i]['todayExpense'].toString(),
+                                      transactionData[i]['totalExpense'].toString(),
                                       style: TextStyle(
                                         fontSize: 18,
                                         color: Color(
@@ -370,6 +370,16 @@ class MainScreen
                                     ),
                                     Text(
                                       transactionData[i]['date'],
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Color(
+                                          0xFF7F89AE,
+                                        ),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Text(
+                                      transactionData[i]['PaymentMethod'],
                                       style: TextStyle(
                                         fontSize: 18,
                                         color: Color(

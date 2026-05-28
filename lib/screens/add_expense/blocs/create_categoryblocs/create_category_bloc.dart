@@ -12,12 +12,40 @@ class CreateCategoryBloc
           CreateCategoryEvent,
           CreateCategoryState
         > {
-  final ExpenseRepository expenserepository;
+  final ExpenseRepository expenseRepository;
+
   CreateCategoryBloc(
-    this.expenserepository,
+    this.expenseRepository,
   ) : super(
         CreateCategoryInitial(),
       ) {
+    on<
+      LoadCategories
+    >(
+      (
+        event,
+        emit,
+      ) async {
+        emit(
+          CreateCategoryLoading(),
+        );
+        try {
+          final cats = await expenseRepository.getCategory();
+          emit(
+            CreateCategoryLoadSuccess(
+              cats,
+            ),
+          );
+        } catch (
+          e
+        ) {
+          emit(
+            CreateCategoryFailure(),
+          );
+        }
+      },
+    );
+
     on<
       CreateCategory
     >(
@@ -29,22 +57,18 @@ class CreateCategoryBloc
           CreateCategoryLoading(),
         );
         try {
-          await expenserepository.createCategory(
+          await expenseRepository.createCategory(
             event.category,
           );
+          final cats = await expenseRepository.getCategory();
           emit(
-            CreateCategorySuccess(),
+            CreateCategoryLoadSuccess(
+              cats,
+            ),
           );
         } catch (
           e
         ) {
-          print(
-            "BLOC ERROR",
-          );
-          print(
-            e,
-          );
-
           emit(
             CreateCategoryFailure(),
           );

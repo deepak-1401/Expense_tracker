@@ -1,9 +1,13 @@
+import 'package:budget_manager/screens/add_expense/blocs/get_categorybloc/get_category_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
 import 'package:budget_manager/screens/add_expense/views/newcategory.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:uuid/uuid.dart';
+import 'package:budget_manager/screens/add_expense/views/payment.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:budget_manager/screens/add_expense/blocs/create_categoryblocs/create_category_bloc.dart';
 
 class AddExpense
     extends
@@ -39,13 +43,80 @@ class _AddExpenseState
           DateTime.now(),
         );
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback(
+      (
+        _,
+      ) {
+        try {
+          context
+              .read<
+                CreateCategoryBloc
+              >()
+              .add(
+                const LoadCategories(),
+              );
+        } catch (
+          _
+        ) {}
+      },
+    );
   }
 
-  List<
-    Category
-  >
-  categories = [];
   Category? selectedCategory;
+
+  IconData _iconFromName(
+    String? name,
+  ) {
+    if (name ==
+            null ||
+        name.isEmpty)
+      return AppIcons.other;
+    try {
+      final m = icons.firstWhere(
+        (
+          m,
+        ) =>
+            m['name'] ==
+            name,
+        orElse: () => {
+          'icon': AppIcons.other,
+        },
+      );
+      return m['icon']
+          as IconData;
+    } catch (
+      _
+    ) {
+      return AppIcons.other;
+    }
+  }
+
+  Color _colorFromString(
+    String? s,
+  ) {
+    if (s ==
+            null ||
+        s.isEmpty)
+      return Colors.grey;
+    try {
+      final hex = s.replaceFirst(
+        '#',
+        '',
+      );
+      final value = int.parse(
+        hex,
+        radix: 16,
+      );
+      return Color(
+        value,
+      );
+    } catch (
+      _
+    ) {
+      return Colors.grey;
+    }
+  }
 
   void openIconPicker() {
     List<
@@ -71,20 +142,18 @@ class _AddExpenseState
       AppIcons.hospital,
       AppIcons.medicine,
       AppIcons.movie,
-
       AppIcons.fitness,
       AppIcons.income,
       AppIcons.investment,
-
       AppIcons.other,
     ];
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: Color(
+      backgroundColor: const Color(
         0xFF161D47,
       ),
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(
             20,
@@ -95,37 +164,48 @@ class _AddExpenseState
           (
             context,
           ) {
-            return GridView.builder(
-              padding: EdgeInsets.all(
-                16,
-              ),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-              ),
-              itemCount: iconList.length,
-              itemBuilder:
+            return BlocBuilder<
+              GetCategoryBloc,
+              GetCategoryState
+            >(
+              builder:
                   (
                     context,
-                    index,
+                    state,
                   ) {
-                    return GestureDetector(
-                      onTap: () {
-                        setState(
-                          () {
-                            selectedIcon = iconList[index];
-                          },
-                        );
-                        Navigator.pop(
-                          context,
-                        );
-                      },
-                      child: Icon(
-                        iconList[index],
-                        color: Colors.white,
-                        size: 28,
+                    return GridView.builder(
+                      padding: const EdgeInsets.all(
+                        16,
                       ),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 5,
+                        mainAxisSpacing: 12,
+                        crossAxisSpacing: 12,
+                      ),
+                      itemCount: iconList.length,
+                      itemBuilder:
+                          (
+                            context,
+                            index,
+                          ) {
+                            return GestureDetector(
+                              onTap: () {
+                                setState(
+                                  () {
+                                    selectedIcon = iconList[index];
+                                  },
+                                );
+                                Navigator.pop(
+                                  context,
+                                );
+                              },
+                              child: Icon(
+                                iconList[index],
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                            );
+                          },
                     );
                   },
             );
@@ -259,32 +339,7 @@ class _AddExpenseState
                                   (
                                     context,
                                   ) {
-                                    return NewCategory(
-                                      onSave:
-                                          (
-                                            name,
-                                            icon,
-                                            color,
-                                          ) {
-                                            categories.add(
-                                              Category(
-                                                categoryId: const Uuid().v1(),
-                                                name: name,
-                                                icon: icon.toString(),
-                                                color: color.toString(),
-                                                todayExpense: 0,
-                                              ),
-                                            );
-
-                                            setState(
-                                              () {},
-                                            );
-
-                                            // Navigator.pop(
-                                            //   context,
-                                            // );
-                                          },
-                                    );
+                                    return const NewCategory();
                                   },
                             );
                           },
@@ -298,45 +353,133 @@ class _AddExpenseState
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 22,
-                  ),
-                  TextFormField(
-                    textAlignVertical: TextAlignVertical.center,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(
-                        22.0,
-                      ),
-                      hintText: "Description",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          10,
-                        ),
-                      ),
-                      filled: true,
-                      fillColor: Color(
-                        0xFF161D47,
-                      ),
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.all(
-                          8.0,
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Color(
-                              0xFF4D7CFF,
+
+                  BlocBuilder<
+                    CreateCategoryBloc,
+                    CreateCategoryState
+                  >(
+                    builder:
+                        (
+                          context,
+                          state,
+                        ) {
+                          List<
+                            Category
+                          >
+                          items = [];
+
+                          if (state
+                              is CreateCategoryLoadSuccess) {
+                            items = state.categories;
+                          }
+
+                          if (state
+                              is CreateCategoryLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+
+                          if (state
+                              is CreateCategoryFailure) {
+                            return const Center(
+                              child: Text(
+                                'Failed to load categories',
+                              ),
+                            );
+                          }
+
+                          if (items.isEmpty) {
+                            return const SizedBox.shrink();
+                          }
+
+                          return Container(
+                            height: 200,
+                            padding: const EdgeInsets.all(
+                              22.0,
                             ),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.note_alt_outlined,
-                            color: Colors.white,
-                            size: 18,
-                          ),
-                        ),
-                      ),
-                    ),
+                            decoration: const BoxDecoration(
+                              color: Color(
+                                0xFF161D47,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(
+                                8.0,
+                              ),
+                              child: ListView.builder(
+                                itemCount: items.length,
+                                itemBuilder:
+                                    (
+                                      context,
+                                      i,
+                                    ) {
+                                      final c = items[i];
+                                      final iconData = _iconFromName(
+                                        c.icon,
+                                      );
+                                      final bgColor = _colorFromString(
+                                        c.color,
+                                      );
+                                      return Card(
+                                        child: ListTile(
+                                          leading: CircleAvatar(
+                                            backgroundColor: bgColor,
+                                            child: Icon(
+                                              iconData,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          title: Text(
+                                            c.name,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                              ),
+                            ),
+                          );
+                        },
                   ),
+                  // const SizedBox(
+                  //   height: 22,
+                  // ),
+                  // TextFormField(
+                  //   textAlignVertical: TextAlignVertical.center,
+                  //   decoration: InputDecoration(
+                  //     contentPadding: EdgeInsets.all(
+                  //       22.0,
+                  //     ),
+                  //     hintText: "Description",
+                  //     border: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(
+                  //         10,
+                  //       ),
+                  //     ),
+                  //     filled: true,
+                  //     fillColor: Color(
+                  //       0xFF161D47,
+                  //     ),
+                  //     prefixIcon: Padding(
+                  //       padding: EdgeInsets.all(
+                  //         8.0,
+                  //       ),
+                  //       child: Container(
+                  //         decoration: BoxDecoration(
+                  //           color: Color(
+                  //             0xFF4D7CFF,
+                  //           ),
+                  //           shape: BoxShape.circle,
+                  //         ),
+                  //         child: Icon(
+                  //           Icons.note_alt_outlined,
+                  //           color: Colors.white,
+                  //           size: 18,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 22,
                   ),
@@ -433,6 +576,30 @@ class _AddExpenseState
                             Icons.payment,
                             color: Colors.white,
                             size: 18,
+                          ),
+                        ),
+                      ),
+                      suffixIcon: Padding(
+                        padding: EdgeInsets.all(
+                          8.0,
+                        ),
+                        child: IconButton(
+                          onPressed: () async {
+                            await showDialog(
+                              context: context,
+                              builder:
+                                  (
+                                    context,
+                                  ) {
+                                    return const Payment();
+                                  },
+                            );
+                          },
+
+                          icon: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 24,
                           ),
                         ),
                       ),

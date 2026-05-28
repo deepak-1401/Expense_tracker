@@ -1,16 +1,50 @@
 part of 'create_category_bloc.dart';
 
-sealed class CreateCategoryState extends Equatable {
+sealed class CreateCategoryState
+    extends
+        Equatable {
   const CreateCategoryState();
 
   @override
-  List<Object> get props => [];
+  List<
+    Object
+  >
+  get props => [];
 }
 
-final class CreateCategoryInitial extends CreateCategoryState {}
+final class CreateCategoryInitial
+    extends
+        CreateCategoryState {}
 
-final class CreateCategoryFailure extends CreateCategoryState {}
+final class CreateCategoryFailure
+    extends
+        CreateCategoryState {}
 
-final class CreateCategoryLoading extends CreateCategoryState {}
+final class CreateCategoryLoading
+    extends
+        CreateCategoryState {}
 
-final class CreateCategorySuccess extends CreateCategoryState {}
+final class CreateCategorySuccess
+    extends
+        CreateCategoryState {}
+
+final class CreateCategoryLoadSuccess
+    extends
+        CreateCategoryState {
+  final List<
+    Category
+  >
+  categories;
+
+  const CreateCategoryLoadSuccess(
+    this.categories,
+  );
+
+  @override
+  List<
+    Object
+  >
+  get props => [
+    categories,
+  ];
+}
