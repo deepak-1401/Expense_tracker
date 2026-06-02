@@ -19,34 +19,50 @@ class _PaymentState
         State<
           Payment
         > {
+  String selectedPayment = "";
   @override
   Widget build(
     BuildContext context,
   ) {
-    return const AlertDialog(
-      backgroundColor: Color(
-        0xFF070B2C,
+    return AlertDialog(
+      backgroundColor: const Color(
+        0xFF161D47,
       ),
-      title: Text(
+      title: const Text(
         'Payment Method',
         style: TextStyle(
-          color: Colors.white,
+          color: Color(
+            0xFF8B4CFF,
+          ),
+          fontWeight: FontWeight.w600,
         ),
       ),
       content: Padding(
-        padding: EdgeInsets.all(
+        padding: const EdgeInsets.all(
           8.0,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Card(
-              color: Color(
-                0xFF161D47,
-              ),
+              color:
+                  selectedPayment ==
+                      "Credit Card"
+                  ? Color(
+                      0xFF8B4CFF,
+                    )
+                  : Color(
+                      0xFF0F1330,
+                    ),
               child: InkWell(
-                 onTap: ,
-                child: ListTile(
+                onTap: () {
+                  setState(
+                    () {
+                      selectedPayment = 'Credit Card';
+                    },
+                  );
+                },
+                child: const ListTile(
                   leading: Icon(
                     Icons.credit_card,
                     color: Colors.white,
@@ -61,33 +77,91 @@ class _PaymentState
               ),
             ),
             Card(
-              color: Color(
-                0xFF161D47,
-              ),
-              child: ListTile(
-                leading: Icon(
-                  Icons.account_balance_wallet,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  'Cash',
-                  style: TextStyle(
+              color:
+                  selectedPayment ==
+                      "Cash"
+                  ? Color(
+                      0xFF8B4CFF,
+                    )
+                  : Color(
+                      0xFF0F1330,
+                    ),
+              child: InkWell(
+                onTap: () {
+                  setState(
+                    () {
+                      selectedPayment = 'Cash';
+                    },
+                  );
+                },
+                child: ListTile(
+                  leading: Icon(
+                    Icons.account_balance_wallet,
                     color: Colors.white,
+                  ),
+                  title: Text(
+                    'Cash',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
             ),
             Card(
-              color: Color(
-                0xFF161D47,
-              ),
-              child: ListTile(
-                leading: Icon(
-                  Icons.payments,
-                  color: Colors.white,
+              color:
+                  selectedPayment ==
+                      "UPI"
+                  ? Color(
+                      0xFF8B4CFF,
+                    )
+                  : Color(
+                      0xFF0F1330,
+                    ),
+              child: InkWell(
+                onTap: () {
+                  setState(
+                    () {
+                      selectedPayment = 'UPI';
+                    },
+                  );
+                },
+                child: ListTile(
+                  leading: Icon(
+                    Icons.payments,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    'UPI',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-                title: Text(
-                  'UPI',
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(
+                    0xFF8B4CFF,
+                  ),
+                ),
+
+                onPressed: () {
+                  Navigator.pop(
+                    context,
+                    selectedPayment,
+                  );
+                },
+
+                child: const Text(
+                  "Save",
                   style: TextStyle(
                     color: Colors.white,
                   ),

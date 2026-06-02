@@ -33,6 +33,7 @@ class _AddExpenseState
   TextEditingController DateController = TextEditingController();
 
   IconData selectedIcon = AppIcons.transport; // default icon
+  String paymentMethod = "";
 
   @override
   void initState() {
@@ -441,45 +442,7 @@ class _AddExpenseState
                           );
                         },
                   ),
-                  // const SizedBox(
-                  //   height: 22,
-                  // ),
-                  // TextFormField(
-                  //   textAlignVertical: TextAlignVertical.center,
-                  //   decoration: InputDecoration(
-                  //     contentPadding: EdgeInsets.all(
-                  //       22.0,
-                  //     ),
-                  //     hintText: "Description",
-                  //     border: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(
-                  //         10,
-                  //       ),
-                  //     ),
-                  //     filled: true,
-                  //     fillColor: Color(
-                  //       0xFF161D47,
-                  //     ),
-                  //     prefixIcon: Padding(
-                  //       padding: EdgeInsets.all(
-                  //         8.0,
-                  //       ),
-                  //       child: Container(
-                  //         decoration: BoxDecoration(
-                  //           color: Color(
-                  //             0xFF4D7CFF,
-                  //           ),
-                  //           shape: BoxShape.circle,
-                  //         ),
-                  //         child: Icon(
-                  //           Icons.note_alt_outlined,
-                  //           color: Colors.white,
-                  //           size: 18,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+
                   const SizedBox(
                     height: 22,
                   ),
@@ -546,12 +509,15 @@ class _AddExpenseState
                     height: 22,
                   ),
                   TextFormField(
+                    readOnly: true,
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(
                         22.0,
                       ),
-                      hintText: "Payment Method",
+                      hintText: paymentMethod.isEmpty
+                          ? "Payment Method"
+                          : paymentMethod,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
                           10,
@@ -580,12 +546,12 @@ class _AddExpenseState
                         ),
                       ),
                       suffixIcon: Padding(
-                        padding: EdgeInsets.all(
+                        padding: const EdgeInsets.all(
                           8.0,
                         ),
                         child: IconButton(
                           onPressed: () async {
-                            await showDialog(
+                            final result = await showDialog(
                               context: context,
                               builder:
                                   (
@@ -594,9 +560,16 @@ class _AddExpenseState
                                     return const Payment();
                                   },
                             );
+                            if (result !=
+                                null) {
+                              setState(
+                                () {
+                                  paymentMethod = result;
+                                },
+                              );
+                            }
                           },
-
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.add,
                             color: Colors.white,
                             size: 24,

@@ -338,6 +338,9 @@ class _NewCategoryState
 
               child: const Text(
                 "Save Category",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
