@@ -1,17 +1,21 @@
+import 'package:budget_manager/blocs/create_expensebloc/create_expense_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/add_expense.dart';
 import 'package:budget_manager/screens/home/views/main_screen.dart';
 import 'package:budget_manager/screens/setting/settings.dart';
 import 'package:budget_manager/screens/stats/stats.dart';
+import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+//import 'package:budget_manager/packages/expense_repository/lib/src/firebase_expense_repo.dart';
 
 class HomeScreen
     extends
         StatefulWidget {
   const HomeScreen({
     super.key,
+    int index = 0,
   });
-
   @override
   State<
     HomeScreen
@@ -29,6 +33,8 @@ class _HomeScreenState
   Color SelectedItem = Colors.white;
   Color UnselectedItem = Colors.grey;
 
+  Widget? get bottomNavigationBar => null;
+
   @override
   Widget build(
     BuildContext context,
@@ -43,70 +49,54 @@ class _HomeScreenState
         ),
         // curve in the icon
         child: BottomNavigationBar(
+          currentIndex: index,
+
           onTap:
               (
                 value,
-              ) => {
+              ) {
+                print(
+                  "BOTTOM NAV CLICKED: $value",
+                );
+
                 setState(
                   () {
                     index = value;
                   },
-                ),
-
-                print(
-                  value,
-                ),
+                );
               },
+
           showSelectedLabels: false,
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Color(
-            0xFF11183D,
-          ),
-          elevation: 3,
 
-          // for  creating new Icons
-          items: [
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey,
+
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(
                 CupertinoIcons.home,
-                color:
-                    index ==
-                        0
-                    ? SelectedItem
-                    : UnselectedItem,
               ),
-
-              label: 'home',
+              label: 'Home',
             ),
             BottomNavigationBarItem(
               icon: Icon(
                 CupertinoIcons.add_circled,
               ),
-              label: 'ADD',
+              label: 'Add',
             ),
             BottomNavigationBarItem(
               icon: Icon(
                 CupertinoIcons.graph_square,
-                color:
-                    index ==
-                        1
-                    ? SelectedItem
-                    : UnselectedItem,
               ),
-              label: 'stats',
+              label: 'Stats',
             ),
-
             BottomNavigationBarItem(
               icon: Icon(
                 CupertinoIcons.settings,
-                color:
-                    index ==
-                        2
-                    ? SelectedItem
-                    : UnselectedItem,
               ),
-              label: 'settings',
+              label: 'Settings',
             ),
           ],
         ),
@@ -137,14 +127,30 @@ class _HomeScreenState
       body:
           index ==
               0
-          ? MainScreen()
+          ? const MainScreen()
           : index ==
                 1
-          ? AddExpense()
+          ? BlocProvider(
+              create:
+                  (
+                    context,
+                  ) => CreateExpenseBloc(
+                    FirebaseExpenseRepo(),
+                  ),
+              child: AddExpense(
+                onExpenseSaved: () {
+                  setState(
+                    () {
+                      index = 0;
+                    },
+                  );
+                },
+              ),
+            )
           : index ==
                 2
-          ? StatScreen()
-          : Setting(),
+          ? const StatScreen()
+          : const Setting(),
     );
   }
 }

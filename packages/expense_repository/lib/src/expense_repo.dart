@@ -13,4 +13,18 @@ abstract class ExpenseRepository {
     >
   >
   getCategory();
+
+  Future<
+    void
+  >
+  createExpense(
+    Expense expense,
+  );
+
+  Future<
+    List<
+      Expense
+    >
+  >
+  getExpenses();
 }

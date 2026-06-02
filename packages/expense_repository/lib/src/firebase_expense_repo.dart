@@ -76,4 +76,68 @@ class FirebaseExpenseRepo
       rethrow;
     }
   }
+
+  @override
+  Future<
+    void
+  >
+  createExpense(
+    Expense expense,
+  ) async {
+    try {
+      await ExpenseCollection.doc(
+        expense.expenseId,
+      ).set(
+        expense.toEntity().toDocument(),
+      );
+    } catch (
+      e,
+      stackTrace
+    ) {
+      print(
+        "FIREBASE WRITE ERROR",
+      );
+      print(
+        e,
+      );
+      print(
+        stackTrace,
+      );
+
+      rethrow;
+    }
+  }
+
+  @override
+  Future<
+    List<
+      Expense
+    >
+  >
+  getExpenses() async {
+    try {
+      return await ExpenseCollection.get().then(
+        (
+          value,
+        ) => value.docs
+            .map(
+              (
+                e,
+              ) => Expense.fromEntity(
+                ExpenseEntity.fromDocument(
+                  e.data(),
+                ),
+              ),
+            )
+            .toList(),
+      );
+    } catch (
+      e
+    ) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
 }
