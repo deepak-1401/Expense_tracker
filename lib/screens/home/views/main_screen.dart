@@ -1,14 +1,19 @@
-import 'package:budget_manager/data/data.dart';
+import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:budget_manager/screens/add_expense/views/icon.dart';
 
 class MainScreen
     extends
         StatelessWidget {
-  const MainScreen({
+  final List<
+    Expense
+  >
+  expenses;
+  const MainScreen(
+    this.expenses, {
     super.key,
   });
 
@@ -292,7 +297,7 @@ class MainScreen
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: transactionData.length,
+                itemCount: expenses.length,
 
                 itemBuilder:
                     (
@@ -328,14 +333,25 @@ class MainScreen
                                           width: 50,
                                           height: 50,
                                           decoration: BoxDecoration(
-                                            color: transactionData[i]['color'],
+                                            color: Color(
+                                              int.parse(
+                                                expenses[i].category.color.replaceFirst(
+                                                  '#',
+                                                  '',
+                                                ),
+                                                radix: 16,
+                                              ),
+                                            ),
                                             shape: BoxShape.circle,
                                           ),
                                         ),
 
-                                        FaIcon(
-                                          transactionData[i]['icon'],
+                                        Icon(
+                                          getIconByName(
+                                            expenses[i].category.icon,
+                                          ),
                                         ),
+
                                         //   const Icon(
                                         //     Icons.fastfood,
                                         //     color: Colors.black,
@@ -346,7 +362,7 @@ class MainScreen
                                       width: 12,
                                     ),
                                     Text(
-                                      transactionData[i]['name'],
+                                      expenses[i].category.name,
                                       style: TextStyle(
                                         fontSize: 18,
                                         color: Colors.white,
@@ -359,7 +375,7 @@ class MainScreen
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      transactionData[i]['totalExpense'].toString(),
+                                      "₹ ${expenses[i].amount.toStringAsFixed(2)}",
                                       style: TextStyle(
                                         fontSize: 18,
                                         color: Color(
@@ -369,7 +385,11 @@ class MainScreen
                                       ),
                                     ),
                                     Text(
-                                      transactionData[i]['date'],
+                                      DateFormat(
+                                        'dd/MM/yyyy',
+                                      ).format(
+                                        expenses[i].date,
+                                      ),
                                       style: TextStyle(
                                         fontSize: 18,
                                         color: Color(
@@ -379,7 +399,7 @@ class MainScreen
                                       ),
                                     ),
                                     Text(
-                                      transactionData[i]['PaymentMethod'],
+                                      expenses[i].paymentMethod,
                                       style: TextStyle(
                                         fontSize: 18,
                                         color: Color(

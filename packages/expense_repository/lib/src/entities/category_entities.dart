@@ -13,7 +13,11 @@ class CategoryEntity {
     required this.color,
   });
 
-  Map<String, dynamic> toDocument() {
+  Map<
+    String,
+    dynamic
+  >
+  toDocument() {
     return {
       'categoryId': categoryId,
       'name': name,
@@ -23,7 +27,13 @@ class CategoryEntity {
     };
   }
 
-  static CategoryEntity fromDocument(Map<String, dynamic> doc) {
+  static CategoryEntity fromDocument(
+    Map<
+      String,
+      dynamic
+    >
+    doc,
+  ) {
     return CategoryEntity(
       categoryId: doc['categoryId'],
       name: doc['name'],

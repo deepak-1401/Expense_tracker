@@ -10,6 +10,11 @@ sealed class GetExpensesState
     Object
   >
   get props => [];
+
+  List<
+    Expense
+  >
+  get expenses => const [];
 }
 
 final class GetExpensesInitial

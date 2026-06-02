@@ -1,4 +1,4 @@
-import 'package:budget_manager/blocs/create_expensebloc/create_expense_bloc.dart';
+import 'package:budget_manager/blocs/create_expense_bloc/create_expense_bloc.dart';
 import 'package:budget_manager/screens/add_expense/blocs/get_categorybloc/get_category_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
 import 'package:budget_manager/screens/add_expense/views/newcategory.dart';
@@ -630,20 +630,35 @@ class _AddExpenseState
                                           return const Payment();
                                         },
                                   );
+
+                                  print(
+                                    "PAYMENT DIALOG RESULT = $result",
+                                  );
+
                                   if (result !=
                                       null) {
                                     setState(
                                       () {
                                         selectedPaymentMethod = result;
                                         paymentController.text = selectedPaymentMethod;
+
+                                        expense.paymentMethod = selectedPaymentMethod;
                                       },
+                                    );
+
+                                    print(
+                                      "SELECTED PAYMENT = $selectedPaymentMethod",
+                                    );
+                                    print(
+                                      "PAYMENT CONTROLLER = ${paymentController.text}",
+                                    );
+                                    print(
+                                      "EXPENSE PAYMENT = ${expense.paymentMethod}",
                                     );
                                   }
                                 },
                                 icon: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                  size: 24,
+                                  Icons.expand_more,
                                 ),
                               ),
                             ),
@@ -691,6 +706,9 @@ class _AddExpenseState
 
                               print(
                                 "EXPENSE ID = ${expense.expenseId}",
+                              );
+                              print(
+                                "SAVE PAYMENT = ${expense.paymentMethod}",
                               );
 
                               context

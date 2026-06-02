@@ -222,3 +222,23 @@ icons = [
     'icon': AppIcons.other,
   },
 ];
+
+IconData
+getIconByName(
+  String iconName,
+) {
+  try {
+    return icons.firstWhere(
+          (
+            item,
+          ) =>
+              item['name'] ==
+              iconName,
+        )['icon']
+        as IconData;
+  } catch (
+    e
+  ) {
+    return Icons.category;
+  }
+}

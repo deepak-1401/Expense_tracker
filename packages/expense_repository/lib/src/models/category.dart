@@ -1,5 +1,5 @@
 import 'package:expense_repository/src/entities/entities.dart';
-//import 'package:flutter/material.dart';
+// Icon stored as String to match CategoryEntity
 
 class Category {
   String categoryId;

@@ -16,7 +16,7 @@ class CreateExpense
     extends
         CreateExpenseEvent {
   final Expense expense;
-  CreateExpense(
+  const CreateExpense(
     this.expense,
   );
 
