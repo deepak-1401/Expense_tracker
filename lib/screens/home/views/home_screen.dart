@@ -130,6 +130,7 @@ class _HomeScreenState
                               FirebaseExpenseRepo(),
                             ),
                         child: AddExpense(
+                          key: UniqueKey(),
                           onExpenseSaved: () {
                             setState(
                               () {

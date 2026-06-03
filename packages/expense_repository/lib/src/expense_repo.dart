@@ -21,7 +21,7 @@ abstract class ExpenseRepository {
     Expense expense,
   );
 
-  Future<
+  Stream<
     List<
       Expense
     >

@@ -109,27 +109,30 @@ class FirebaseExpenseRepo
   }
 
   @override
-  Future<
+  @override
+  Stream<
     List<
       Expense
     >
   >
-  getExpenses() async {
+  getExpenses() {
     try {
-      return await ExpenseCollection.get().then(
+      return ExpenseCollection.snapshots().map(
         (
-          value,
-        ) => value.docs
-            .map(
-              (
-                e,
-              ) => Expense.fromEntity(
+          snapshot,
+        ) {
+          return snapshot.docs.map(
+            (
+              doc,
+            ) {
+              return Expense.fromEntity(
                 ExpenseEntity.fromDocument(
-                  e.data(),
+                  doc.data(),
                 ),
-              ),
-            )
-            .toList(),
+              );
+            },
+          ).toList();
+        },
       );
     } catch (
       e

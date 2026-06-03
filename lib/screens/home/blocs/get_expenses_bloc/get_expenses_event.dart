@@ -15,3 +15,28 @@ sealed class GetExpensesEvent
 class GetExpenses
     extends
         GetExpensesEvent {}
+
+class GetExpensesUpdated
+    extends
+        GetExpensesEvent {
+  final List<
+    Expense
+  >
+  expenses;
+
+  const GetExpensesUpdated(
+    this.expenses,
+  );
+
+  @override
+  List<
+    Object
+  >
+  get props => [
+    expenses,
+  ];
+}
+
+class GetExpensesFailed
+    extends
+        GetExpensesEvent {}

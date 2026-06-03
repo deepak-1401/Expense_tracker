@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:expense_repository/expense_repository.dart';
@@ -11,7 +13,14 @@ class GetExpensesBloc
           GetExpensesEvent,
           GetExpensesState
         > {
-  ExpenseRepository expenseRepository;
+  final ExpenseRepository expenseRepository;
+
+  StreamSubscription<
+    List<
+      Expense
+    >
+  >?
+  _expenseSubscription;
 
   GetExpensesBloc(
     this.expenseRepository,
@@ -28,21 +37,66 @@ class GetExpensesBloc
         emit(
           GetExpensesLoading(),
         );
-        try {
-          final expenses = await expenseRepository.getExpenses();
-          emit(
-            GetExpensesSuccess(
-              expenses,
-            ),
-          );
-        } catch (
-          e
-        ) {
-          emit(
-            GetExpensesFailure(),
-          );
-        }
+
+        await _expenseSubscription?.cancel();
+
+        _expenseSubscription = expenseRepository.getExpenses().listen(
+          (
+            expenses,
+          ) {
+            add(
+              GetExpensesUpdated(
+                expenses,
+              ),
+            );
+          },
+          onError:
+              (
+                error,
+              ) {
+                add(
+                  GetExpensesFailed(),
+                );
+              },
+        );
       },
     );
+
+    on<
+      GetExpensesUpdated
+    >(
+      (
+        event,
+        emit,
+      ) {
+        emit(
+          GetExpensesSuccess(
+            event.expenses,
+          ),
+        );
+      },
+    );
+
+    on<
+      GetExpensesFailed
+    >(
+      (
+        event,
+        emit,
+      ) {
+        emit(
+          GetExpensesFailure(),
+        );
+      },
+    );
+  }
+
+  @override
+  Future<
+    void
+  >
+  close() {
+    _expenseSubscription?.cancel();
+    return super.close();
   }
 }

@@ -132,6 +132,29 @@ class _AddExpenseState
     }
   }
 
+  void resetForm() {
+    setState(
+      () {
+        expenseController.clear();
+        categoryController.clear();
+        paymentController.clear();
+
+        selectedCategory = null;
+        expense = Expense.empty;
+        selectedPaymentMethod = "";
+
+        expense = Expense.empty;
+
+        dateController.text =
+            DateFormat(
+              'dd-MM-yyyy',
+            ).format(
+              DateTime.now(),
+            );
+      },
+    );
+  }
+
   void openIconPicker() {
     List<
       IconData
@@ -252,6 +275,7 @@ class _AddExpenseState
 
                     if (state
                         is CreateExpenseSuccess) {
+                      resetForm();
                       widget.onExpenseSaved?.call();
                     }
                   },
@@ -343,8 +367,8 @@ class _AddExpenseState
                               0xFF161D47,
                             ),
                             prefixIcon:
-                                expense.category ==
-                                    Category.empty
+                                selectedCategory ==
+                                    null
                                 ? Padding(
                                     padding: const EdgeInsets.all(
                                       8.0,
@@ -370,13 +394,13 @@ class _AddExpenseState
                                     child: Container(
                                       decoration: BoxDecoration(
                                         color: _colorFromString(
-                                          expense.category.color,
+                                          selectedCategory!.color,
                                         ),
                                         shape: BoxShape.circle,
                                       ),
                                       child: Icon(
                                         _iconFromName(
-                                          expense.category.icon,
+                                          selectedCategory!.icon,
                                         ),
                                         color: Colors.white,
                                         size: 18,
@@ -483,7 +507,8 @@ class _AddExpenseState
                                                   setState(
                                                     () {
                                                       expense.category = c;
-                                                      categoryController.text = expense.category.name;
+                                                      categoryController.text = c.name;
+                                                      selectedCategory = c;
                                                     },
                                                   );
                                                 },
@@ -717,7 +742,17 @@ class _AddExpenseState
                                   >()
                                   .add(
                                     CreateExpense(
-                                      expense,
+                                      Expense(
+                                        expenseId: const Uuid().v1(),
+                                        category: expense.category,
+                                        amount:
+                                            double.tryParse(
+                                              expenseController.text,
+                                            ) ??
+                                            0.00,
+                                        date: expense.date,
+                                        paymentMethod: expense.paymentMethod,
+                                      ),
                                     ),
                                   );
                             },

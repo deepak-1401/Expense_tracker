@@ -335,10 +335,7 @@ class MainScreen
                                           decoration: BoxDecoration(
                                             color: Color(
                                               int.parse(
-                                                expenses[i].category.color.replaceFirst(
-                                                  '#',
-                                                  '',
-                                                ),
+                                                'FF${expenses[i].category.color.replaceFirst('#', '')}',
                                                 radix: 16,
                                               ),
                                             ),
