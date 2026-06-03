@@ -1,4 +1,4 @@
-import 'package:budget_manager/screens/home/blocs/get_expenses_bloc/get_expenses_bloc.dart';
+import 'package:budget_manager/blocs/get_expenses_bloc/get_expenses_bloc.dart';
 import 'package:budget_manager/screens/home/views/home_screen.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';

@@ -1,14 +1,28 @@
+import 'package:budget_manager/blocs/get_expenses_bloc/get_expenses_bloc.dart';
 import 'package:budget_manager/screens/stats/chart.dart';
-import 'package:flutter/cupertino.dart';
+//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StatScreen
     extends
-        StatelessWidget {
+        StatefulWidget {
   const StatScreen({
     super.key,
   });
 
+  @override
+  State<
+    StatScreen
+  >
+  createState() => _StatScreenState();
+}
+
+class _StatScreenState
+    extends
+        State<
+          StatScreen
+        > {
   @override
   Widget build(
     BuildContext context,
@@ -53,7 +67,27 @@ class StatScreen
                 padding: const EdgeInsets.all(
                   16.0,
                 ),
-                child: Mychart(),
+                child:
+                    BlocBuilder<
+                      GetExpensesBloc,
+                      GetExpensesState
+                    >(
+                      builder:
+                          (
+                            context,
+                            state,
+                          ) {
+                            if (state
+                                is GetExpensesSuccess) {
+                              return Mychart(
+                                expenses: state.expenses,
+                              );
+                            }
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                    ),
               ),
             ),
           ],

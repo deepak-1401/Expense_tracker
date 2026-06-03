@@ -1,6 +1,6 @@
 import 'package:budget_manager/blocs/create_expense_bloc/create_expense_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/add_expense.dart';
-import 'package:budget_manager/screens/home/blocs/get_expenses_bloc/get_expenses_bloc.dart';
+import 'package:budget_manager/blocs/get_expenses_bloc/get_expenses_bloc.dart';
 import 'package:budget_manager/screens/home/views/main_screen.dart';
 import 'package:budget_manager/screens/setting/settings.dart';
 import 'package:budget_manager/screens/stats/stats.dart';
