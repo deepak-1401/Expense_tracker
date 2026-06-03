@@ -1,8 +1,18 @@
-//import 'package:budget_manager/data/data.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_repository/expense_repository.dart';
-//import 'package:budget_manager/blocs/get_expense_bloc/get_expense_bloc.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+class ChartData {
+  final String category;
+  final double amount;
+  final String color;
+
+  ChartData({
+    required this.category,
+    required this.amount,
+    required this.color,
+  });
+}
 
 class Mychart
     extends
@@ -65,66 +75,142 @@ class _MychartState
     return totals;
   }
 
-  Color colorFromString(
-    String colorString,
-  ) {
-    if (colorString.isEmpty) {
-      return Colors.purple;
-    }
+  List<
+    ChartData
+  >
+  getChartData() {
+    final categoryTotals = getCategoryTotals();
 
-    return Color(
-      int.parse(
-        colorString.replaceAll(
-          '#',
-          '0xff',
+    final sortedCategories = categoryTotals.entries.toList()
+      ..sort(
+        (
+          a,
+          b,
+        ) => b.value['amount'].compareTo(
+          a.value['amount'],
         ),
-      ),
-    );
+      );
+
+    final topCategories = sortedCategories
+        .take(
+          5,
+        )
+        .toList();
+
+    return topCategories.map(
+      (
+        entry,
+      ) {
+        return ChartData(
+          category: entry.key,
+          amount: entry.value['amount'],
+          color: entry.value['color'],
+        );
+      },
+    ).toList();
   }
 
   @override
   Widget build(
     BuildContext context,
   ) {
-    final categoryTotals = getCategoryTotals();
-    // print(
-    //   widget.expenses.length,
-    // );
+    final chartData = getChartData();
+
+    if (chartData.isEmpty) {
+      return const Center(
+        child: Text(
+          'No expense data',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
+
     return SizedBox(
       width: MediaQuery.of(
         context,
       ).size.width,
-      height: MediaQuery.of(
-        context,
-      ).size.width,
-      child: PieChart(
-        PieChartData(
-          sections: List.generate(
-            categoryTotals.length,
-            (
-              i,
-            ) {
-              final entry = categoryTotals.entries.toList()[i];
-              return PieChartSectionData(
-                value: entry.value['amount'],
-                color: colorFromString(
-                  entry.value['color'],
-                ),
-                radius:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.3,
-                title: entry.key,
-                titleStyle: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-              );
-            },
+      height: 320,
+      child: SfCartesianChart(
+        backgroundColor: Colors.transparent,
+        plotAreaBorderWidth: 0,
+
+        primaryXAxis: CategoryAxis(
+          majorGridLines: const MajorGridLines(
+            width: 0,
+          ),
+          labelStyle: const TextStyle(
+            color: Colors.white70,
+            fontSize: 12,
           ),
         ),
+
+        primaryYAxis: NumericAxis(
+          isVisible: false,
+          majorGridLines: const MajorGridLines(
+            width: 0,
+          ),
+        ),
+
+        tooltipBehavior: TooltipBehavior(
+          enable: true,
+        ),
+
+        series:
+            <
+              CartesianSeries
+            >[
+              BarSeries<
+                ChartData,
+                String
+              >(
+                dataSource: chartData,
+
+                xValueMapper:
+                    (
+                      ChartData data,
+                      _,
+                    ) => data.category,
+
+                yValueMapper:
+                    (
+                      ChartData data,
+                      _,
+                    ) => data.amount,
+
+                dataLabelSettings: const DataLabelSettings(
+                  isVisible: true,
+                  labelAlignment: ChartDataLabelAlignment.outer,
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Theme.of(
+                      context,
+                    ).colorScheme.secondary,
+                    Theme.of(
+                      context,
+                    ).colorScheme.primary,
+                    Theme.of(
+                      context,
+                    ).colorScheme.tertiary,
+                  ],
+                ),
+
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(
+                    12,
+                  ),
+                ),
+              ),
+            ],
       ),
     );
   }
