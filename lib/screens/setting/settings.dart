@@ -1,3 +1,4 @@
+import 'package:budget_manager/screens/setting/setting_section_UI/currency_page.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/theme_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -380,14 +381,28 @@ class _SettingState
                         ],
                       ),
                     ),
+
                     Container(
                       padding: const EdgeInsets.all(
                         8,
                       ),
-                      child: const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: Colors.white,
-                        size: 20,
+                      child: IconButton(
+                        onPressed: () async {
+                          await showDialog(
+                            context: context,
+                            builder:
+                                (
+                                  context,
+                                ) {
+                                  return const CurrencyPage();
+                                },
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ],
