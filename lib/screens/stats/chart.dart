@@ -137,6 +137,7 @@ class _MychartState
         plotAreaBorderWidth: 0,
 
         primaryXAxis: CategoryAxis(
+          isInversed: true,
           majorGridLines: const MajorGridLines(
             width: 0,
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:budget_manager/screens/setting/profile_page.dart';
 
 class Setting
     extends
@@ -47,7 +48,36 @@ class _SettingState
                 ),
               ),
               const SizedBox(
-                height: 35,
+                height: 15,
+              ),
+
+              Container(
+                width:
+                    MediaQuery.of(
+                      context,
+                    ).size.width *
+                    0.9,
+                child: Padding(
+                  padding: const EdgeInsets.all(
+                    8.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Profile",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
               ),
               Container(
                 width:
@@ -134,18 +164,31 @@ class _SettingState
                       //     10,
                       //   ),
                       // ),
-                      child: const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: Colors.white,
-                        size: 20,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (
+                                    context,
+                                  ) => const Profile(),
+                            ),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 15,
-              ),
+              // SizedBox(
+              //   height: 0,
+              // ),
               Container(
                 width:
                     MediaQuery.of(
@@ -153,8 +196,9 @@ class _SettingState
                     ).size.width *
                     0.9,
                 child: Padding(
-                  padding: const EdgeInsets.all(
-                    8.0,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                    vertical: 4.0,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -241,12 +285,15 @@ class _SettingState
                     ),
                     Container(
                       padding: const EdgeInsets.all(
-                        8,
+                        8.0,
                       ),
-                      child: const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: Colors.white,
-                        size: 20,
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ],
