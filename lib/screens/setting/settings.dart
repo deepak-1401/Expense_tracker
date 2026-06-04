@@ -1,6 +1,7 @@
+import 'package:budget_manager/screens/setting/setting_section_UI/theme_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:budget_manager/screens/setting/profile_page.dart';
+import 'package:budget_manager/screens/setting/setting_section_UI/profile_page.dart';
 
 class Setting
     extends
@@ -288,7 +289,18 @@ class _SettingState
                         8.0,
                       ),
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          await showDialog(
+                            context: context,
+                            builder:
+                                (
+                                  context,
+                                ) {
+                                  return const ThemePage();
+                                },
+                          );
+                        },
+
                         icon: Icon(
                           Icons.arrow_forward_ios_outlined,
                           color: Colors.white,
