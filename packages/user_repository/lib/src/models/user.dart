@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:user_repository/src/entities/entities.dart';
 
 class MyUser
     extends
