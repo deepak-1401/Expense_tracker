@@ -18,6 +18,9 @@ class Setting
   createState() => _SettingState();
 }
 
+bool
+notificationsEnabled = true;
+
 class _SettingState
     extends
         State<
@@ -477,15 +480,18 @@ class _SettingState
                         ],
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(
-                        8,
-                      ),
-                      child: const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: Colors.white,
-                        size: 20,
-                      ),
+                    Switch(
+                      value: notificationsEnabled,
+                      onChanged:
+                          (
+                            value,
+                          ) {
+                            setState(
+                              () {
+                                notificationsEnabled = value;
+                              },
+                            );
+                          },
                     ),
                   ],
                 ),

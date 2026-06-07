@@ -30,238 +30,243 @@ class _ProfileState
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(
-                  8.0,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+            ),
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(
+                    8.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Profile',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Profile',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                // Add profile details
+                const SizedBox(
+                  height: 50,
+                ),
+                Container(
+                  child: const CircleAvatar(
+                    radius: 50,
+                    backgroundImage: AssetImage(
+                      'assets/profile_picture.png',
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                TextFormField(
+                  //  controller: nameController,
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: "name",
+                    labelStyle: const TextStyle(
+                      color: Colors.white54,
+                    ),
+                    filled: true,
+                    fillColor: const Color(
+                      0xFF0F1330,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        10,
+                      ),
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.person,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 30,
+                ),
+                TextFormField(
+                  //  controller: nameController,
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: "age",
+                    labelStyle: const TextStyle(
+                      color: Colors.white54,
+                    ),
+                    filled: true,
+                    fillColor: const Color(
+                      0xFF0F1330,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        10,
+                      ),
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.calendar_today,
+                      color: Colors.red,
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+
+                const SizedBox(
+                  height: 30,
+                ),
+
+                DropdownButtonFormField<
+                  String
+                >(
+                  initialValue: widget.selectedGender,
+
+                  decoration: InputDecoration(
+                    labelText: "Gender",
+                    // prefixIcon: const Icon(
+                    //   Icons.wc_rounded,
+                    //   color: Colors.red,
+                    // ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        12,
+                      ),
+                    ),
+                  ),
+
+                  items: const [
+                    DropdownMenuItem(
+                      value: "Male",
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.male,
+                            color: Colors.blue,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Male",
+                          ),
+                        ],
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "Female",
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.female,
+                            color: Colors.pink,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Female",
+                          ),
+                        ],
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "Other",
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.transgender,
+                            color: Colors.purple,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "transgender",
+                          ),
+                        ],
                       ),
                     ),
                   ],
+
+                  onChanged:
+                      (
+                        value,
+                      ) {
+                        setState(
+                          () {
+                            selectedGender = value;
+                          },
+                        );
+                      },
                 ),
-              ),
-              // Add profile details
-              const SizedBox(
-                height: 50,
-              ),
-              Container(
-                child: const CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage(
-                    'assets/profile_picture.png',
-                  ),
+                const SizedBox(
+                  height: 30,
                 ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              TextFormField(
-                //  controller: nameController,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-                decoration: InputDecoration(
-                  labelText: "name",
-                  labelStyle: const TextStyle(
-                    color: Colors.white54,
+                TextFormField(
+                  //  controller: nameController,
+                  style: const TextStyle(
+                    color: Colors.white,
                   ),
-                  filled: true,
-                  fillColor: const Color(
-                    0xFF0F1330,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      10,
+                  decoration: InputDecoration(
+                    labelText: "Occupation",
+                    labelStyle: const TextStyle(
+                      color: Colors.white54,
                     ),
-                  ),
-                  prefixIcon: const Icon(
-                    Icons.person,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-
-              const SizedBox(
-                height: 30,
-              ),
-              TextFormField(
-                //  controller: nameController,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-                decoration: InputDecoration(
-                  labelText: "age",
-                  labelStyle: const TextStyle(
-                    color: Colors.white54,
-                  ),
-                  filled: true,
-                  fillColor: const Color(
-                    0xFF0F1330,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      10,
+                    filled: true,
+                    fillColor: const Color(
+                      0xFF0F1330,
                     ),
-                  ),
-                  prefixIcon: const Icon(
-                    Icons.calendar_today,
-                    color: Colors.red,
-                  ),
-                ),
-                keyboardType: TextInputType.number,
-              ),
-
-              const SizedBox(
-                height: 30,
-              ),
-
-              DropdownButtonFormField<
-                String
-              >(
-                initialValue: widget.selectedGender,
-
-                decoration: InputDecoration(
-                  labelText: "Gender",
-                  // prefixIcon: const Icon(
-                  //   Icons.wc_rounded,
-                  //   color: Colors.red,
-                  // ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      12,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        10,
+                      ),
+                    ),
+                    prefixIcon: const Icon(
+                      Icons.work,
+                      color: Colors.red,
                     ),
                   ),
                 ),
-
-                items: const [
-                  DropdownMenuItem(
-                    value: "Male",
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.male,
-                          color: Colors.blue,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "Male",
-                        ),
-                      ],
+                SizedBox(
+                  height: 50,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(
+                        0xFF8B4CFF,
+                      ),
                     ),
-                  ),
-                  DropdownMenuItem(
-                    value: "Female",
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.female,
-                          color: Colors.pink,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "Female",
-                        ),
-                      ],
-                    ),
-                  ),
-                  DropdownMenuItem(
-                    value: "Other",
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.transgender,
-                          color: Colors.purple,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "transgender",
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-
-                onChanged:
-                    (
-                      value,
-                    ) {
-                      setState(
-                        () {
-                          selectedGender = value;
-                        },
+                    onPressed: () {
+                      // Handle save action
+                      Navigator.pop(
+                        context,
                       );
                     },
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              TextFormField(
-                //  controller: nameController,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-                decoration: InputDecoration(
-                  labelText: "Occupation",
-                  labelStyle: const TextStyle(
-                    color: Colors.white54,
-                  ),
-                  filled: true,
-                  fillColor: const Color(
-                    0xFF0F1330,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      10,
-                    ),
-                  ),
-                  prefixIcon: const Icon(
-                    Icons.work,
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(
-                      0xFF8B4CFF,
-                    ),
-                  ),
-                  onPressed: () {
-                    // Handle save action
-                    Navigator.pop(
-                      context,
-                    );
-                  },
-                  child: const Text(
-                    "Save",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
+                    child: const Text(
+                      "Save",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
