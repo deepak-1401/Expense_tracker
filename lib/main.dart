@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'simple_bloc_observer.dart';
-
 import 'package:budget_manager/screens/add_expense/blocs/create_categoryblocs/create_category_bloc.dart';
+import 'package:user_repository/user_repository.dart';
 
 void
 main() async {
@@ -28,7 +27,9 @@ main() async {
             expenseRepository,
           ),
 
-      child: const MyApp(),
+      child: MyApp(
+        FirebaseUserRepo(),
+      ),
     ),
   );
 }
