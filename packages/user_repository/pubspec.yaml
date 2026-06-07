@@ -1,5 +1,5 @@
-name: expense_repository
-description: A repository for managing expenses
+name: user_repository
+description: A repository that handles user management
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 0.1.0
 
