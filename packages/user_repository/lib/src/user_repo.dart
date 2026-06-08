@@ -25,8 +25,13 @@ abstract class UserRepository {
   Future<
     void
   >
-  signIn(
+  logIn(
     String email,
     String password,
   );
+
+  Future<
+    void
+  >
+  logOut();
 }

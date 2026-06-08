@@ -41,7 +41,7 @@ class FirebaseUserRepo
   Future<
     void
   >
-  signIn(
+  logIn(
     String email,
     String password,
   ) async {
@@ -104,6 +104,23 @@ class FirebaseUserRepo
           .set(
             myUser.toEntity().toDocument(),
           );
+    } catch (
+      e
+    ) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
+
+  @override
+  Future<
+    void
+  >
+  logOut() async {
+    try {
+      await _firebaseAuth.signOut();
     } catch (
       e
     ) {

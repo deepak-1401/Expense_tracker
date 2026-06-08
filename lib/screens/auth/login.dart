@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -143,21 +144,26 @@ class _LoginScreenState
                   child: TextButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // context.read<LoginInBloc>().add(LoginRequired(
-                        //   email: _emailController.text,
-                        //   password: _passwordController.text,
-                        // )
-                        //);
+                        context
+                            .read<
+                              LogInBloc
+                            >()
+                            .add(
+                              LogInRequired(
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                              ),
+                            );
                       }
                     },
                     style: TextButton.styleFrom(
-                      backgroundColor: const Color(
-                        0xFF9A5DFF,
-                      ),
+                      backgroundColor: Theme.of(
+                        context,
+                      ).colorScheme.primary,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                          8.0,
+                          60.0,
                         ),
                       ),
                     ),

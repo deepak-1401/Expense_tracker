@@ -1,6 +1,11 @@
+import 'package:budget_manager/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart';
+import 'package:budget_manager/blocs/sign_up_bloc/sign_up_bloc.dart';
 import 'package:budget_manager/screens/auth/login.dart';
 import 'package:budget_manager/screens/auth/sign_up.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_repository/user_repository.dart';
 
 class WelcomeScreen
     extends
@@ -115,8 +120,32 @@ class _WelcomeScreenState
                         child: TabBarView(
                           controller: tabController,
                           children: [
-                            const LoginScreen(),
-                            const SignUpScreen(),
+                            BlocProvider(
+                              create:
+                                  (
+                                    context,
+                                  ) => LogInBloc(
+                                    userRepository: context
+                                        .read<
+                                          AuthenticationBloc
+                                        >()
+                                        .userRepository,
+                                  ),
+                              child: const LoginScreen(),
+                            ),
+                            BlocProvider(
+                              create:
+                                  (
+                                    context,
+                                  ) => SignUpBloc(
+                                    UserRepository: context
+                                        .read<
+                                          AuthenticationBloc
+                                        >()
+                                        .userRepository,
+                                  ),
+                              child: const SignUpScreen(),
+                            ),
                             // Login tab content
                           ],
                         ),
