@@ -22,14 +22,17 @@ class FirebaseUserRepo
 
   @override
   Stream<
-    User
+    User?
   >
   get user {
     return _firebaseAuth.authStateChanges().map(
       (
         firebaseUser,
       ) {
-        return firebaseUser!;
+        print(
+          'firebaseUser = $firebaseUser',
+        );
+        return firebaseUser;
       },
     );
   }
