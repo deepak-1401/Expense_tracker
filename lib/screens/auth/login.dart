@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen
     extends
@@ -81,9 +84,10 @@ class _LoginScreenState
             child: TextFormField(
               controller: _passwordController,
               obscureText: obscurePassword,
+              keyboardType: TextInputType.visiblePassword,
               decoration: InputDecoration(
                 prefixIcon: const Icon(
-                  CupertinoIcons.clock_solid,
+                  CupertinoIcons.padlock_solid,
                 ),
                 labelText: 'Password',
                 border: const OutlineInputBorder(),
@@ -96,9 +100,11 @@ class _LoginScreenState
                     setState(
                       () {
                         obscurePassword = !obscurePassword;
-                        iconPassword = obscurePassword
-                            ? CupertinoIcons.eye_solid
-                            : CupertinoIcons.eye_fill;
+                        if (obscurePassword) {
+                          iconPassword = CupertinoIcons.eye_fill;
+                        } else {
+                          iconPassword = CupertinoIcons.eye_slash_fill;
+                        }
                       },
                     );
                   },
@@ -118,12 +124,59 @@ class _LoginScreenState
                     ).hasMatch(
                       value,
                     )) {
-                      return 'Password must contain at least one letter and one number';
+                      return 'Password must be a combination of letters and numbers';
                     }
                     return null;
                   },
             ),
           ),
+          const SizedBox(
+            height: 20,
+          ),
+          !LoginRequired
+              ? SizedBox(
+                  width:
+                      MediaQuery.of(
+                        context,
+                      ).size.width *
+                      0.5,
+                  child: TextButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        // context.read<LoginInBloc>().add(LoginRequired(
+                        //   email: _emailController.text,
+                        //   password: _passwordController.text,
+                        // )
+                        //);
+                      }
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color(
+                        0xFF9A5DFF,
+                      ),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          8.0,
+                        ),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(
+                        8.0,
+                      ),
+                      child: const Text(
+                        'Login',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              : const CircularProgressIndicator(),
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:budget_manager/screens/auth/login.dart';
+import 'package:budget_manager/screens/auth/sign_up.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen
@@ -115,7 +116,7 @@ class _WelcomeScreenState
                           controller: tabController,
                           children: [
                             const LoginScreen(),
-                            //SignUpScreen(),
+                            const SignUpScreen(),
                             // Login tab content
                           ],
                         ),
