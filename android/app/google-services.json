@@ -12,7 +12,20 @@
           "package_name": "com.example.budget_manager"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "633916514538-ab4nqtjo1rselmboejjivmqskcci5eah.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.budget_manager",
+            "certificate_hash": "a2c60b3dd9b6edee9cb343ee88fca61f84e8b87c"
+          }
+        },
+        {
+          "client_id": "633916514538-l31ttmoh87ai7kbccg3dffjicimmu6bp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAgqPazBaQZGnmxbP2biMOVwshnXyoRHwI"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "633916514538-l31ttmoh87ai7kbccg3dffjicimmu6bp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

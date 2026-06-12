@@ -34,4 +34,9 @@ abstract class UserRepository {
     void
   >
   logOut();
+
+  Future<
+    void
+  >
+  signInWithGoogle();
 }

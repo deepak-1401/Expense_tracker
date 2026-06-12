@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:user_repository/user_repository.dart';
@@ -52,6 +53,20 @@ class AuthenticationBloc
             const AuthenticationState.unauthenticated(),
           );
         }
+      },
+    );
+    on<
+      LogOutRequired
+    >(
+      (
+        event,
+        emit,
+      ) async {
+        print(
+          "Logout pressed",
+        );
+
+        await userRepository.logOut();
       },
     );
     @override

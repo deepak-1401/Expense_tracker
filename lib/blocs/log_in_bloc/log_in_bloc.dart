@@ -27,6 +27,10 @@ class LogInBloc
         event,
         emit,
       ) async {
+        print(
+          "LOGIN EVENT RECEIVED",
+        );
+
         emit(
           LogInProcess(),
         );
@@ -57,13 +61,43 @@ class LogInBloc
         }
       },
     );
+    // on<
+    //   LogOutRequired
+    // >(
+    //   ((
+    //     event,
+    //     emit,
+    //   ) => _userRepository.logOut()),
+    // );
     on<
-      LogOutRequired
+      LogInWithGoogleRequired
     >(
-      ((
+      (
         event,
         emit,
-      ) => _userRepository.logOut()),
+      ) async {
+        emit(
+          LogInProcess(),
+        );
+
+        try {
+          await userRepository.signInWithGoogle();
+          emit(
+            LogInSuccess(),
+          );
+        } catch (
+          e
+        ) {
+          print(
+            e,
+          );
+          emit(
+            LogInFailure(
+              error: 'Failed to sign in with Google. Please try again.',
+            ),
+          );
+        }
+      },
     );
   }
 }

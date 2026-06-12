@@ -21,3 +21,9 @@ class AuthenticationUserChanged
     this.user,
   );
 }
+
+class LogOutRequired
+    extends
+        AuthenticationEvent {
+  const LogOutRequired();
+}

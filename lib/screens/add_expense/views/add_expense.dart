@@ -705,85 +705,107 @@ class _AddExpenseState
                               ).size.height *
                               0.075,
 
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              padding: EdgeInsets.zero,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  40,
-                                ),
-                              ),
-                            ),
-
-                            onPressed: () {
-                              setState(
-                                () {
-                                  expense.expenseId = const Uuid().v1();
-
-                                  expense.amount =
-                                      double.tryParse(
-                                        expenseController.text,
-                                      ) ??
-                                      0.00;
-                                },
-                              );
-
-                              print(
-                                "EXPENSE ID = ${expense.expenseId}",
-                              );
-                              print(
-                                "SAVE PAYMENT = ${expense.paymentMethod}",
-                              );
-
-                              context
-                                  .read<
-                                    CreateExpenseBloc
-                                  >()
-                                  .add(
-                                    CreateExpense(
-                                      Expense(
-                                        expenseId: const Uuid().v1(),
-                                        category: expense.category,
-                                        amount:
-                                            double.tryParse(
-                                              expenseController.text,
-                                            ) ??
-                                            0.00,
-                                        date: expense.date,
-                                        paymentMethod: expense.paymentMethod,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color:
+                                      Color(
+                                        0xFF8B5CF6,
+                                      ).withValues(
+                                        alpha: 0.35,
                                       ),
-                                    ),
-                                  );
-                            },
-
-                            child: Ink(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Color(
-                                      0xFF9B4EFF,
-                                    ),
-                                    Color(
-                                      0xFF4D7CFF,
-                                    ),
-                                  ],
+                                  blurRadius: 15,
+                                  offset: Offset(
+                                    0,
+                                    6,
+                                  ),
                                 ),
-
-                                borderRadius: BorderRadius.circular(
-                                  40,
+                              ],
+                            ),
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                padding: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    40,
+                                  ),
                                 ),
                               ),
 
-                              child: Container(
-                                alignment: Alignment.center,
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    expense.expenseId = const Uuid().v1();
 
-                                child: const Text(
-                                  "Save",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                                    expense.amount =
+                                        double.tryParse(
+                                          expenseController.text,
+                                        ) ??
+                                        0.00;
+                                  },
+                                );
+
+                                print(
+                                  "EXPENSE ID = ${expense.expenseId}",
+                                );
+                                print(
+                                  "SAVE PAYMENT = ${expense.paymentMethod}",
+                                );
+
+                                context
+                                    .read<
+                                      CreateExpenseBloc
+                                    >()
+                                    .add(
+                                      CreateExpense(
+                                        Expense(
+                                          expenseId: const Uuid().v1(),
+                                          category: expense.category,
+                                          amount:
+                                              double.tryParse(
+                                                expenseController.text,
+                                              ) ??
+                                              0.00,
+                                          date: expense.date,
+                                          paymentMethod: expense.paymentMethod,
+                                        ),
+                                      ),
+                                    );
+                              },
+
+                              child: Ink(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Theme.of(
+                                        context,
+                                      ).colorScheme.tertiary,
+                                      Theme.of(
+                                        context,
+                                      ).colorScheme.secondary,
+                                      Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                    ],
+                                  ),
+
+                                  borderRadius: BorderRadius.circular(
+                                    40,
+                                  ),
+                                ),
+
+                                child: Container(
+                                  alignment: Alignment.center,
+
+                                  child: const Text(
+                                    "Save",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),

@@ -95,6 +95,10 @@ class _SignUpScreenState
                       CupertinoIcons.mail_solid,
                     ),
                     labelText: 'Email',
+                    filled: true,
+                    fillColor: const Color(
+                      0xFF0F1330,
+                    ),
                     border: const OutlineInputBorder(),
                     // errorText: errorMessage,
                   ),
@@ -134,6 +138,10 @@ class _SignUpScreenState
                       CupertinoIcons.mail_solid,
                     ),
                     labelText: 'Password',
+                    filled: true,
+                    fillColor: const Color(
+                      0xFF0F1330,
+                    ),
                     border: const OutlineInputBorder(),
                     //  errorText: errorMessage,
                     suffixIcon: IconButton(
@@ -342,6 +350,10 @@ class _SignUpScreenState
                   controller: nameController,
                   decoration: InputDecoration(
                     labelText: 'Name',
+                    filled: true,
+                    fillColor: const Color(
+                      0xFF0F1330,
+                    ),
                     border: const OutlineInputBorder(),
                     prefixIcon: const Icon(
                       CupertinoIcons.person_fill,
@@ -378,54 +390,93 @@ class _SignUpScreenState
                             context,
                           ).size.width *
                           0.5,
-                      child: TextButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            MyUser myUser = MyUser.empty;
-                            myUser = myUser.copyWith(
-                              email: emailController.text,
-                              name: nameController.text,
-                            );
-                            setState(
-                              () {
-                                context
-                                    .read<
-                                      SignUpBloc
-                                    >()
-                                    .add(
-                                      SignUpRequired(
-                                        user: myUser,
-                                        password: passwordController.text,
-                                      ),
-                                    );
-                              },
-                            );
-                          }
-                        },
-                        style: TextButton.styleFrom(
-                          elevation: 3.0,
-                          backgroundColor: Theme.of(
-                            context,
-                          ).colorScheme.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              60,
+                      child: Container(
+                        width:
+                            MediaQuery.of(
+                              context,
+                            ).size.width *
+                            0.55,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Theme.of(
+                                context,
+                              ).colorScheme.tertiary,
+                              Theme.of(
+                                context,
+                              ).colorScheme.secondary,
+                              Theme.of(
+                                context,
+                              ).colorScheme.primary,
+                            ],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            60,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color:
+                                  Color(
+                                    0xFF8B5CF6,
+                                  ).withValues(
+                                    alpha: 0.35,
+                                  ),
+                              blurRadius: 15,
+                              offset: Offset(
+                                0,
+                                6,
+                              ),
+                            ),
+                          ],
+                        ),
+                        child: TextButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              MyUser myUser = MyUser.empty;
+                              myUser = myUser.copyWith(
+                                email: emailController.text,
+                                name: nameController.text,
+                              );
+                              setState(
+                                () {
+                                  context
+                                      .read<
+                                        SignUpBloc
+                                      >()
+                                      .add(
+                                        SignUpRequired(
+                                          user: myUser,
+                                          password: passwordController.text,
+                                        ),
+                                      );
+                                },
+                              );
+                            }
+                          },
+                          style: TextButton.styleFrom(
+                            elevation: 3.0,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                60,
+                              ),
                             ),
                           ),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 25,
-                            vertical: 5,
-                          ),
-                          child: Text(
-                            'Sign Up',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 25,
+                              vertical: 5,
+                            ),
+                            child: Text(
+                              'Sign Up',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ),

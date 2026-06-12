@@ -38,3 +38,7 @@ class LogOutRequired
         LogInEvent {
   const LogOutRequired();
 }
+
+class LogInWithGoogleRequired
+    extends
+        LogInEvent {}

@@ -1,8 +1,13 @@
+import 'package:budget_manager/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart'
+    hide
+        LogOutRequired;
 import 'package:budget_manager/screens/setting/setting_section_UI/currency_page.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/theme_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/profile_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Setting
     extends
@@ -844,28 +849,44 @@ class _SettingState
                       width: 12,
                     ),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Logout",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          alignment: Alignment.centerLeft,
+                        ),
+                        onPressed: () {
+                          context
+                              .read<
+                                AuthenticationBloc
+                              >()
+                              .add(
+                                const LogOutRequired(),
+                              );
+                        },
 
-                          Text(
-                            "Sign out of your account",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Logout",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              height: 4,
+                            ),
+
+                            Text(
+                              "Sign out of your account",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     // Container(

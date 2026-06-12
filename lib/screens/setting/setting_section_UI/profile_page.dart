@@ -244,23 +244,59 @@ class _ProfileState
                 ),
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(
-                        0xFF8B4CFF,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Theme.of(
+                            context,
+                          ).colorScheme.tertiary,
+                          Theme.of(
+                            context,
+                          ).colorScheme.secondary,
+                          Theme.of(
+                            context,
+                          ).colorScheme.primary,
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
                       ),
+                      borderRadius: BorderRadius.circular(
+                        60,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color:
+                              Color(
+                                0xFF8B5CF6,
+                              ).withValues(
+                                alpha: 0.35,
+                              ),
+                          blurRadius: 15,
+                          offset: Offset(
+                            0,
+                            6,
+                          ),
+                        ),
+                      ],
                     ),
-                    onPressed: () {
-                      // Handle save action
-                      Navigator.pop(
-                        context,
-                      );
-                    },
-                    child: const Text(
-                      "Save",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                      ),
+                      onPressed: () {
+                        // Handle save action
+                        Navigator.pop(
+                          context,
+                        );
+                      },
+                      child: const Text(
+                        "Save",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),

@@ -4,6 +4,7 @@ import 'package:user_repository/src/user_repo.dart';
 import 'package:user_repository/src/models/models.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseUserRepo
     implements
@@ -120,6 +121,8 @@ class FirebaseUserRepo
   >
   logOut() async {
     try {
+      await GoogleSignIn.instance.signOut();
+
       await _firebaseAuth.signOut();
     } catch (
       e
@@ -129,5 +132,82 @@ class FirebaseUserRepo
       );
       rethrow;
     }
+  }
+
+  @override
+  Future<
+    UserCredential
+  >
+  signInWithGoogle() async {
+    print(
+      "GOOGLE FUNCTION STARTED",
+    );
+
+    await GoogleSignIn.instance.initialize();
+
+    final GoogleSignInAccount googleUser = await GoogleSignIn.instance.authenticate();
+
+    print(
+      "GOOGLE AUTHENTICATED: ${googleUser.email}",
+    );
+
+    final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      idToken: googleAuth.idToken,
+    );
+
+    final userCredential = await FirebaseAuth.instance.signInWithCredential(
+      credential,
+    );
+
+    print(
+      "FIREBASE LOGIN SUCCESS",
+    );
+
+    final user = userCredential.user;
+
+    print(
+      "USER UID: ${user?.uid}",
+    );
+
+    if (user !=
+        null) {
+      final userDoc = FirebaseFirestore.instance
+          .collection(
+            'users',
+          )
+          .doc(
+            user.uid,
+          );
+
+      final docSnapshot = await userDoc.get();
+
+      print(
+        "DOC EXISTS: ${docSnapshot.exists}",
+      );
+
+      if (!docSnapshot.exists) {
+        await userDoc.set(
+          {
+            'userId': user.uid,
+            'email': user.email,
+            'name':
+                user.displayName ??
+                '',
+            'photoUrl':
+                user.photoURL ??
+                '',
+            'createdAt': FieldValue.serverTimestamp(),
+          },
+        );
+
+        print(
+          "USER DOC CREATED",
+        );
+      }
+    }
+
+    return userCredential;
   }
 }
