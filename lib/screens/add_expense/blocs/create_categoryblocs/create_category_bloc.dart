@@ -53,6 +53,9 @@ class CreateCategoryBloc
         event,
         emit,
       ) async {
+        print(
+          "CREATE EXPENSE EVENT RECEIVED",
+        );
         emit(
           CreateCategoryLoading(),
         );

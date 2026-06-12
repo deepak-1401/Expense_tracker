@@ -1,0 +1,499 @@
+import 'package:flutter/material.dart';
+
+class Filters
+    extends
+        StatefulWidget {
+  const Filters({
+    super.key,
+  });
+
+  @override
+  State<
+    Filters
+  >
+  createState() => _FiltersState();
+}
+
+String
+selectedPeriod = "";
+String
+selectedSort = "";
+final List<
+  String
+>
+selectedPayments = [];
+
+class _FiltersState
+    extends
+        State<
+          Filters
+        > {
+  void togglePayment(
+    String payment,
+  ) {
+    setState(
+      () {
+        if (selectedPayments.contains(
+          payment,
+        )) {
+          selectedPayments.remove(
+            payment,
+          ); // unselect
+        } else {
+          selectedPayments.add(
+            payment,
+          ); // select
+        }
+      },
+    );
+  }
+
+  void clearAllFilters() {
+    setState(
+      () {
+        selectedPeriod = "";
+        selectedPayments.clear();
+        selectedSort = "";
+      },
+    );
+  }
+
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
+    return SingleChildScrollView(
+      child: BottomSheet(
+        // backgroundColor: Color(
+        //   0xFF161D47,
+        // ),
+        onClosing: () {},
+        builder:
+            (
+              context,
+            ) {
+              return Padding(
+                padding: const EdgeInsets.all(
+                  8.0,
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 1000,
+                  child: Wrap(
+                    children: [
+                      Center(
+                        child: Text(
+                          'Filters',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Divider(
+                        height: 30,
+                        indent: 50,
+                        endIndent: 50,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Period",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+
+                      Wrap(
+                        spacing: 12,
+                        children: [
+                          FilterChip(
+                            label: Text(
+                              "Today",
+                            ),
+                            selected:
+                                selectedPeriod ==
+                                "Today",
+                            onSelected:
+                                (
+                                  value,
+                                ) {
+                                  setState(
+                                    () {
+                                      if (selectedPeriod ==
+                                          "Today") {
+                                        selectedPeriod = ""; // Unselect
+                                      } else {
+                                        selectedPeriod = "Today"; // Select
+                                      }
+                                    },
+                                  );
+                                },
+                          ),
+                          FilterChip(
+                            label: Text(
+                              "This Week",
+                            ),
+                            selected:
+                                selectedPeriod ==
+                                "This Week",
+                            onSelected:
+                                (
+                                  value,
+                                ) {
+                                  setState(
+                                    () {
+                                      if (selectedPeriod ==
+                                          "This Week") {
+                                        selectedPeriod = ""; // Unselect
+                                      } else {
+                                        selectedPeriod = "This Week"; // Select
+                                      }
+                                    },
+                                  );
+                                },
+                          ),
+                          FilterChip(
+                            label: Text(
+                              "This Month",
+                            ),
+                            selected:
+                                selectedPeriod ==
+                                "This Month",
+                            onSelected:
+                                (
+                                  value,
+                                ) {
+                                  setState(
+                                    () {
+                                      if (selectedPeriod ==
+                                          "This Month") {
+                                        selectedPeriod = ""; // Unselect
+                                      } else {
+                                        selectedPeriod = "This Month"; // Select
+                                      }
+                                    },
+                                  );
+                                },
+                          ),
+                          FilterChip(
+                            label: Text(
+                              "This Year",
+                            ),
+                            selected:
+                                selectedPeriod ==
+                                "This Year",
+                            onSelected:
+                                (
+                                  value,
+                                ) {
+                                  setState(
+                                    () {
+                                      if (selectedPeriod ==
+                                          "This Year") {
+                                        selectedPeriod = ""; // Unselect
+                                      } else {
+                                        selectedPeriod = "This Year"; // Select
+                                      }
+                                    },
+                                  );
+                                },
+                          ),
+                        ],
+                      ),
+                      Divider(
+                        height: 30,
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Text(
+                        "payment Method",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      const SizedBox(
+                        height: 30,
+                      ),
+
+                      Wrap(
+                        spacing: 12,
+                        runSpacing: 20,
+                        children: [
+                          FilterChip(
+                            label: Text(
+                              "Cash",
+                            ),
+                            selected: selectedPayments.contains(
+                              "Cash",
+                            ),
+                            onSelected:
+                                (
+                                  value,
+                                ) {
+                                  togglePayment(
+                                    "Cash",
+                                  );
+                                },
+                          ),
+                          FilterChip(
+                            label: Text(
+                              "Credit Card",
+                            ),
+                            selected: selectedPayments.contains(
+                              "Credit Card",
+                            ),
+                            onSelected:
+                                (
+                                  value,
+                                ) {
+                                  togglePayment(
+                                    "Credit Card",
+                                  );
+                                },
+                          ),
+                          FilterChip(
+                            label: Text(
+                              "UPI",
+                            ),
+                            selected: selectedPayments.contains(
+                              "UPI",
+                            ),
+                            onSelected:
+                                (
+                                  value,
+                                ) {
+                                  togglePayment(
+                                    "UPI",
+                                  );
+                                },
+                          ),
+                          FilterChip(
+                            label: Text(
+                              "Other",
+                            ),
+                            selected: selectedPayments.contains(
+                              "Other",
+                            ),
+                            onSelected:
+                                (
+                                  value,
+                                ) {
+                                  togglePayment(
+                                    "Other",
+                                  );
+                                },
+                          ),
+                        ],
+                      ),
+                      Divider(
+                        height: 30,
+                      ),
+
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Text(
+                        "Sort-By",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Wrap(
+                        spacing: 12,
+                        runSpacing: 20,
+                        children: [
+                          FilterChip(
+                            label: Text(
+                              "Newest First",
+                            ),
+                            selected:
+                                selectedSort ==
+                                "Newest First",
+                            onSelected:
+                                (
+                                  value,
+                                ) {
+                                  setState(
+                                    () {
+                                      if (selectedSort ==
+                                          "Newest First") {
+                                        selectedSort = ""; // Unselect
+                                      } else {
+                                        selectedSort = "Newest First"; // Select
+                                      }
+                                    },
+                                  );
+                                },
+                          ),
+                          FilterChip(
+                            label: Text(
+                              "Oldest First",
+                            ),
+                            selected:
+                                selectedSort ==
+                                "Oldest First",
+                            onSelected:
+                                (
+                                  value,
+                                ) {
+                                  setState(
+                                    () {
+                                      if (selectedSort ==
+                                          "Oldest First") {
+                                        selectedSort = ""; // Unselect
+                                      } else {
+                                        selectedSort = "Oldest First"; // Select
+                                      }
+                                    },
+                                  );
+                                },
+                          ),
+                          FilterChip(
+                            label: Text(
+                              "Amount High → Low",
+                            ),
+                            selected:
+                                selectedSort ==
+                                "Amount High → Low",
+                            onSelected:
+                                (
+                                  value,
+                                ) {
+                                  setState(
+                                    () {
+                                      if (selectedSort ==
+                                          "Amount High → Low") {
+                                        selectedSort = ""; // Unselect
+                                      } else {
+                                        selectedSort = "Amount High → Low"; // Select
+                                      }
+                                    },
+                                  );
+                                },
+                          ),
+                          FilterChip(
+                            label: Text(
+                              "Amount Low → High",
+                            ),
+                            selected:
+                                selectedSort ==
+                                "Amount Low → High",
+                            onSelected:
+                                (
+                                  value,
+                                ) {
+                                  setState(
+                                    () {
+                                      if (selectedSort ==
+                                          "Amount Low → High") {
+                                        selectedSort = ""; // Unselect
+                                      } else {
+                                        selectedSort = "Amount Low → High"; // Select
+                                      }
+                                    },
+                                  );
+                                },
+                          ),
+                        ],
+                      ),
+                      Divider(
+                        height: 30,
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              clearAllFilters();
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 8,
+                              ),
+                              width: 100,
+                              decoration: BoxDecoration(
+                                color: Color(
+                                  0xFF7B4EFF,
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                  10,
+                                ),
+                              ),
+                              child: Text(
+                                "Clear All",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              // Apply filters and close the bottom sheet
+                              Navigator.of(
+                                context,
+                              ).pop();
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 8,
+                              ),
+                              width: 200,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Theme.of(
+                                      context,
+                                    ).colorScheme.tertiary,
+                                    Theme.of(
+                                      context,
+                                    ).colorScheme.secondary,
+                                    Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                  10,
+                                ),
+                              ),
+                              child: Text(
+                                "Apply",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+      ),
+    );
+  }
+}

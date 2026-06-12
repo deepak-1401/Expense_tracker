@@ -748,10 +748,19 @@ class _AddExpenseState
                                 );
 
                                 print(
-                                  "EXPENSE ID = ${expense.expenseId}",
+                                  "SAVE BUTTON CLICKED",
+                                );
+                                // print(
+                                //   "Amount: ${amountController.text}",
+                                // );
+                                print(
+                                  "Category: ${expense.category.name}",
                                 );
                                 print(
-                                  "SAVE PAYMENT = ${expense.paymentMethod}",
+                                  "Payment: ${expense.paymentMethod}",
+                                );
+                                print(
+                                  "Date: ${expense.date}",
                                 );
 
                                 context
