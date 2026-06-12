@@ -1,3 +1,4 @@
+import 'package:budget_manager/models/expense_filter_model.dart';
 import 'package:budget_manager/screens/home/views/expense_filters.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +9,7 @@ import 'package:budget_manager/screens/add_expense/views/icon.dart';
 
 class MainScreen
     extends
-        StatelessWidget {
+        StatefulWidget {
   final List<
     Expense
   >
@@ -19,12 +20,171 @@ class MainScreen
   });
 
   @override
+  State<
+    MainScreen
+  >
+  createState() => _MainScreenState();
+}
+
+class _MainScreenState
+    extends
+        State<
+          MainScreen
+        > {
+  ExpenseFilter? activeFilter;
+  @override
   Widget build(
     BuildContext context,
   ) {
+    final expenses = widget.expenses;
+    List<
+      Expense
+    >
+    filteredExpenses = List.from(
+      expenses,
+    );
+
+    // Filter by payment method
+    if (activeFilter !=
+            null &&
+        activeFilter!.paymentMethods.isNotEmpty) {
+      filteredExpenses = filteredExpenses.where(
+        (
+          expense,
+        ) {
+          return activeFilter!.paymentMethods.contains(
+            expense.paymentMethod,
+          );
+        },
+      ).toList();
+    }
+
+    // Filter by period
+    if (activeFilter !=
+            null &&
+        activeFilter!.period !=
+            null) {
+      final now = DateTime.now();
+
+      filteredExpenses = filteredExpenses.where(
+        (
+          expense,
+        ) {
+          final expenseDate = expense.date;
+
+          if (activeFilter!.period ==
+              'Today') {
+            return expenseDate.year ==
+                    now.year &&
+                expenseDate.month ==
+                    now.month &&
+                expenseDate.day ==
+                    now.day;
+          }
+
+          if (activeFilter!.period ==
+              'This Week') {
+            final startOfWeek =
+                DateTime(
+                  now.year,
+                  now.month,
+                  now.day,
+                ).subtract(
+                  Duration(
+                    days:
+                        now.weekday -
+                        1,
+                  ),
+                );
+
+            final endOfWeek = startOfWeek.add(
+              const Duration(
+                days: 7,
+              ),
+            );
+
+            return !expenseDate.isBefore(
+                  startOfWeek,
+                ) &&
+                expenseDate.isBefore(
+                  endOfWeek,
+                );
+          }
+
+          if (activeFilter!.period ==
+              'This Month') {
+            return expenseDate.year ==
+                    now.year &&
+                expenseDate.month ==
+                    now.month;
+          }
+
+          if (activeFilter!.period ==
+              'This Year') {
+            return expenseDate.year ==
+                now.year;
+          }
+
+          return true;
+        },
+      ).toList();
+    }
+
+    // Sorting
+    if (activeFilter !=
+            null &&
+        activeFilter!.sortBy !=
+            null) {
+      if (activeFilter!.sortBy ==
+          'Amount Low → High') {
+        filteredExpenses.sort(
+          (
+            a,
+            b,
+          ) => a.amount.compareTo(
+            b.amount,
+          ),
+        );
+      }
+
+      if (activeFilter!.sortBy ==
+          'Amount High → Low') {
+        filteredExpenses.sort(
+          (
+            a,
+            b,
+          ) => b.amount.compareTo(
+            a.amount,
+          ),
+        );
+      }
+    }
+    if (activeFilter!.sortBy ==
+        'Newest First') {
+      filteredExpenses.sort(
+        (
+          a,
+          b,
+        ) => b.date.compareTo(
+          a.date,
+        ),
+      );
+    }
+    if (activeFilter!.sortBy ==
+        'Oldest First') {
+      filteredExpenses.sort(
+        (
+          a,
+          b,
+        ) => a.date.compareTo(
+          b.date,
+        ),
+      );
+    }
+
     double totalExpense = 0;
 
-    for (var expense in expenses) {
+    for (var expense in filteredExpenses) {
       totalExpense += expense.amount;
     }
     return SafeArea(
@@ -284,14 +444,38 @@ class MainScreen
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder:
-                          (
-                            context,
-                          ) => const Filters(),
-                    );
+                  onTap: () async {
+                    final result =
+                        await showModalBottomSheet<
+                          ExpenseFilter
+                        >(
+                          context: context,
+                          builder:
+                              (
+                                context,
+                              ) => const Filters(),
+                        );
+                    if (result !=
+                        null) {
+                      setState(
+                        () {
+                          activeFilter = result;
+                          print(
+                            activeFilter?.sortBy,
+                          );
+                        },
+                      );
+
+                      print(
+                        activeFilter?.period,
+                      );
+                      print(
+                        activeFilter?.paymentMethods,
+                      );
+                      print(
+                        activeFilter?.sortBy,
+                      );
+                    }
                   },
                   child: const Text(
                     "Filter",
@@ -311,7 +495,7 @@ class MainScreen
               height: 20,
             ),
             Expanded(
-              child: expenses.isEmpty
+              child: filteredExpenses.isEmpty
                   ? const Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -347,13 +531,15 @@ class MainScreen
                       ),
                     )
                   : ListView.builder(
-                      itemCount: expenses.length,
+                      itemCount: filteredExpenses.length,
 
                       itemBuilder:
                           (
                             context,
                             int i,
                           ) {
+                            final expense = filteredExpenses[i];
+
                             return Padding(
                               padding: const EdgeInsets.only(
                                 bottom: 18.0,
@@ -385,7 +571,7 @@ class MainScreen
                                                 decoration: BoxDecoration(
                                                   color: Color(
                                                     int.parse(
-                                                      'FF${expenses[i].category.color.replaceFirst('#', '')}',
+                                                      'FF${expense.category.color.replaceFirst('#', '')}',
                                                       radix: 16,
                                                     ),
                                                   ),
@@ -395,7 +581,7 @@ class MainScreen
 
                                               Icon(
                                                 getIconByName(
-                                                  expenses[i].category.icon,
+                                                  expense.category.icon,
                                                 ),
                                               ),
 
@@ -409,7 +595,7 @@ class MainScreen
                                             width: 12,
                                           ),
                                           Text(
-                                            expenses[i].category.name,
+                                            expense.category.name,
                                             style: TextStyle(
                                               fontSize: 18,
                                               color: Colors.white,
@@ -422,7 +608,7 @@ class MainScreen
                                         crossAxisAlignment: CrossAxisAlignment.end,
                                         children: [
                                           Text(
-                                            "₹ ${expenses[i].amount.toStringAsFixed(2)}",
+                                            "₹ ${expense.amount.toStringAsFixed(2)}",
                                             style: TextStyle(
                                               fontSize: 18,
                                               color: Color(
@@ -435,7 +621,7 @@ class MainScreen
                                             DateFormat(
                                               'dd/MM/yyyy',
                                             ).format(
-                                              expenses[i].date,
+                                              expense.date,
                                             ),
                                             style: TextStyle(
                                               fontSize: 18,
@@ -446,7 +632,7 @@ class MainScreen
                                             ),
                                           ),
                                           Text(
-                                            expenses[i].paymentMethod,
+                                            expense.paymentMethod,
                                             style: TextStyle(
                                               fontSize: 18,
                                               color: Color(

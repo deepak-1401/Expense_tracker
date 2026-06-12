@@ -1,3 +1,4 @@
+import 'package:budget_manager/models/expense_filter_model.dart';
 import 'package:flutter/material.dart';
 
 class Filters
@@ -55,6 +56,19 @@ class _FiltersState
         selectedPayments.clear();
         selectedSort = "";
       },
+    );
+  }
+
+  void applyFilters() {
+    final filter = ExpenseFilter(
+      period: selectedPeriod,
+      paymentMethods: selectedPayments,
+      sortBy: selectedSort,
+    );
+
+    Navigator.pop(
+      context,
+      filter,
     );
   }
 
@@ -449,9 +463,10 @@ class _FiltersState
                           TextButton(
                             onPressed: () {
                               // Apply filters and close the bottom sheet
-                              Navigator.of(
-                                context,
-                              ).pop();
+                              applyFilters();
+                              // Navigator.of(
+                              //   context,
+                              // ).pop();
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(
