@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:budget_manager/blocs/get_expenses_bloc/get_expenses_bloc.dart';
 import 'package:budget_manager/screens/stats/Bar_chart.dart';
+import 'package:budget_manager/screens/stats/SpendingTrendChart.dart';
 import 'package:budget_manager/screens/stats/summary_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -105,6 +108,21 @@ class _StatScreenState
                                 expenses: state.expenses,
                               ),
                             ),
+                            // SizedBox(
+                            //   height: 28,
+                            // ),
+                            // const Text(
+                            //   "Spending Trend",
+                            //   style: TextStyle(
+                            //     color: Colors.white,
+                            //     fontSize: 18,
+                            //     fontWeight: FontWeight.bold,
+                            //   ),
+                            // ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            MySpendingChart(),
                           ],
                         ),
                       ),
