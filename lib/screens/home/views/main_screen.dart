@@ -159,7 +159,7 @@ class _MainScreenState
         );
       }
     }
-    if (activeFilter!.sortBy ==
+    if (activeFilter?.sortBy ==
         'Newest First') {
       filteredExpenses.sort(
         (
@@ -170,7 +170,7 @@ class _MainScreenState
         ),
       );
     }
-    if (activeFilter!.sortBy ==
+    if (activeFilter?.sortBy ==
         'Oldest First') {
       filteredExpenses.sort(
         (
@@ -320,111 +320,6 @@ class _MainScreenState
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(
-                  //     vertical: 8.0,
-                  //     horizontal: 20.0,
-                  //   ),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       // Income row
-                  //       Row(
-                  //         children: [
-                  //           Container(
-                  //             width: 25,
-                  //             height: 25,
-                  //             decoration: BoxDecoration(
-                  //               color: Colors.white30,
-                  //               shape: BoxShape.circle,
-                  //             ),
-                  //             child: Center(
-                  //               child: Icon(
-                  //                 CupertinoIcons.arrow_down,
-                  //                 size: 12,
-                  //                 color: Colors.greenAccent,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //           const SizedBox(
-                  //             width: 8,
-                  //           ),
-                  //           const Column(
-                  //             crossAxisAlignment: CrossAxisAlignment.start,
-                  //             children: [
-                  //               Text(
-                  //                 "Income",
-                  //                 style: TextStyle(
-                  //                   fontSize: 12,
-                  //                   color: Colors.white,
-                  //                   fontWeight: FontWeight.w400,
-                  //                 ),
-                  //               ),
-                  //               Text(
-                  //                 "₹ 50,000",
-                  //                 style: TextStyle(
-                  //                   fontSize: 14,
-                  //                   color: Colors.white,
-                  //                   fontWeight: FontWeight.w500,
-                  //                 ),
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         ],
-                  //       ),
-                  //       // expense row
-                  //       Padding(
-                  //         padding: const EdgeInsets.symmetric(
-                  //           vertical: 8.0,
-                  //           horizontal: 20.0,
-                  //         ),
-                  //         child: Row(
-                  //           children: [
-                  //             Container(
-                  //               width: 25,
-                  //               height: 25,
-                  //               decoration: BoxDecoration(
-                  //                 color: Colors.white30,
-                  //                 shape: BoxShape.circle,
-                  //               ),
-                  //               child: Center(
-                  //                 child: Icon(
-                  //                   CupertinoIcons.arrow_up,
-                  //                   size: 12,
-                  //                   color: Colors.redAccent,
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //             const SizedBox(
-                  //               width: 8,
-                  //             ),
-                  //             const Column(
-                  //               crossAxisAlignment: CrossAxisAlignment.start,
-                  //               children: [
-                  //                 Text(
-                  //                   "Expense",
-                  //                   style: TextStyle(
-                  //                     fontSize: 12,
-                  //                     color: Colors.white,
-                  //                     fontWeight: FontWeight.w500,
-                  //                   ),
-                  //                 ),
-                  //                 Text(
-                  //                   "₹ 10,000",
-                  //                   style: TextStyle(
-                  //                     fontSize: 14,
-                  //                     color: Colors.white,
-                  //                     fontWeight: FontWeight.w500,
-                  //                   ),
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
             ),

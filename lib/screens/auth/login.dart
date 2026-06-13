@@ -1,5 +1,6 @@
 //import 'dart:math';
 import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart';
+import 'package:budget_manager/screens/auth/forget_password.dart';
 import 'package:user_repository/user_repository.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -138,8 +139,42 @@ class _LoginScreenState
                     },
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: 3,
+            ),
+            SizedBox(
+              width: 300,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (
+                                context,
+                              ) => const ForgetPasswordScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      "Forgot Password",
+                      style: TextStyle(
+                        color: Color(
+                          0xFF9A5DFF,
+                        ),
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(
+              height: 3,
             ),
             !loginRequired
                 ? SizedBox(

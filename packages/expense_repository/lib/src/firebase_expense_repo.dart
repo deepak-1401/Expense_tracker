@@ -173,7 +173,10 @@ class FirebaseExpenseRepo
   >
   getExpenses() {
     try {
-      return ExpenseCollection.snapshots().map(
+      return ExpenseCollection.orderBy(
+        'date',
+        descending: true,
+      ).snapshots().map(
         (
           snapshot,
         ) {
