@@ -4,6 +4,7 @@ import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart'
         LogOutRequired;
 import 'package:budget_manager/screens/setting/setting_section_UI/about_app_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/currency_page.dart';
+import 'package:budget_manager/screens/setting/setting_section_UI/help_support_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/privacy_policy_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/terms_conditions_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/theme_page.dart';
@@ -811,10 +812,24 @@ class _SettingState
                       padding: const EdgeInsets.all(
                         8,
                       ),
-                      child: const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: Colors.white,
-                        size: 20,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (
+                                    context,
+                                  ) => const HelpSupportScreen(),
+                            ),
+                          );
+                        },
+
+                        icon: Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ],

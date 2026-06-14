@@ -28,6 +28,11 @@ class _ProfileState
     BuildContext context,
   ) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Profile',
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -40,29 +45,15 @@ class _ProfileState
                   padding: EdgeInsets.all(
                     8.0,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Profile',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
                 // Add profile details
                 const SizedBox(
-                  height: 50,
+                  height: 20,
                 ),
-                Container(
-                  child: const CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage(
-                      'assets/profile_picture.png',
-                    ),
+                const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage(
+                    'assets/profile_picture.png',
                   ),
                 ),
                 const SizedBox(
