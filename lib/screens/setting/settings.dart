@@ -3,6 +3,7 @@ import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart'
     hide
         LogOutRequired;
 import 'package:budget_manager/screens/setting/setting_section_UI/about_app_screen.dart';
+import 'package:budget_manager/screens/setting/setting_section_UI/change_password_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/currency_page.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/help_support_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/privacy_policy_screen.dart';
@@ -607,10 +608,23 @@ class _SettingState
                       padding: const EdgeInsets.all(
                         8,
                       ),
-                      child: const Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: Colors.white,
-                        size: 20,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (
+                                    context,
+                                  ) => const ChangePasswordScreen(),
+                            ),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ],
