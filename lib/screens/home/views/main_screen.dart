@@ -32,6 +32,46 @@ class _MainScreenState
           MainScreen
         > {
   ExpenseFilter? activeFilter;
+
+  bool hideAmount = false;
+
+  String getGreeting() {
+    final hour = DateTime.now().hour;
+
+    if (hour <
+        12) {
+      return 'Good Morning 👋';
+    } else if (hour <
+        17) {
+      return 'Good Afternoon 👋';
+    } else if (hour <
+        21) {
+      return 'Good Evening 👋';
+    } else {
+      return 'Good Night 🌙';
+    }
+  }
+
+  String getCurrentDate() {
+    return DateFormat(
+      'EEEE, d MMMM',
+    ).format(
+      DateTime.now(),
+    );
+  }
+
+  String formatCurrency(
+    double amount,
+  ) {
+    return NumberFormat.currency(
+      locale: 'en_IN',
+      symbol: '₹ ',
+      decimalDigits: 0,
+    ).format(
+      amount,
+    );
+  }
+
   @override
   Widget build(
     BuildContext context,
@@ -181,12 +221,81 @@ class _MainScreenState
         ),
       );
     }
+    if (activeFilter?.sortBy ==
+        null) {
+      filteredExpenses.sort(
+        (
+          a,
+          b,
+        ) => b.date.compareTo(
+          a.date,
+        ),
+      );
+    }
+    // Total expense logic
 
     double totalExpense = 0;
 
     for (var expense in filteredExpenses) {
       totalExpense += expense.amount;
     }
+
+    final Map<
+      String,
+      List<
+        Expense
+      >
+    >
+    groupedExpenses = {};
+
+    final now = DateTime.now();
+    final today = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    );
+    final yesterday = today.subtract(
+      const Duration(
+        days: 1,
+      ),
+    );
+
+    for (var expense in filteredExpenses) {
+      final expenseDay = DateTime(
+        expense.date.year,
+        expense.date.month,
+        expense.date.day,
+      );
+
+      String dateTitle;
+
+      if (expenseDay ==
+          today) {
+        dateTitle = 'TODAY';
+      } else if (expenseDay ==
+          yesterday) {
+        dateTitle = 'YESTERDAY';
+      } else {
+        dateTitle =
+            DateFormat(
+                  'd MMMM',
+                )
+                .format(
+                  expense.date,
+                )
+                .toUpperCase();
+      }
+
+      groupedExpenses.putIfAbsent(
+        dateTitle,
+        () => [],
+      );
+
+      groupedExpenses[dateTitle]!.add(
+        expense,
+      );
+    }
+
     return SafeArea(
       //for the upper top left area
       child: Padding(
@@ -242,23 +351,23 @@ class _MainScreenState
                     ),
                   ],
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color(
-                      0xFF11183D,
-                    ),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(
-                      10,
-                    ),
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      CupertinoIcons.settings,
-                    ),
-                  ),
-                ),
+                // Container(
+                //   decoration: BoxDecoration(
+                //     color: Color(
+                //       0xFF11183D,
+                //     ),
+                //     shape: BoxShape.rectangle,
+                //     borderRadius: BorderRadius.circular(
+                //       10,
+                //     ),
+                //   ),
+                //   child: IconButton(
+                //     onPressed: () {},
+                //     icon: const Icon(
+                //       CupertinoIcons.settings,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             // balance card
@@ -266,16 +375,15 @@ class _MainScreenState
               height: 20,
             ),
             Container(
-              width: MediaQuery.of(
-                context,
-              ).size.width,
-              height:
-                  MediaQuery.of(
-                    context,
-                  ).size.width /
-                  2.7,
+              width: double.infinity,
+              padding: const EdgeInsets.all(
+                24.0,
+              ),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+
                   colors: [
                     Theme.of(
                       context,
@@ -288,37 +396,210 @@ class _MainScreenState
                     ).colorScheme.primary,
                   ],
 
-                  transform: const GradientRotation(
-                    pi /
-                        4,
-                  ),
+                  // transform: const GradientRotation(
+                  //   pi /
+                  //       4,
+                  // ),
                 ),
                 borderRadius: BorderRadius.circular(
                   25,
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color:
+                        Theme.of(
+                          context,
+                        ).colorScheme.primary.withValues(
+                          alpha: 0.35,
+                        ),
+                    blurRadius: 24,
+                    offset: const Offset(
+                      0,
+                      12,
+                    ),
+                  ),
+                ],
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: Stack(
                 children: [
-                  const Text(
-                    "Total Expenses",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                  Positioned(
+                    right: -50,
+                    bottom: -60,
+                    child: Container(
+                      width: 170,
+                      height: 170,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(
+                          alpha: 0.07,
+                        ),
+                      ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "₹ ${totalExpense.toStringAsFixed(0)}",
 
-                    style: const TextStyle(
-                      fontSize: 40,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                  Positioned(
+                    right: 50,
+                    bottom: -80,
+                    child: Container(
+                      width: 145,
+                      height: 145,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(
+                          alpha: 0.045,
+                        ),
+                      ),
                     ),
+                  ),
+
+                  Positioned(
+                    right: -10,
+                    bottom: 35,
+                    child: Container(
+                      width: 95,
+                      height: 95,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(
+                          alpha: 0.035,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+
+                    children: [
+                      Column(
+                        //mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            getGreeting(),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            getCurrentDate(),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white.withValues(
+                                alpha: 0.7,
+                              ),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+
+                          Text(
+                            "TOTAL EXPENSES",
+                            style: TextStyle(
+                              fontSize: 13,
+                              letterSpacing: 1.5,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white.withValues(
+                                alpha: 0.65,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            hideAmount
+                                ? '₹ ••••••'
+                                : formatCurrency(
+                                    totalExpense,
+                                  ),
+
+                            style: const TextStyle(
+                              fontSize: 44,
+                              color: Colors.white,
+                              //fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: -1,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 14,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(
+                                alpha: 0.12,
+                              ),
+                              borderRadius: BorderRadius.circular(
+                                30,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  CupertinoIcons.calendar,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                                const SizedBox(
+                                  width: 6,
+                                ),
+                                Text(
+                                  activeFilter?.period ??
+                                      "This Month",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(
+                            () {
+                              hideAmount = !hideAmount;
+                            },
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(
+                            10,
+                          ),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white.withValues(
+                              alpha: 0.12,
+                            ),
+                          ),
+                          child: Icon(
+                            hideAmount
+                                ? CupertinoIcons.eye_slash_fill
+                                : CupertinoIcons.eye_fill,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -372,15 +653,28 @@ class _MainScreenState
                       );
                     }
                   },
-                  child: const Text(
-                    "Filter",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Color(
-                        0xFF8B4CFF,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.tune_rounded,
+                        size: 20,
+                        color: Color(
+                          0xFF8B4CFF,
+                        ),
                       ),
-                      fontWeight: FontWeight.w600,
-                    ),
+
+                      const Text(
+                        "Filter",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color(
+                            0xFF8B4CFF,
+                          ),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -426,122 +720,154 @@ class _MainScreenState
                       ),
                     )
                   : ListView.builder(
-                      itemCount: filteredExpenses.length,
+                      itemCount: groupedExpenses.length,
 
                       itemBuilder:
                           (
                             context,
                             int i,
                           ) {
-                            final expense = filteredExpenses[i];
+                            final dateTitle = groupedExpenses.keys.elementAt(
+                              i,
+                            );
+                            final expensesInGroup = groupedExpenses[dateTitle]!;
 
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 18.0,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Color(
-                                    0xFF11183D,
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 10,
+                                    bottom: 10,
                                   ),
-                                  borderRadius: BorderRadius.circular(
-                                    10,
+                                  child: Text(
+                                    dateTitle,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 1.2,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.outline,
+                                    ),
                                   ),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(
-                                    18.0,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Stack(
-                                            alignment: Alignment.center,
+
+                                ...expensesInGroup.map(
+                                  (
+                                    expense,
+                                  ) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                        bottom: 18.0,
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Color(
+                                            0xFF11183D,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            20,
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(
+                                            18.0,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Container(
-                                                width: 50,
-                                                height: 50,
-                                                decoration: BoxDecoration(
-                                                  color: Color(
-                                                    int.parse(
-                                                      'FF${expense.category.color.replaceFirst('#', '')}',
-                                                      radix: 16,
+                                              Row(
+                                                children: [
+                                                  Stack(
+                                                    alignment: Alignment.center,
+                                                    children: [
+                                                      Container(
+                                                        width: 50,
+                                                        height: 50,
+                                                        decoration: BoxDecoration(
+                                                          color: Color(
+                                                            int.parse(
+                                                              'FF${expense.category.color.replaceFirst('#', '')}',
+                                                              radix: 16,
+                                                            ),
+                                                          ),
+                                                          shape: BoxShape.circle,
+                                                        ),
+                                                      ),
+
+                                                      Icon(
+                                                        getIconByName(
+                                                          expense.category.icon,
+                                                        ),
+                                                      ),
+
+                                                      //   const Icon(
+                                                      //     Icons.fastfood,
+                                                      //     color: Colors.black,
+                                                      //   ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 12,
+                                                  ),
+                                                  Text(
+                                                    expense.category.name,
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.w600,
                                                     ),
                                                   ),
-                                                  shape: BoxShape.circle,
-                                                ),
+                                                ],
                                               ),
-
-                                              Icon(
-                                                getIconByName(
-                                                  expense.category.icon,
-                                                ),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                    "₹ ${expense.amount.toStringAsFixed(2)}",
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Color(
+                                                        0xFFB8BFD6,
+                                                      ),
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                  // Text(
+                                                  //   DateFormat(
+                                                  //     'dd/MM/yyyy',
+                                                  //   ).format(
+                                                  //     expense.date,
+                                                  //   ),
+                                                  //   style: TextStyle(
+                                                  //     fontSize: 18,
+                                                  //     color: Color(
+                                                  //       0xFF7F89AE,
+                                                  //     ),
+                                                  //     fontWeight: FontWeight.w600,
+                                                  //   ),
+                                                  // ),
+                                                  Text(
+                                                    expense.paymentMethod,
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Color(
+                                                        0xFF7F89AE,
+                                                      ),
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-
-                                              //   const Icon(
-                                              //     Icons.fastfood,
-                                              //     color: Colors.black,
-                                              //   ),
                                             ],
                                           ),
-                                          const SizedBox(
-                                            width: 12,
-                                          ),
-                                          Text(
-                                            expense.category.name,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            "₹ ${expense.amount.toStringAsFixed(2)}",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Color(
-                                                0xFFB8BFD6,
-                                              ),
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                          Text(
-                                            DateFormat(
-                                              'dd/MM/yyyy',
-                                            ).format(
-                                              expense.date,
-                                            ),
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Color(
-                                                0xFF7F89AE,
-                                              ),
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                          Text(
-                                            expense.paymentMethod,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Color(
-                                                0xFF7F89AE,
-                                              ),
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                    );
+                                  },
                                 ),
-                              ),
+                              ],
                             );
                           },
                     ),
