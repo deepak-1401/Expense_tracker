@@ -127,92 +127,101 @@ class _MychartState
       );
     }
 
-    return SizedBox(
-      width: MediaQuery.of(
-        context,
-      ).size.width,
-      height: 320,
-      child: SfCartesianChart(
-        backgroundColor: Colors.transparent,
-        plotAreaBorderWidth: 0,
+    return Column(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(
+            context,
+          ).size.width,
+          height: 320,
+          child: SfCartesianChart(
+            backgroundColor: Colors.transparent,
+            plotAreaBorderWidth: 0,
 
-        primaryXAxis: CategoryAxis(
-          isInversed: true,
-          majorGridLines: const MajorGridLines(
-            width: 0,
-          ),
-          labelStyle: const TextStyle(
-            color: Colors.white70,
-            fontSize: 12,
-          ),
-        ),
-
-        primaryYAxis: NumericAxis(
-          isVisible: false,
-          majorGridLines: const MajorGridLines(
-            width: 0,
-          ),
-        ),
-
-        tooltipBehavior: TooltipBehavior(
-          enable: true,
-        ),
-
-        series:
-            <
-              CartesianSeries
-            >[
-              BarSeries<
-                ChartData,
-                String
-              >(
-                dataSource: chartData,
-
-                xValueMapper:
-                    (
-                      ChartData data,
-                      _,
-                    ) => data.category,
-
-                yValueMapper:
-                    (
-                      ChartData data,
-                      _,
-                    ) => data.amount,
-
-                dataLabelSettings: const DataLabelSettings(
-                  isVisible: true,
-                  labelAlignment: ChartDataLabelAlignment.outer,
-                  textStyle: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                    Theme.of(
-                      context,
-                    ).colorScheme.secondary,
-                    Theme.of(
-                      context,
-                    ).colorScheme.primary,
-                    Theme.of(
-                      context,
-                    ).colorScheme.tertiary,
-                  ],
-                ),
-
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(
-                    12,
-                  ),
-                ),
+            primaryXAxis: CategoryAxis(
+              isInversed: true,
+              majorGridLines: const MajorGridLines(
+                width: 0,
               ),
-            ],
-      ),
+              labelStyle: const TextStyle(
+                color: Colors.white70,
+                fontSize: 12,
+              ),
+            ),
+
+            primaryYAxis: NumericAxis(
+              isVisible: false,
+              majorGridLines: const MajorGridLines(
+                width: 0,
+              ),
+            ),
+
+            tooltipBehavior: TooltipBehavior(
+              enable: true,
+            ),
+
+            series:
+                <
+                  CartesianSeries
+                >[
+                  BarSeries<
+                    ChartData,
+                    String
+                  >(
+                    dataSource: chartData,
+
+                    xValueMapper:
+                        (
+                          ChartData data,
+                          _,
+                        ) => data.category,
+
+                    yValueMapper:
+                        (
+                          ChartData data,
+                          _,
+                        ) => data.amount,
+
+                    dataLabelSettings: const DataLabelSettings(
+                      isVisible: true,
+                      labelAlignment: ChartDataLabelAlignment.outer,
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        Theme.of(
+                          context,
+                        ).colorScheme.secondary,
+                        Theme.of(
+                          context,
+                        ).colorScheme.primary,
+                        Theme.of(
+                          context,
+                        ).colorScheme.tertiary,
+                      ],
+                    ),
+
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(
+                        12,
+                      ),
+                    ),
+                  ),
+                ],
+          ),
+        ),
+        // const Divider(
+        //   color: Colors.white24,
+        //   thickness: 1,
+        //   height: 40,
+        // ),
+      ],
     );
   }
 }

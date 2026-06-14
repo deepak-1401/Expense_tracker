@@ -24,40 +24,6 @@ class MySpendingChart
     super.key,
   });
 
-  // final List<
-  //   SpendingTrendData
-  // >
-  // chartData = [
-  //   SpendingTrendData(
-  //     day: 1,
-  //     amount: 400,
-  //   ),
-  //   SpendingTrendData(
-  //     day: 5,
-  //     amount: 900,
-  //   ),
-  //   SpendingTrendData(
-  //     day: 10,
-  //     amount: 650,
-  //   ),
-  //   SpendingTrendData(
-  //     day: 15,
-  //     amount: 1200,
-  //   ),
-  //   SpendingTrendData(
-  //     day: 20,
-  //     amount: 850,
-  //   ),
-  //   SpendingTrendData(
-  //     day: 25,
-  //     amount: 1500,
-  //   ),
-  //   SpendingTrendData(
-  //     day: 30,
-  //     amount: 1000,
-  //   ),
-  // ];
-
   @override
   Widget build(
     BuildContext context,
@@ -261,6 +227,11 @@ class MySpendingChart
                         ],
                   ),
           ),
+        ),
+        const Divider(
+          color: Colors.white24,
+          thickness: 1,
+          height: 40,
         ),
       ],
     );
