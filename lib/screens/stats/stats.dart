@@ -1,5 +1,4 @@
-import 'dart:math';
-
+//import 'dart:math';
 import 'package:budget_manager/blocs/get_expenses_bloc/get_expenses_bloc.dart';
 import 'package:budget_manager/screens/stats/Bar_chart.dart';
 import 'package:budget_manager/screens/stats/SpendingTrendChart.dart';
@@ -122,7 +121,9 @@ class _StatScreenState
                             const SizedBox(
                               height: 12,
                             ),
-                            MySpendingChart(),
+                            MySpendingChart(
+                              expenses: state.expenses,
+                            ),
                           ],
                         ),
                       ),
