@@ -1,8 +1,8 @@
 //import 'dart:math';
 import 'package:budget_manager/blocs/get_expenses_bloc/get_expenses_bloc.dart';
-import 'package:budget_manager/screens/stats/Bar_chart.dart';
+import 'package:budget_manager/screens/stats/top_5_expense_chart.dart';
 import 'package:budget_manager/screens/stats/SpendingTrendChart.dart';
-import 'package:budget_manager/screens/stats/category_breakdown_chart.dart';
+import 'package:budget_manager/screens/stats/Payment_Method_Split_Chart.dart';
 import 'package:budget_manager/screens/stats/summary_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,77 +60,26 @@ class _StatScreenState
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-
-                            const SizedBox(
-                              height: 24,
+                            Divider(
+                              color: Colors.white24,
+                              thickness: 1,
+                              height: 40,
                             ),
 
                             SummaryCardLayout(
                               expenses: state.expenses,
                             ),
 
-                            const SizedBox(
-                              height: 28,
-                            ),
-
-                            const Text(
-                              "Top 5 Expenses",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-
-                            const SizedBox(
-                              height: 12,
-                            ),
-
-                            Container(
-                              width: MediaQuery.of(
-                                context,
-                              ).size.width,
-                              height: MediaQuery.of(
-                                context,
-                              ).size.width,
-                              padding: const EdgeInsets.all(
-                                16.0,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(
-                                  0xff10173A,
-                                ),
-                                borderRadius: BorderRadius.circular(
-                                  20,
-                                ),
-                              ),
-                              child: Mychart(
-                                expenses: state.expenses,
-                              ),
-                            ),
-                            // SizedBox(
-                            //   height: 28,
-                            // ),
-                            // const Text(
-                            //   "Spending Trend",
-                            //   style: TextStyle(
-                            //     color: Colors.white,
-                            //     fontSize: 18,
-                            //     fontWeight: FontWeight.bold,
-                            //   ),
-                            // ),
-                            const SizedBox(
-                              height: 12,
-                            ),
                             MySpendingChart(
                               expenses: state.expenses,
                             ),
-
-                            const SizedBox(
-                              height: 28,
+                            Mychart(
+                              expenses: state.expenses,
                             ),
 
-                            CategoryBreakdownChart(),
+                            PaymentMethodSplitChart(
+                              expenses: state.expenses,
+                            ),
                           ],
                         ),
                       ),
