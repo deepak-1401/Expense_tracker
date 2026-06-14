@@ -21,11 +21,19 @@ class StatScreen
   createState() => _StatScreenState();
 }
 
+enum AnalyticsPeriod {
+  today,
+  week,
+  month,
+  year,
+}
+
 class _StatScreenState
     extends
         State<
           StatScreen
         > {
+  AnalyticsPeriod selectedPeriod = AnalyticsPeriod.month;
   @override
   Widget build(
     BuildContext context,
@@ -65,7 +73,60 @@ class _StatScreenState
                               thickness: 1,
                               height: 40,
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: AnalyticsPeriod.values.map(
+                                (
+                                  period,
+                                ) {
+                                  final isSelected =
+                                      selectedPeriod ==
+                                      period;
 
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(
+                                        () {
+                                          selectedPeriod = period;
+                                        },
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? Theme.of(
+                                                context,
+                                              ).colorScheme.primary
+                                            : Colors.white.withOpacity(
+                                                0.08,
+                                              ),
+                                        borderRadius: BorderRadius.circular(
+                                          20,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        period.name.toUpperCase(),
+                                        style: TextStyle(
+                                          color: isSelected
+                                              ? Colors.white
+                                              : Colors.white70,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ).toList(),
+                            ),
+                            Divider(
+                              color: Colors.white24,
+                              thickness: 1,
+                              height: 40,
+                            ),
                             SummaryCardLayout(
                               expenses: state.expenses,
                             ),
