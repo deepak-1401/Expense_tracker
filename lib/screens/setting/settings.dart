@@ -3,6 +3,7 @@ import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart'
     hide
         LogOutRequired;
 import 'package:budget_manager/screens/setting/setting_section_UI/currency_page.dart';
+import 'package:budget_manager/screens/setting/setting_section_UI/privacy_policy_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/terms_conditions_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/theme_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -813,6 +814,100 @@ class _SettingState
                         Icons.arrow_forward_ios_outlined,
                         color: Colors.white,
                         size: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                width:
+                    MediaQuery.of(
+                      context,
+                    ).size.width *
+                    0.9,
+                padding: const EdgeInsets.all(
+                  16,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(
+                    0xFF161D47,
+                  ),
+                  borderRadius: BorderRadius.circular(
+                    20,
+                  ),
+                ),
+
+                child: Row(
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: const Color(
+                          0xFF06B6D4,
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          30,
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.privacy_tip_outlined,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Privacy Policy",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+
+                          Text(
+                            "View our privacy policy",
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(
+                        8,
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (
+                                    context,
+                                  ) => const PrivacyPolicyScreen(),
+                            ),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.arrow_forward_ios_outlined,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ],
