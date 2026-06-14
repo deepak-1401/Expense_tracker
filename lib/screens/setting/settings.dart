@@ -509,7 +509,7 @@ class _SettingState
               SizedBox(
                 height: 15,
               ),
-              Container(
+              SizedBox(
                 width:
                     MediaQuery.of(
                       context,
@@ -619,7 +619,7 @@ class _SettingState
               SizedBox(
                 height: 15,
               ),
-              Container(
+              SizedBox(
                 width:
                     MediaQuery.of(
                       context,
@@ -673,7 +673,7 @@ class _SettingState
                       height: 60,
                       decoration: BoxDecoration(
                         color: const Color(
-                          0xFF4F46E5,
+                          0xFF7C3AED,
                         ),
                         borderRadius: BorderRadius.circular(
                           30,
@@ -768,7 +768,7 @@ class _SettingState
                       height: 60,
                       decoration: BoxDecoration(
                         color: const Color(
-                          0xFF06B6D4,
+                          0xFF10B981,
                         ),
                         borderRadius: BorderRadius.circular(
                           30,
@@ -863,7 +863,7 @@ class _SettingState
                       height: 60,
                       decoration: BoxDecoration(
                         color: const Color(
-                          0xFF06B6D4,
+                          0xFF2563EB,
                         ),
                         borderRadius: BorderRadius.circular(
                           30,
@@ -958,7 +958,7 @@ class _SettingState
                       height: 60,
                       decoration: BoxDecoration(
                         color: const Color(
-                          0xFF06B6D4,
+                          0xFFF59E0B,
                         ),
                         borderRadius: BorderRadius.circular(
                           30,
