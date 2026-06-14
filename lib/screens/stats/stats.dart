@@ -4,6 +4,7 @@ import 'package:budget_manager/screens/stats/top_5_expense_chart.dart';
 import 'package:budget_manager/screens/stats/SpendingTrendChart.dart';
 import 'package:budget_manager/screens/stats/Payment_Method_Split_Chart.dart';
 import 'package:budget_manager/screens/stats/summary_card.dart';
+import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,6 +35,75 @@ class _StatScreenState
           StatScreen
         > {
   AnalyticsPeriod selectedPeriod = AnalyticsPeriod.month;
+  List<
+    Expense
+  >
+  applyAnalyticsFilter(
+    List<
+      Expense
+    >
+    expenses,
+  ) {
+    final now = DateTime.now();
+
+    return expenses.where(
+      (
+        expense,
+      ) {
+        final expenseDate = expense.date;
+
+        if (selectedPeriod ==
+            AnalyticsPeriod.today) {
+          return expenseDate.year ==
+                  now.year &&
+              expenseDate.month ==
+                  now.month &&
+              expenseDate.day ==
+                  now.day;
+        }
+        if (selectedPeriod ==
+            AnalyticsPeriod.week) {
+          final startOfWeek = now.subtract(
+            Duration(
+              days:
+                  now.weekday -
+                  1,
+            ),
+          );
+
+          final endOfWeek = startOfWeek.add(
+            const Duration(
+              days: 6,
+            ),
+          );
+
+          return !expenseDate.isBefore(
+                startOfWeek,
+              ) &&
+              !expenseDate.isAfter(
+                endOfWeek,
+              );
+        }
+
+        if (selectedPeriod ==
+            AnalyticsPeriod.month) {
+          return expenseDate.year ==
+                  now.year &&
+              expenseDate.month ==
+                  now.month;
+        }
+
+        if (selectedPeriod ==
+            AnalyticsPeriod.year) {
+          return expenseDate.year ==
+              now.year;
+        }
+
+        return true;
+      },
+    ).toList();
+  }
+
   @override
   Widget build(
     BuildContext context,
@@ -51,6 +121,9 @@ class _StatScreenState
                 ) {
                   if (state
                       is GetExpensesSuccess) {
+                    final filteredExpenses = applyAnalyticsFilter(
+                      state.expenses,
+                    );
                     return SingleChildScrollView(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -101,8 +174,8 @@ class _StatScreenState
                                             ? Theme.of(
                                                 context,
                                               ).colorScheme.primary
-                                            : Colors.white.withOpacity(
-                                                0.08,
+                                            : Colors.white.withValues(
+                                                alpha: 0.08,
                                               ),
                                         borderRadius: BorderRadius.circular(
                                           20,
@@ -128,18 +201,18 @@ class _StatScreenState
                               height: 40,
                             ),
                             SummaryCardLayout(
-                              expenses: state.expenses,
+                              expenses: filteredExpenses,
                             ),
 
                             MySpendingChart(
-                              expenses: state.expenses,
+                              expenses: filteredExpenses,
                             ),
                             Mychart(
-                              expenses: state.expenses,
+                              expenses: filteredExpenses,
                             ),
 
                             PaymentMethodSplitChart(
-                              expenses: state.expenses,
+                              expenses: filteredExpenses,
                             ),
                           ],
                         ),
