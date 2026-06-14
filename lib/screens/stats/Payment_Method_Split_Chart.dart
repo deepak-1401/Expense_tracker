@@ -1,5 +1,6 @@
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class PaymentMethodData {
@@ -31,18 +32,18 @@ class PaymentMethodSplitChart
   Widget build(
     BuildContext context,
   ) {
-    final now = DateTime.now();
+    // final now = DateTime.now();
 
-    final currentMonthExpenses = expenses.where(
-      (
-        expense,
-      ) {
-        return expense.date.month ==
-                now.month &&
-            expense.date.year ==
-                now.year;
-      },
-    ).toList();
+    // final currentMonthExpenses = expenses.where(
+    //   (
+    //     expense,
+    //   ) {
+    //     return expense.date.month ==
+    //             now.month &&
+    //         expense.date.year ==
+    //             now.year;
+    //   },
+    // ).toList();
 
     final Map<
       String,
@@ -54,7 +55,7 @@ class PaymentMethodSplitChart
       "Cash": 0,
     };
 
-    for (var expense in currentMonthExpenses) {
+    for (var expense in expenses) {
       final method = expense.paymentMethod.toLowerCase().trim();
 
       if (method ==
@@ -120,6 +121,17 @@ class PaymentMethodSplitChart
           sum +
           item.amount,
     );
+    String formatCurrency(
+      double amount,
+    ) {
+      return NumberFormat.currency(
+        locale: 'en_IN',
+        symbol: '₹',
+        decimalDigits: 0,
+      ).format(
+        amount,
+      );
+    }
 
     Widget legendItem({
       required Color color,
@@ -203,7 +215,7 @@ class PaymentMethodSplitChart
           child: chartData.isEmpty
               ? const Center(
                   child: Text(
-                    "No payment data this month",
+                    "No payment data available for the selected period.",
                     style: TextStyle(
                       color: Colors.white54,
                       fontSize: 13,
@@ -217,15 +229,42 @@ class PaymentMethodSplitChart
                       child: SfCircularChart(
                         tooltipBehavior: TooltipBehavior(
                           enable: true,
-                          color: const Color(
-                            0xFF1B2145,
+                          color: Color(
+                            0xff10173A,
                           ),
-                          borderWidth: 0,
-                          textStyle: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          builder:
+                              (
+                                data,
+                                point,
+                                series,
+                                pointIndex,
+                                seriesIndex,
+                              ) {
+                                final paymentData =
+                                    data
+                                        as PaymentMethodData;
+
+                                return Container(
+                                  padding: const EdgeInsets.all(
+                                    10,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color(
+                                      0xff10173A,
+                                    ),
+                                    borderRadius: BorderRadius.circular(
+                                      10,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    '${paymentData.method}\n₹${paymentData.amount.toStringAsFixed(0)}',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                );
+                              },
                         ),
                         series:
                             <
@@ -255,7 +294,39 @@ class PaymentMethodSplitChart
                                       _,
                                     ) => data.color,
                                 radius: '85%',
-                                innerRadius: '55%',
+                                innerRadius: '70%',
+                              ),
+                            ],
+                        annotations:
+                            <
+                              CircularChartAnnotation
+                            >[
+                              CircularChartAnnotation(
+                                widget: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      formatCurrency(
+                                        totalAmount,
+                                      ),
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 2,
+                                    ),
+                                    const Text(
+                                      'Total',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white70,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                       ),

@@ -1,5 +1,7 @@
+import 'package:budget_manager/screens/stats/stats.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_repository/expense_repository.dart';
+import 'package:intl/intl.dart';
 
 class SummaryCardLayout
     extends
@@ -8,10 +10,12 @@ class SummaryCardLayout
     Expense
   >
   expenses;
+  final AnalyticsPeriod selectedPeriod;
 
   const SummaryCardLayout({
     super.key,
     required this.expenses,
+    required this.selectedPeriod,
   });
 
   Widget summaryCard({
@@ -151,19 +155,68 @@ class SummaryCardLayout
 
     final topCategoryName =
         topCategoryEntry?.key ??
-        "No data";
+        "--";
     final topCategoryAmount =
         topCategoryEntry?.value ??
         0.0;
 
     //Average Per Day Logic
-    final int currentDay = DateTime.now().day;
-    final double averagePerDay =
-        currentDay ==
-            0
-        ? 0
-        : totalSpent /
-              currentDay;
+    int getAverageDivider() {
+      final now = DateTime.now();
+
+      switch (selectedPeriod) {
+        case AnalyticsPeriod.today:
+          return 24;
+
+        case AnalyticsPeriod.week:
+          return 7;
+
+        case AnalyticsPeriod.month:
+          final daysInMonth = DateTime(
+            now.year,
+            now.month +
+                1,
+            0,
+          ).day;
+          return daysInMonth;
+
+        case AnalyticsPeriod.year:
+          return 12;
+      }
+    }
+
+    final double averageAmount =
+        totalSpent /
+        getAverageDivider();
+
+    String getAverageTitle() {
+      switch (selectedPeriod) {
+        case AnalyticsPeriod.today:
+          return 'Avg / Hour';
+
+        case AnalyticsPeriod.week:
+          return 'Avg / Day';
+
+        case AnalyticsPeriod.month:
+          return 'Avg / Day';
+
+        case AnalyticsPeriod.year:
+          return 'Avg / Month';
+      }
+    }
+
+    String formatCurrency(
+      double amount,
+    ) {
+      return NumberFormat.currency(
+        locale: 'en_IN',
+        symbol: '₹',
+        decimalDigits: 0,
+      ).format(
+        amount,
+      );
+    }
+
     return Column(
       children: [
         const Padding(
@@ -175,6 +228,7 @@ class SummaryCardLayout
             children: [
               Text(
                 "Monthly Summary",
+
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -200,18 +254,25 @@ class SummaryCardLayout
               summaryCard(
                 icon: Icons.local_fire_department_outlined,
                 title: "Highest",
-                value: "₹${highestExpense.toStringAsFixed(0)}",
+                value: formatCurrency(
+                  highestExpense,
+                ),
               ),
               summaryCard(
                 icon: Icons.emoji_events_outlined,
                 title: "Top Category",
+
                 value: topCategoryName,
-                subtitle: "₹${topCategoryAmount.toStringAsFixed(0)}",
+                subtitle: formatCurrency(
+                  topCategoryAmount,
+                ),
               ),
               summaryCard(
                 icon: Icons.calendar_today_outlined,
-                title: "Avg / Day",
-                value: "₹${averagePerDay.toStringAsFixed(0)}",
+                title: getAverageTitle(),
+                value: formatCurrency(
+                  averageAmount,
+                ),
               ),
             ],
           ),
@@ -223,7 +284,9 @@ class SummaryCardLayout
               summaryCard(
                 icon: Icons.account_balance_wallet_outlined,
                 title: "Total Spent",
-                value: "₹${totalSpent.toStringAsFixed(0)}",
+                value: formatCurrency(
+                  totalSpent,
+                ),
               ),
             ],
           ),

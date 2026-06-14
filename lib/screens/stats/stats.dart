@@ -1,7 +1,7 @@
 //import 'dart:math';
 import 'package:budget_manager/blocs/get_expenses_bloc/get_expenses_bloc.dart';
 import 'package:budget_manager/screens/stats/top_5_expense_chart.dart';
-import 'package:budget_manager/screens/stats/SpendingTrendChart.dart';
+import 'package:budget_manager/screens/stats/Spending_Trend_Chart.dart';
 import 'package:budget_manager/screens/stats/Payment_Method_Split_Chart.dart';
 import 'package:budget_manager/screens/stats/summary_card.dart';
 import 'package:expense_repository/expense_repository.dart';
@@ -127,8 +127,8 @@ class _StatScreenState
                     return SingleChildScrollView(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 20.0,
-                          vertical: 20.0,
+                          horizontal: 22.0,
+                          vertical: 22.0,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,10 +202,12 @@ class _StatScreenState
                             ),
                             SummaryCardLayout(
                               expenses: filteredExpenses,
+                              selectedPeriod: selectedPeriod,
                             ),
 
                             MySpendingChart(
                               expenses: filteredExpenses,
+                              selectedPeriod: selectedPeriod,
                             ),
                             Mychart(
                               expenses: filteredExpenses,

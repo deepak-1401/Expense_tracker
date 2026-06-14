@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:expense_repository/expense_repository.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ChartData {
@@ -108,6 +109,18 @@ class _MychartState
         );
       },
     ).toList();
+  }
+
+  String formatCurrency(
+    double amount,
+  ) {
+    return NumberFormat.currency(
+      locale: 'en_IN',
+      symbol: '₹',
+      decimalDigits: 0,
+    ).format(
+      amount,
+    );
   }
 
   @override
