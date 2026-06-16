@@ -20,6 +20,8 @@ class _CurrencyPageState
         State<
           CurrencyPage
         > {
+  String selectedCurrencyCode = "INR";
+
   @override
   Widget build(
     BuildContext context,
@@ -51,6 +53,9 @@ class _CurrencyPageState
                   index,
                 ) {
                   final currency = CurrencyData.currencies[index];
+                  final bool isSelected =
+                      currency['code'] ==
+                      selectedCurrencyCode;
 
                   return Material(
                     color: Colors.transparent,
@@ -62,7 +67,6 @@ class _CurrencyPageState
                           fontSize: 20,
                         ),
                       ),
-
                       title: Text(
                         currency['name']!,
                         style: const TextStyle(
@@ -75,7 +79,23 @@ class _CurrencyPageState
                           color: Colors.grey,
                         ),
                       ),
+
+                      trailing: isSelected
+                          ? const Icon(
+                              Icons.check_circle_rounded,
+                              color: Color(
+                                0xFF9B4EFF,
+                              ),
+                            )
+                          : null,
+
                       onTap: () {
+                        setState(
+                          () {
+                            selectedCurrencyCode = currency['code']!;
+                          },
+                        );
+
                         Navigator.pop(
                           context,
                           currency,

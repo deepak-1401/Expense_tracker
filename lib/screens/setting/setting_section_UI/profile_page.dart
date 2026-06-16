@@ -667,21 +667,66 @@ class _ProfileState
                               ),
                               onPressed: isSaving
                                   ? null
-                                  : saveProfileData,
+                                  : () async {
+                                      setState(
+                                        () {
+                                          isSaving = true;
+                                        },
+                                      );
+
+                                      try {
+                                        // your existing save profile function/code here
+
+                                        if (!mounted) return;
+
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              "Profile updated successfully",
+                                            ),
+                                          ),
+                                        );
+                                      } catch (
+                                        e
+                                      ) {
+                                        if (!mounted) return;
+
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              "Failed to update profile: $e",
+                                            ),
+                                          ),
+                                        );
+                                      } finally {
+                                        if (mounted) {
+                                          setState(
+                                            () {
+                                              isSaving = false;
+                                            },
+                                          );
+                                        }
+                                      }
+                                    },
                               child: isSaving
                                   ? const SizedBox(
-                                      height: 22,
-                                      width: 22,
+                                      width: 20,
+                                      height: 20,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2,
                                         color: Colors.white,
                                       ),
                                     )
                                   : const Text(
-                                      'Save',
+                                      "Save Changes",
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                             ),

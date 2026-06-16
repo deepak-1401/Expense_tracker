@@ -43,6 +43,8 @@ class _SettingState
         State<
           Setting
         > {
+  String selectedCurrency = "Indian Rupee (INR)";
+
   @override
   Widget build(
     BuildContext context,
@@ -192,14 +194,13 @@ class _SettingState
 
               SettingsTile(
                 title: "Currency",
-                subtitle: "Indian Rupee (₹)",
+                subtitle: selectedCurrency,
                 icon: Icons.currency_rupee_rounded,
-
-                iconColor: Color(
-                  0xFF00C896,
+                iconColor: const Color(
+                  0xFF22C55E,
                 ),
                 onTap: () async {
-                  await showDialog(
+                  final result = await showDialog(
                     context: context,
                     builder:
                         (
@@ -208,6 +209,15 @@ class _SettingState
                           return const CurrencyPage();
                         },
                   );
+
+                  if (result !=
+                      null) {
+                    setState(
+                      () {
+                        selectedCurrency = "${result['name']} (${result['code']})";
+                      },
+                    );
+                  }
                 },
               ),
 
