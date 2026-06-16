@@ -1,6 +1,7 @@
 import 'package:budget_manager/core/widget/user_name_text.dart';
 import 'package:budget_manager/models/expense_filter_model.dart';
 import 'package:budget_manager/screens/home/views/expense_filters.dart';
+import 'package:budget_manager/core/widget/user_avatar.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -334,11 +335,10 @@ class _MainScreenState
                             height: 50,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.yellow,
                             ),
                           ),
-                          Icon(
-                            CupertinoIcons.person_fill,
+                          const UserAvatar(
+                            radius: 30,
                           ),
                         ],
                       ),

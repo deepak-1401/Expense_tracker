@@ -1,3 +1,4 @@
+import 'package:budget_manager/screens/setting/widgets/avatar_picker_bottom_sheet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,32 @@ class _ProfileState
         State<
           Profile
         > {
+  String selectedAvatar = 'assets/avatar/avatar0.png';
+  void _showAvatarPicker() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder:
+          (
+            context,
+          ) {
+            return AvatarPickerBottomSheet(
+              selectedAvatar: selectedAvatar,
+              onAvatarSelected:
+                  (
+                    avatar,
+                  ) {
+                    setState(
+                      () {
+                        selectedAvatar = avatar;
+                      },
+                    );
+                  },
+            );
+          },
+    );
+  }
+
   final _formKey =
       GlobalKey<
         FormState
@@ -104,6 +131,9 @@ class _ProfileState
             data['email']?.toString() ??
             user.email ??
             '';
+        selectedAvatar =
+            data['avatar']?.toString() ??
+            'assets/avatar/avatar0.png';
       } else {
         nameController.text =
             user.displayName ??
@@ -195,6 +225,8 @@ class _ProfileState
               'gender': selectedGender,
               'occupation': occupation,
               'email': user.email,
+              'avatar': selectedAvatar,
+
               'updatedAt': FieldValue.serverTimestamp(),
             },
             SetOptions(
@@ -333,11 +365,36 @@ class _ProfileState
                           height: 20,
                         ),
 
-                        const CircleAvatar(
-                          radius: 50,
-                          backgroundImage: AssetImage(
-                            'assets/profile_picture.png',
-                          ),
+                        Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            CircleAvatar(
+                              radius: 50,
+                              backgroundImage: AssetImage(
+                                selectedAvatar,
+                              ),
+                            ),
+
+                            GestureDetector(
+                              onTap: _showAvatarPicker,
+                              child: Container(
+                                padding: const EdgeInsets.all(
+                                  6,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.primary,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.camera_alt_rounded,
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
 
                         const SizedBox(

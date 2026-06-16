@@ -292,7 +292,7 @@ class _LoginScreenState
                       );
                 },
                 icon: Image.asset(
-                  'assets/google_logo.png',
+                  'assets/logos/google_logo.png',
                   height: 50,
                 ),
                 label: const Text(

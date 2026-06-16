@@ -7,17 +7,19 @@ import 'package:budget_manager/screens/setting/setting_section_UI/about_app_scre
 import 'package:budget_manager/screens/setting/setting_section_UI/change_password_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/currency_page.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/help_support_screen.dart';
+import 'package:budget_manager/screens/setting/setting_section_UI/logout_dialog.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/privacy_policy_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/terms_conditions_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/theme_page.dart';
+import 'package:budget_manager/screens/setting/widgets/section_title.dart';
 import 'package:budget_manager/screens/setting/widgets/settings_profile_header.dart';
+import 'package:budget_manager/core/widget/user_avatar.dart';
+import 'package:budget_manager/screens/setting/widgets/settings_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/profile_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Setting
     extends
@@ -51,1096 +53,380 @@ class _SettingState
           child: Column(
             children: [
               const Padding(
-                padding: EdgeInsets.all(
-                  8.0,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Setting',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
+
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Settings',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
+                  ),
                 ),
               ),
               const SizedBox(
-                height: 15,
+                height: 12,
+              ),
+              sectionTitle(
+                "PROFILE",
               ),
 
-              Container(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.9,
-                child: Padding(
+              const SizedBox(
+                height: 12,
+              ),
+
+              InkWell(
+                borderRadius: BorderRadius.circular(
+                  20,
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (
+                            context,
+                          ) => const Profile(),
+                    ),
+                  );
+                },
+                child: Container(
+                  width:
+                      MediaQuery.of(
+                        context,
+                      ).size.width *
+                      0.9,
                   padding: const EdgeInsets.all(
-                    8.0,
+                    16,
+                  ),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(
+                          0xFF161D47,
+                        ),
+                        Color(
+                          0xFF1F2960,
+                        ),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(
+                      20,
+                    ),
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        "Profile",
-                        style: TextStyle(
+                      Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: const Color(
+                            0xFF9B4EFF,
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            30,
+                          ),
+                        ),
+                        child: const UserAvatar(
+                          radius: 30,
+                        ),
+                      ),
+
+                      const SizedBox(
+                        width: 15,
+                      ),
+
+                      const Expanded(
+                        child: SettingsProfileHeader(),
+                      ),
+
+                      CircleAvatar(
+                        radius: 18,
+                        backgroundColor: Colors.transparent,
+                        child: const Icon(
+                          Icons.arrow_forward_ios_outlined,
                           color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          size: 16,
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
+
+              sectionTitle(
+                "GENERAL",
+              ),
+
+              const SizedBox(
+                height: 12,
+              ),
+              SettingsTile(
+                title: "Theme",
+                subtitle: "Dark",
+                icon: CupertinoIcons.sun_max_fill,
+                iconColor: const Color(
+                  0xFF9B4EFF,
+                ),
+                onTap: () async {
+                  await showDialog(
+                    context: context,
+                    builder:
+                        (
+                          context,
+                        ) {
+                          return const ThemePage();
+                        },
+                  );
+                },
+              ),
+
+              const SizedBox(
+                height: 12,
+              ),
+
+              SettingsTile(
+                title: "Currency",
+                subtitle: "Indian Rupee (₹)",
+                icon: Icons.currency_rupee_rounded,
+
+                iconColor: Color(
+                  0xFF00C896,
+                ),
+                onTap: () async {
+                  await showDialog(
+                    context: context,
+                    builder:
+                        (
+                          context,
+                        ) {
+                          return const CurrencyPage();
+                        },
+                  );
+                },
+              ),
+
+              const SizedBox(
+                height: 12,
+              ),
+              SettingsTile(
+                title: "Notification",
+                subtitle: "Manage your notification",
+                icon: Icons.notifications_none_rounded,
+
+                iconColor: Color(
+                  0xFFFF9A3D,
+                ),
+                onTap: () {},
+                trailing: Switch(
+                  value: notificationsEnabled,
+                  onChanged:
+                      (
+                        value,
+                      ) {
+                        setState(
+                          () {
+                            notificationsEnabled = value;
+                          },
+                        );
+                      },
+                ),
+              ),
+
+              sectionTitle(
+                "ACCOUNT",
+              ),
+
+              const SizedBox(
+                height: 12,
+              ),
+              SettingsTile(
+                title: "Change Password",
+                subtitle: "Update your password",
+                icon: Icons.lock_outline,
+                iconColor: Color(
+                  0xFF2563EB,
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (
+                            context,
+                          ) => BlocProvider(
+                            create:
+                                (
+                                  context,
+                                ) => ChangePasswordBloc(
+                                  userRepository: context
+                                      .read<
+                                        UserRepository
+                                      >(),
+                                ),
+                            child: const ChangePasswordScreen(),
+                          ),
+                    ),
+                  );
+                },
+              ),
+
+              sectionTitle(
+                "ABOUT",
+              ),
+
+              const SizedBox(
+                height: 12,
+              ),
+              SettingsTile(
+                title: "Terms & Conditions",
+                subtitle: "Review our terms and conditions",
+                icon: CupertinoIcons.doc_fill,
+                iconColor: Color(
+                  0xFF7C3AED,
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (
+                            context,
+                          ) => const TermsConditionsScreen(),
+                    ),
+                  );
+                },
+              ),
+
+              const SizedBox(
+                height: 12,
+              ),
+
+              SettingsTile(
+                title: "Help & Support",
+                subtitle: "Get help and support",
+                icon: CupertinoIcons.question_circle,
+                iconColor: Color(
+                  0xFF10B981,
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (
+                            context,
+                          ) => const HelpSupportScreen(),
+                    ),
+                  );
+                },
+              ),
+
+              const SizedBox(
+                height: 12,
+              ),
+
+              SettingsTile(
+                title: "Privacy Policy",
+                subtitle: "View our privacy policy",
+                icon: Icons.privacy_tip_outlined,
+
+                iconColor: Color(
+                  0xFF2563EB,
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (
+                            context,
+                          ) => const PrivacyPolicyScreen(),
+                    ),
+                  );
+                },
+              ),
+
+              const SizedBox(
+                height: 12,
+              ),
+
+              SettingsTile(
+                title: "About App",
+                subtitle: "Learn more about the app",
+                icon: Icons.info_outline,
+                iconColor: Color(
+                  0xFFF59E0B,
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (
+                            context,
+                          ) => const AboutAppScreen(),
+                    ),
+                  );
+                },
+              ),
+
+              const SizedBox(
+                height: 35,
+              ),
+              SettingsTile(
+                title: "Logout",
+                subtitle: "Sign out of your account",
+                icon: CupertinoIcons.power,
+                iconColor: Color(
+                  0xFFE11D48,
+                ),
+                onTap: () {
+                  showLogoutDialog(
+                    context,
+                  );
+                },
+              ),
+              sectionTitle(
+                "App Info",
+              ),
+
               const SizedBox(
                 height: 10,
               ),
-              Container(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.9,
-                padding: const EdgeInsets.all(
-                  16,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(
-                    0xFF161D47,
+
+              Column(
+                children: [
+                  Text(
+                    'Expense Tracker',
+                    style: TextStyle(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(
-                    20,
+
+                  const SizedBox(
+                    height: 4,
                   ),
-                ),
-                child: Row(
-                  children: [
-                    // Avatar
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: const Color(
-                          0xFF9B4EFF,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          30,
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.person,
-                        color: Colors.white,
-                        size: 30,
-                      ),
+
+                  Text(
+                    'Version 1.0.0',
+                    style: TextStyle(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.outline,
+                      fontSize: 12,
                     ),
-
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    const SettingsProfileHeader(),
-                    // Name & Email
-                    // Expanded(
-                    //   child: Column(
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children: const [
-                    //       Text(
-                    //         "Deepak",
-                    //         style: TextStyle(
-                    //           color: Colors.white,
-                    //           fontSize: 18,
-                    //           fontWeight: FontWeight.bold,
-                    //         ),
-                    //       ),
-
-                    //       SizedBox(
-                    //         height: 4,
-                    //       ),
-
-                    //       Text(
-                    //         "deepak@gmail.com",
-                    //         style: TextStyle(
-                    //           color: Colors.grey,
-                    //           fontSize: 13,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-
-                    // Edit Button
-                    Container(
-                      padding: const EdgeInsets.all(
-                        8,
-                      ),
-
-                      // decoration: BoxDecoration(
-                      //   color: const Color(
-                      //     0xFF9B4EFF,
-                      //   ),
-                      //   borderRadius: BorderRadius.circular(
-                      //     10,
-                      //   ),
-                      // ),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (
-                                    context,
-                                  ) => const Profile(),
-                            ),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              // SizedBox(
-              //   height: 0,
-              // ),
-              Container(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.9,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8.0,
-                    vertical: 4.0,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "General",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.9,
-                padding: const EdgeInsets.all(
-                  16,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(
-                    0xFF161D47,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                    20,
-                  ),
-                ),
-
-                child: Row(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: const Color(
-                          0xFF9B4EFF,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          30,
-                        ),
-                      ),
-                      child: const Icon(
-                        CupertinoIcons.sun_max_fill,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Theme",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-
-                          Text(
-                            "Dark",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(
-                        8.0,
-                      ),
-                      child: IconButton(
-                        onPressed: () async {
-                          await showDialog(
-                            context: context,
-                            builder:
-                                (
-                                  context,
-                                ) {
-                                  return const ThemePage();
-                                },
-                          );
-                        },
-
-                        icon: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.9,
-                padding: const EdgeInsets.all(
-                  16,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(
-                    0xFF161D47,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                    20,
-                  ),
-                ),
-
-                child: Row(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: const Color(
-                          0xFF00C896,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          30,
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.currency_rupee_rounded,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Currency",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-
-                          Text(
-                            "Indian Rupee (₹)",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    Container(
-                      padding: const EdgeInsets.all(
-                        8,
-                      ),
-                      child: IconButton(
-                        onPressed: () async {
-                          await showDialog(
-                            context: context,
-                            builder:
-                                (
-                                  context,
-                                ) {
-                                  return const CurrencyPage();
-                                },
-                          );
-                        },
-                        icon: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.9,
-                padding: const EdgeInsets.all(
-                  16,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(
-                    0xFF161D47,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                    20,
-                  ),
-                ),
-
-                child: Row(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: const Color(
-                          0xFFFF9A3D,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          30,
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.lock_outline,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Notification",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-
-                          Text(
-                            "Manage your notification",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Switch(
-                      value: notificationsEnabled,
-                      onChanged:
-                          (
-                            value,
-                          ) {
-                            setState(
-                              () {
-                                notificationsEnabled = value;
-                              },
-                            );
-                          },
-                    ),
-                  ],
-                ),
-              ),
-
-              SizedBox(
-                height: 15,
-              ),
-              SizedBox(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.9,
-                child: Padding(
-                  padding: const EdgeInsets.all(
-                    8.0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Account",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.9,
-                padding: const EdgeInsets.all(
-                  16,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(
-                    0xFF161D47,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                    20,
-                  ),
-                ),
-
-                child: Row(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: const Color(
-                          0xFF2563EB,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          30,
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.lock_outline,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Change Password",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-
-                          Text(
-                            "Update your password",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(
-                        8,
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (
-                                    context,
-                                  ) => BlocProvider(
-                                    create:
-                                        (
-                                          context,
-                                        ) => ChangePasswordBloc(
-                                          userRepository: context
-                                              .read<
-                                                UserRepository
-                                              >(),
-                                        ),
-                                    child: const ChangePasswordScreen(),
-                                  ),
-                            ),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              SizedBox(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.9,
-                child: Padding(
-                  padding: const EdgeInsets.all(
-                    8.0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "About",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.9,
-                padding: const EdgeInsets.all(
-                  16,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(
-                    0xFF161D47,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                    20,
-                  ),
-                ),
-
-                child: Row(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: const Color(
-                          0xFF7C3AED,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          30,
-                        ),
-                      ),
-                      child: const Icon(
-                        CupertinoIcons.doc_fill,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Terms & Conditions",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-
-                          Text(
-                            "Review our terms and conditions",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(
-                        8,
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (
-                                    context,
-                                  ) => const TermsConditionsScreen(),
-                            ),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.9,
-                padding: const EdgeInsets.all(
-                  16,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(
-                    0xFF161D47,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                    20,
-                  ),
-                ),
-
-                child: Row(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: const Color(
-                          0xFF10B981,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          30,
-                        ),
-                      ),
-                      child: const Icon(
-                        CupertinoIcons.question_circle,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Help & Support",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-
-                          Text(
-                            "Get help and support",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(
-                        8,
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (
-                                    context,
-                                  ) => const HelpSupportScreen(),
-                            ),
-                          );
-                        },
-
-                        icon: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.9,
-                padding: const EdgeInsets.all(
-                  16,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(
-                    0xFF161D47,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                    20,
-                  ),
-                ),
-
-                child: Row(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: const Color(
-                          0xFF2563EB,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          30,
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.privacy_tip_outlined,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Privacy Policy",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-
-                          Text(
-                            "View our privacy policy",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(
-                        8,
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (
-                                    context,
-                                  ) => const PrivacyPolicyScreen(),
-                            ),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.9,
-                padding: const EdgeInsets.all(
-                  16,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(
-                    0xFF161D47,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                    20,
-                  ),
-                ),
-
-                child: Row(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: const Color(
-                          0xFFF59E0B,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          30,
-                        ),
-                      ),
-                      child: const Icon(
-                        Icons.info_outline,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "About App",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-
-                          Text(
-                            "Learn more about the app",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(
-                        8,
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (
-                                    context,
-                                  ) => const AboutAppScreen(),
-                            ),
-                          );
-                        },
-                        icon: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(
-                height: 30,
-              ),
-              Container(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.9,
-                padding: const EdgeInsets.all(
-                  16,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(
-                    0xFF161D47,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                    20,
-                  ),
-                ),
-
-                child: Row(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: const Color(
-                          0xFFE11D48,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          30,
-                        ),
-                      ),
-                      child: const Icon(
-                        CupertinoIcons.power,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Expanded(
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          alignment: Alignment.centerLeft,
-                        ),
-                        onPressed: () {
-                          context
-                              .read<
-                                AuthenticationBloc
-                              >()
-                              .add(
-                                const LogOutRequired(),
-                              );
-                        },
-
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Logout",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-
-                            Text(
-                              "Sign out of your account",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                ],
               ),
             ],
           ),
