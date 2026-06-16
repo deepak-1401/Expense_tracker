@@ -129,11 +129,11 @@ class _LoginScreenState
                       if (value!.isEmpty) {
                         return 'Please enter your password';
                       } else if (!RegExp(
-                        r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$',
+                        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$',
                       ).hasMatch(
                         value,
                       )) {
-                        return 'Password must be a combination of letters and numbers';
+                        return 'Password must contain uppercase, lowercase, number, and special character';
                       }
                       return null;
                     },

@@ -1,7 +1,8 @@
 import 'package:budget_manager/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart'
-    hide
-        LogOutRequired;
+import 'package:budget_manager/blocs/change_password_bloc/change_password_bloc.dart';
+// import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart'
+//     hide
+//         LogOutRequired;
 import 'package:budget_manager/screens/setting/setting_section_UI/about_app_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/change_password_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/currency_page.dart';
@@ -9,10 +10,14 @@ import 'package:budget_manager/screens/setting/setting_section_UI/help_support_s
 import 'package:budget_manager/screens/setting/setting_section_UI/privacy_policy_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/terms_conditions_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/theme_page.dart';
+import 'package:budget_manager/screens/setting/widgets/settings_profile_header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/profile_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_repository/user_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Setting
     extends
@@ -135,35 +140,35 @@ class _SettingState
                     const SizedBox(
                       width: 15,
                     ),
-
+                    const SettingsProfileHeader(),
                     // Name & Email
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Deepak",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                    // Expanded(
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: const [
+                    //       Text(
+                    //         "Deepak",
+                    //         style: TextStyle(
+                    //           color: Colors.white,
+                    //           fontSize: 18,
+                    //           fontWeight: FontWeight.bold,
+                    //         ),
+                    //       ),
 
-                          SizedBox(
-                            height: 4,
-                          ),
+                    //       SizedBox(
+                    //         height: 4,
+                    //       ),
 
-                          Text(
-                            "deepak@gmail.com",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    //       Text(
+                    //         "deepak@gmail.com",
+                    //         style: TextStyle(
+                    //           color: Colors.grey,
+                    //           fontSize: 13,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
 
                     // Edit Button
                     Container(
@@ -616,7 +621,18 @@ class _SettingState
                               builder:
                                   (
                                     context,
-                                  ) => const ChangePasswordScreen(),
+                                  ) => BlocProvider(
+                                    create:
+                                        (
+                                          context,
+                                        ) => ChangePasswordBloc(
+                                          userRepository: context
+                                              .read<
+                                                UserRepository
+                                              >(),
+                                        ),
+                                    child: const ChangePasswordScreen(),
+                                  ),
                             ),
                           );
                         },

@@ -1,5 +1,7 @@
+import 'package:budget_manager/blocs/change_password_bloc/change_password_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChangePasswordScreen
     extends
@@ -117,7 +119,7 @@ class _ChangePasswordScreenState
             ? Colors.green
             : Theme.of(
                 context,
-              ).colorScheme.onBackground,
+              ).colorScheme.onSurface,
         fontSize: 13,
       ),
     );
@@ -127,263 +129,340 @@ class _ChangePasswordScreenState
   Widget build(
     BuildContext context,
   ) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Change Password',
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(
-          22,
-        ),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
+    return BlocListener<
+      ChangePasswordBloc,
+      ChangePasswordState
+    >(
+      listener:
+          (
+            context,
+            state,
+          ) {
+            if (state
+                is ChangePasswordSuccess) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'Password updated successfully',
+                  ),
+                ),
+              );
 
-              Container(
-                height: 86,
-                width: 86,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    colors: [
-                      Theme.of(
-                        context,
-                      ).colorScheme.tertiary,
-                      Theme.of(
-                        context,
-                      ).colorScheme.secondary,
-                      Theme.of(
-                        context,
-                      ).colorScheme.primary,
+              Navigator.pop(
+                context,
+              );
+            }
+            if (state
+                is ChangePasswordFailure) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.error,
+                  ),
+                ),
+              );
+            }
+          },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Change Password',
+          ),
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(
+            22,
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+
+                Container(
+                  height: 86,
+                  width: 86,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      colors: [
+                        Theme.of(
+                          context,
+                        ).colorScheme.tertiary,
+                        Theme.of(
+                          context,
+                        ).colorScheme.secondary,
+                        Theme.of(
+                          context,
+                        ).colorScheme.primary,
+                      ],
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color:
+                            const Color(
+                              0xFF8B5CF6,
+                            ).withValues(
+                              alpha: 0.35,
+                            ),
+                        blurRadius: 18,
+                        offset: const Offset(
+                          0,
+                          8,
+                        ),
+                      ),
                     ],
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color:
-                          const Color(
-                            0xFF8B5CF6,
-                          ).withValues(
-                            alpha: 0.35,
-                          ),
-                      blurRadius: 18,
-                      offset: const Offset(
-                        0,
-                        8,
-                      ),
+                  child: const Icon(
+                    CupertinoIcons.lock_fill,
+                    size: 38,
+                    color: Colors.white,
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 18,
+                ),
+
+                const Text(
+                  'Update Your Password',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 8,
+                ),
+
+                const Text(
+                  'Choose a strong password to keep your account secure.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                    height: 1.5,
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 30,
+                ),
+
+                TextFormField(
+                  controller: currentPasswordController,
+                  obscureText: obscureCurrentPassword,
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: _inputDecoration(
+                    label: 'Current Password',
+                    icon: CupertinoIcons.padlock_solid,
+                    obscure: obscureCurrentPassword,
+                    onToggle: () {
+                      setState(
+                        () {
+                          obscureCurrentPassword = !obscureCurrentPassword;
+                        },
+                      );
+                    },
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 16,
+                ),
+
+                TextFormField(
+                  controller: newPasswordController,
+                  obscureText: obscureNewPassword,
+                  keyboardType: TextInputType.visiblePassword,
+                  onChanged: _checkPasswordRules,
+                  decoration: _inputDecoration(
+                    label: 'New Password',
+                    icon: CupertinoIcons.lock_fill,
+                    obscure: obscureNewPassword,
+                    onToggle: () {
+                      setState(
+                        () {
+                          obscureNewPassword = !obscureNewPassword;
+                        },
+                      );
+                    },
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 14,
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _ruleText(
+                          '1 uppercase',
+                          containsUpperCase,
+                        ),
+                        _ruleText(
+                          '1 lowercase',
+                          containsLowerCase,
+                        ),
+                        _ruleText(
+                          '1 number',
+                          containsNumber,
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _ruleText(
+                          '1 special character',
+                          containsSpecialChar,
+                        ),
+                        _ruleText(
+                          '8 minimum characters',
+                          contains8Length,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                child: const Icon(
-                  CupertinoIcons.lock_fill,
-                  size: 38,
-                  color: Colors.white,
+
+                const SizedBox(
+                  height: 16,
                 ),
-              ),
 
-              const SizedBox(
-                height: 18,
-              ),
-
-              const Text(
-                'Update Your Password',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+                TextFormField(
+                  controller: confirmPasswordController,
+                  obscureText: obscureConfirmPassword,
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: _inputDecoration(
+                    label: 'Confirm New Password',
+                    icon: CupertinoIcons.checkmark_shield_fill,
+                    obscure: obscureConfirmPassword,
+                    onToggle: () {
+                      setState(
+                        () {
+                          obscureConfirmPassword = !obscureConfirmPassword;
+                        },
+                      );
+                    },
+                  ),
                 ),
-              ),
 
-              const SizedBox(
-                height: 8,
-              ),
-
-              const Text(
-                'Choose a strong password to keep your account secure.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                  height: 1.5,
+                const SizedBox(
+                  height: 32,
                 ),
-              ),
 
-              const SizedBox(
-                height: 30,
-              ),
-
-              TextFormField(
-                controller: currentPasswordController,
-                obscureText: obscureCurrentPassword,
-                keyboardType: TextInputType.visiblePassword,
-                decoration: _inputDecoration(
-                  label: 'Current Password',
-                  icon: CupertinoIcons.padlock_solid,
-                  obscure: obscureCurrentPassword,
-                  onToggle: () {
-                    setState(
-                      () {
-                        obscureCurrentPassword = !obscureCurrentPassword;
-                      },
-                    );
-                  },
-                ),
-              ),
-
-              const SizedBox(
-                height: 16,
-              ),
-
-              TextFormField(
-                controller: newPasswordController,
-                obscureText: obscureNewPassword,
-                keyboardType: TextInputType.visiblePassword,
-                onChanged: _checkPasswordRules,
-                decoration: _inputDecoration(
-                  label: 'New Password',
-                  icon: CupertinoIcons.lock_fill,
-                  obscure: obscureNewPassword,
-                  onToggle: () {
-                    setState(
-                      () {
-                        obscureNewPassword = !obscureNewPassword;
-                      },
-                    );
-                  },
-                ),
-              ),
-
-              const SizedBox(
-                height: 14,
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _ruleText(
-                        '1 uppercase',
-                        containsUpperCase,
-                      ),
-                      _ruleText(
-                        '1 lowercase',
-                        containsLowerCase,
-                      ),
-                      _ruleText(
-                        '1 number',
-                        containsNumber,
+                Container(
+                  width:
+                      MediaQuery.of(
+                        context,
+                      ).size.width *
+                      0.65,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Theme.of(
+                          context,
+                        ).colorScheme.tertiary,
+                        Theme.of(
+                          context,
+                        ).colorScheme.secondary,
+                        Theme.of(
+                          context,
+                        ).colorScheme.primary,
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.circular(
+                      60,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color:
+                            const Color(
+                              0xFF8B5CF6,
+                            ).withValues(
+                              alpha: 0.35,
+                            ),
+                        blurRadius: 15,
+                        offset: const Offset(
+                          0,
+                          6,
+                        ),
                       ),
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _ruleText(
-                        '1 special character',
-                        containsSpecialChar,
-                      ),
-                      _ruleText(
-                        '8 minimum characters',
-                        contains8Length,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-
-              const SizedBox(
-                height: 16,
-              ),
-
-              TextFormField(
-                controller: confirmPasswordController,
-                obscureText: obscureConfirmPassword,
-                keyboardType: TextInputType.visiblePassword,
-                decoration: _inputDecoration(
-                  label: 'Confirm New Password',
-                  icon: CupertinoIcons.checkmark_shield_fill,
-                  obscure: obscureConfirmPassword,
-                  onToggle: () {
-                    setState(
-                      () {
-                        obscureConfirmPassword = !obscureConfirmPassword;
-                      },
-                    );
-                  },
-                ),
-              ),
-
-              const SizedBox(
-                height: 32,
-              ),
-
-              Container(
-                width:
-                    MediaQuery.of(
-                      context,
-                    ).size.width *
-                    0.65,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Theme.of(
-                        context,
-                      ).colorScheme.tertiary,
-                      Theme.of(
-                        context,
-                      ).colorScheme.secondary,
-                      Theme.of(
-                        context,
-                      ).colorScheme.primary,
-                    ],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                    60,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color:
-                          const Color(
-                            0xFF8B5CF6,
-                          ).withValues(
-                            alpha: 0.35,
+                  child: TextButton(
+                    onPressed: () {
+                      if (currentPasswordController.text.trim().isEmpty ||
+                          newPasswordController.text.trim().isEmpty ||
+                          confirmPasswordController.text.trim().isEmpty) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Please fill all fields',
+                            ),
                           ),
-                      blurRadius: 15,
-                      offset: const Offset(
-                        0,
-                        6,
+                        );
+                        return;
+                      }
+
+                      if (newPasswordController.text.trim() !=
+                          confirmPasswordController.text.trim()) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'New password and confirm password do not match',
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+
+                      context
+                          .read<
+                            ChangePasswordBloc
+                          >()
+                          .add(
+                            ChangePasswordRequired(
+                              currentPassword: currentPasswordController.text.trim(),
+                              newPassword: newPasswordController.text.trim(),
+                            ),
+                          );
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 8,
                       ),
-                    ),
-                  ],
-                ),
-                child: TextButton(
-                  onPressed: () {
-                    // Business logic later
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 8,
-                    ),
-                    child: Text(
-                      'Update Password',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                      child: Text(
+                        'Update Password',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

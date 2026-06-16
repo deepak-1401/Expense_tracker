@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/widget/user_name_text.dart';
 import 'package:budget_manager/models/expense_filter_model.dart';
 import 'package:budget_manager/screens/home/views/expense_filters.dart';
 import 'package:expense_repository/expense_repository.dart';
@@ -355,11 +356,11 @@ class _MainScreenState
                               fontWeight: FontWeight.w800,
                             ),
                           ),
-                          Text(
-                            "Deepak",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w800,
+                          UserNameText(
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],

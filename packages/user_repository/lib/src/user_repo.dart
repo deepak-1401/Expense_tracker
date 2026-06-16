@@ -39,4 +39,12 @@ abstract class UserRepository {
     void
   >
   signInWithGoogle();
+
+  Future<
+    void
+  >
+  changePassword({
+    required String currentPassword,
+    required String newPassword,
+  });
 }

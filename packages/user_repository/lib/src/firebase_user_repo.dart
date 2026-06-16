@@ -191,7 +191,9 @@ class FirebaseUserRepo
         await userDoc.set(
           {
             'userId': user.uid,
-            'email': user.email,
+            'email':
+                user.email ??
+                '',
             'name':
                 user.displayName ??
                 '',
@@ -199,15 +201,79 @@ class FirebaseUserRepo
                 user.photoURL ??
                 '',
             'createdAt': FieldValue.serverTimestamp(),
+            'lastLoginAt': FieldValue.serverTimestamp(),
           },
         );
 
         print(
           "USER DOC CREATED",
         );
+      } else {
+        await userDoc.set(
+          {
+            'email':
+                user.email ??
+                '',
+            'photoUrl':
+                user.photoURL ??
+                '',
+            'lastLoginAt': FieldValue.serverTimestamp(),
+          },
+          SetOptions(
+            merge: true,
+          ),
+        );
+
+        print(
+          "USER DOC UPDATED SAFELY",
+        );
       }
     }
 
     return userCredential;
+  }
+
+  @override
+  Future<
+    void
+  >
+  changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    try {
+      final user = _firebaseAuth.currentUser;
+
+      if (user ==
+              null ||
+          user.email ==
+              null) {
+        throw Exception(
+          'No authenticated user found.',
+        );
+      }
+
+      // Re-authenticate the user with their current password
+      final credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: currentPassword,
+      );
+
+      await user.reauthenticateWithCredential(
+        credential,
+      );
+
+      // Update to the new password
+      await user.updatePassword(
+        newPassword,
+      );
+    } catch (
+      e
+    ) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
   }
 }

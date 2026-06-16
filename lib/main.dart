@@ -15,20 +15,28 @@ main() async {
   await Firebase.initializeApp();
 
   final expenseRepository = FirebaseExpenseRepo();
+  final userRepository = FirebaseUserRepo();
 
   Bloc.observer = SimpleBlocObserver();
 
   runApp(
-    BlocProvider(
+    RepositoryProvider<
+      UserRepository
+    >(
       create:
           (
             context,
-          ) => CreateCategoryBloc(
-            expenseRepository,
-          ),
-
-      child: MyApp(
-        FirebaseUserRepo(),
+          ) => userRepository,
+      child: BlocProvider(
+        create:
+            (
+              context,
+            ) => CreateCategoryBloc(
+              expenseRepository,
+            ),
+        child: MyApp(
+          userRepository,
+        ),
       ),
     ),
   );
