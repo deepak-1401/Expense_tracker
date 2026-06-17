@@ -1,4 +1,5 @@
 import 'package:budget_manager/blocs/sign_up_bloc/sign_up_bloc.dart';
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -93,12 +94,14 @@ class _SignUpScreenState
                   decoration: InputDecoration(
                     prefixIcon: const Icon(
                       CupertinoIcons.mail_solid,
+                      color: AppColors.iconColor,
                     ),
                     labelText: 'Email',
-                    filled: true,
-                    fillColor: const Color(
-                      0xFF0F1330,
+                    labelStyle: TextStyle(
+                      color: AppColors.textPrimary,
                     ),
+                    filled: true,
+                    fillColor: AppColors.filledColor,
                     border: const OutlineInputBorder(),
                     // errorText: errorMessage,
                   ),
@@ -138,10 +141,11 @@ class _SignUpScreenState
                       CupertinoIcons.mail_solid,
                     ),
                     labelText: 'Password',
-                    filled: true,
-                    fillColor: const Color(
-                      0xFF0F1330,
+                    labelStyle: TextStyle(
+                      color: AppColors.textPrimary,
                     ),
+                    filled: true,
+                    fillColor: AppColors.filledColor,
                     border: const OutlineInputBorder(),
                     //  errorText: errorMessage,
                     suffixIcon: IconButton(
@@ -159,6 +163,7 @@ class _SignUpScreenState
                       },
                       icon: Icon(
                         iconPassword,
+                        color: AppColors.iconColor,
                       ),
                     ),
                   ),
@@ -283,9 +288,7 @@ class _SignUpScreenState
                         style: TextStyle(
                           color: containsUpperCase
                               ? Colors.green
-                              : Theme.of(
-                                  context,
-                                ).colorScheme.onBackground,
+                              : AppColors.textPrimary,
                         ),
                       ),
                       Text(
@@ -293,9 +296,7 @@ class _SignUpScreenState
                         style: TextStyle(
                           color: containsLowerCase
                               ? Colors.green
-                              : Theme.of(
-                                  context,
-                                ).colorScheme.onBackground,
+                              : AppColors.textPrimary,
                         ),
                       ),
                       Text(
@@ -303,9 +304,7 @@ class _SignUpScreenState
                         style: TextStyle(
                           color: containsNumber
                               ? Colors.green
-                              : Theme.of(
-                                  context,
-                                ).colorScheme.onBackground,
+                              : AppColors.textPrimary,
                         ),
                       ),
                     ],
@@ -318,9 +317,7 @@ class _SignUpScreenState
                         style: TextStyle(
                           color: containsSpecialChar
                               ? Colors.green
-                              : Theme.of(
-                                  context,
-                                ).colorScheme.onBackground,
+                              : AppColors.textPrimary,
                         ),
                       ),
                       Text(
@@ -328,9 +325,7 @@ class _SignUpScreenState
                         style: TextStyle(
                           color: contains8Length
                               ? Colors.green
-                              : Theme.of(
-                                  context,
-                                ).colorScheme.onBackground,
+                              : AppColors.textPrimary,
                         ),
                       ),
                     ],
@@ -350,13 +345,15 @@ class _SignUpScreenState
                   controller: nameController,
                   decoration: InputDecoration(
                     labelText: 'Name',
-                    filled: true,
-                    fillColor: const Color(
-                      0xFF0F1330,
+                    labelStyle: TextStyle(
+                      color: AppColors.textPrimary,
                     ),
+                    filled: true,
+                    fillColor: AppColors.filledColor,
                     border: const OutlineInputBorder(),
                     prefixIcon: const Icon(
                       CupertinoIcons.person_fill,
+                      color: AppColors.iconColor,
                     ),
                   ),
                   obscureText: false,
@@ -418,13 +415,13 @@ class _SignUpScreenState
                           boxShadow: [
                             BoxShadow(
                               color:
-                                  Color(
-                                    0xFF8B5CF6,
-                                  ).withValues(
+                                  Theme.of(
+                                    context,
+                                  ).colorScheme.primary.withValues(
                                     alpha: 0.35,
                                   ),
-                              blurRadius: 15,
-                              offset: Offset(
+                              blurRadius: 16,
+                              offset: const Offset(
                                 0,
                                 6,
                               ),
@@ -473,7 +470,7 @@ class _SignUpScreenState
                               'Sign Up',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: AppColors.textPrimary,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                               ),

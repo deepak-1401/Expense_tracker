@@ -1,4 +1,5 @@
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -167,7 +168,7 @@ class PaymentMethodSplitChart
               child: Text(
                 method,
                 style: const TextStyle(
-                  color: Colors.white70,
+                  color: AppColors.fadeText,
                   fontSize: 13,
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -176,7 +177,7 @@ class PaymentMethodSplitChart
             Text(
               percentage,
               style: const TextStyle(
-                color: Colors.white,
+                color: AppColors.textPrimary,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
               ),
@@ -192,7 +193,7 @@ class PaymentMethodSplitChart
         const Text(
           "Payment Method Split",
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.textPrimary,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -207,14 +208,12 @@ class PaymentMethodSplitChart
             16,
           ),
           decoration: BoxDecoration(
-            color: const Color(
-              0xff10173A,
-            ),
+            color: AppColors.container,
             borderRadius: BorderRadius.circular(
               20,
             ),
             border: Border.all(
-              color: Colors.white.withValues(
+              color: AppColors.fadeText.withValues(
                 alpha: 0.06,
               ),
               width: 1,
@@ -225,7 +224,7 @@ class PaymentMethodSplitChart
                   child: Text(
                     "No payment data available for the selected period.",
                     style: TextStyle(
-                      color: Colors.white54,
+                      color: AppColors.fadeText,
                       fontSize: 13,
                     ),
                   ),
@@ -237,9 +236,7 @@ class PaymentMethodSplitChart
                       child: SfCircularChart(
                         tooltipBehavior: TooltipBehavior(
                           enable: true,
-                          color: Color(
-                            0xff10173A,
-                          ),
+                          color: AppColors.primary,
                           builder:
                               (
                                 data,
@@ -257,9 +254,7 @@ class PaymentMethodSplitChart
                                     10,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: Color(
-                                      0xff10173A,
-                                    ),
+                                    color: AppColors.container,
                                     borderRadius: BorderRadius.circular(
                                       10,
                                     ),
@@ -267,7 +262,7 @@ class PaymentMethodSplitChart
                                   child: Text(
                                     '${paymentData.method}\n₹${paymentData.amount.toStringAsFixed(0)}',
                                     style: const TextStyle(
-                                      color: Colors.white,
+                                      color: AppColors.textPrimary,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -321,7 +316,7 @@ class PaymentMethodSplitChart
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                        color: AppColors.textPrimary,
                                       ),
                                     ),
                                     const SizedBox(
@@ -331,7 +326,7 @@ class PaymentMethodSplitChart
                                       'Total',
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: Colors.white70,
+                                        color: AppColors.fadeText,
                                       ),
                                     ),
                                   ],

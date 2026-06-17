@@ -1,4 +1,5 @@
 import 'package:budget_manager/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,9 +14,7 @@ showLogoutDialog(
           dialogContext,
         ) {
           return AlertDialog(
-            backgroundColor: const Color(
-              0xFF161D47,
-            ),
+            backgroundColor: AppColors.alartdialogBG,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
                 20,
@@ -24,14 +23,14 @@ showLogoutDialog(
             title: const Text(
               'Logout?',
               style: TextStyle(
-                color: Colors.white,
+                color: AppColors.textPrimary,
                 fontWeight: FontWeight.bold,
               ),
             ),
             content: const Text(
               'Are you sure you want to logout from your account?',
               style: TextStyle(
-                color: Colors.grey,
+                color: AppColors.fadeText,
               ),
             ),
             actions: [
@@ -43,6 +42,9 @@ showLogoutDialog(
                 },
                 child: const Text(
                   'Cancel',
+                  style: TextStyle(
+                    color: AppColors.primary,
+                  ),
                 ),
               ),
               TextButton(

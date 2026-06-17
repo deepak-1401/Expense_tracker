@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:flutter/material.dart';
 
 class SettingsTile
@@ -39,9 +40,7 @@ class SettingsTile
           16,
         ),
         decoration: BoxDecoration(
-          color: const Color(
-            0xFF161D47,
-          ),
+          color: AppColors.container,
           borderRadius: BorderRadius.circular(
             20,
           ),
@@ -59,7 +58,7 @@ class SettingsTile
               ),
               child: Icon(
                 icon,
-                color: Colors.white,
+                color: AppColors.iconColor,
                 size: 22,
               ),
             ),
@@ -74,8 +73,9 @@ class SettingsTile
                 children: [
                   Text(
                     title,
+
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                       fontSize: 16,
                     ),
                   ),
@@ -85,7 +85,7 @@ class SettingsTile
                   Text(
                     subtitle,
                     style: const TextStyle(
-                      color: Colors.grey,
+                      color: AppColors.fadeText,
                       fontSize: 13,
                     ),
                   ),
@@ -96,7 +96,7 @@ class SettingsTile
             trailing ??
                 const Icon(
                   Icons.arrow_forward_ios_outlined,
-                  color: Colors.white,
+                  color: AppColors.iconColor,
                   size: 18,
                 ),
           ],

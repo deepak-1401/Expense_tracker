@@ -1,4 +1,5 @@
 import 'package:budget_manager/blocs/change_password_bloc/change_password_bloc.dart';
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -90,12 +91,14 @@ class _ChangePasswordScreenState
     return InputDecoration(
       prefixIcon: Icon(
         icon,
+        color: AppColors.iconColor,
       ),
       labelText: label,
-      filled: true,
-      fillColor: const Color(
-        0xFF0F1330,
+      labelStyle: TextStyle(
+        color: AppColors.textPrimary,
       ),
+      filled: true,
+      fillColor: AppColors.filledColor,
       border: const OutlineInputBorder(),
       suffixIcon: IconButton(
         onPressed: onToggle,
@@ -103,6 +106,7 @@ class _ChangePasswordScreenState
           obscure
               ? CupertinoIcons.eye_fill
               : CupertinoIcons.eye_slash_fill,
+          color: AppColors.iconColor,
         ),
       ),
     );
@@ -117,9 +121,7 @@ class _ChangePasswordScreenState
       style: TextStyle(
         color: isValid
             ? Colors.green
-            : Theme.of(
-                context,
-              ).colorScheme.onSurface,
+            : AppColors.textPrimary,
         fontSize: 13,
       ),
     );
@@ -171,6 +173,9 @@ class _ChangePasswordScreenState
         appBar: AppBar(
           title: const Text(
             'Change Password',
+            style: TextStyle(
+              color: AppColors.primary,
+            ),
           ),
         ),
         body: SingleChildScrollView(
@@ -222,7 +227,7 @@ class _ChangePasswordScreenState
                   child: const Icon(
                     CupertinoIcons.lock_fill,
                     size: 38,
-                    color: Colors.white,
+                    color: AppColors.iconColor,
                   ),
                 ),
 
@@ -233,6 +238,7 @@ class _ChangePasswordScreenState
                 const Text(
                   'Update Your Password',
                   style: TextStyle(
+                    color: AppColors.textPrimary,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -247,7 +253,7 @@ class _ChangePasswordScreenState
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey,
+                    color: AppColors.fadeText,
                     height: 1.5,
                   ),
                 ),
@@ -415,6 +421,9 @@ class _ChangePasswordScreenState
                           const SnackBar(
                             content: Text(
                               'Please fill all fields',
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
                             ),
                           ),
                         );
@@ -429,6 +438,9 @@ class _ChangePasswordScreenState
                           const SnackBar(
                             content: Text(
                               'New password and confirm password do not match',
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
                             ),
                           ),
                         );
@@ -453,7 +465,7 @@ class _ChangePasswordScreenState
                       child: Text(
                         'Update Password',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColors.textPrimary,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),

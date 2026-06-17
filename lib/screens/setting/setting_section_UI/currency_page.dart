@@ -1,4 +1,5 @@
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:budget_manager/data/currencies_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,20 +50,19 @@ class _CurrencyPageState
     selectedCurrencyCode = currencyState.code;
 
     return AlertDialog(
-      backgroundColor: const Color(
-        0xFF161D47,
-      ),
+      backgroundColor: AppColors.alartdialogBG,
       title: const Text(
         'Currency',
+        style: TextStyle(
+          color: AppColors.primary,
+        ),
       ),
       content: SizedBox(
         width: double.maxFinite,
         height: 350,
         child: Container(
           decoration: BoxDecoration(
-            color: const Color(
-              0xFF0F1330,
-            ),
+            color: AppColors.container,
             borderRadius: BorderRadius.circular(
               10,
             ),
@@ -80,34 +80,32 @@ class _CurrencyPageState
                       selectedCurrencyCode;
 
                   return Material(
-                    color: Colors.transparent,
+                    color: AppColors.filledColor,
                     child: ListTile(
                       leading: Text(
                         currency['symbol']!,
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: AppColors.textPrimary,
                           fontSize: 20,
                         ),
                       ),
                       title: Text(
                         currency['name']!,
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       subtitle: Text(
                         currency['code']!,
                         style: const TextStyle(
-                          color: Colors.grey,
+                          color: AppColors.fadeText,
                         ),
                       ),
 
                       trailing: isSelected
                           ? const Icon(
                               Icons.check_circle_rounded,
-                              color: Color(
-                                0xFF9B4EFF,
-                              ),
+                              color: AppColors.primary,
                             )
                           : null,
 
@@ -144,9 +142,7 @@ class _CurrencyPageState
                   int index,
                 ) {
                   return const Divider(
-                    color: Color(
-                      0xFF252B5C,
-                    ),
+                    color: AppColors.filledColor,
                     thickness: 2.5,
                     indent: 20,
                     endIndent: 20,

@@ -200,6 +200,9 @@ class FirebaseUserRepo
             'photoUrl':
                 user.photoURL ??
                 '',
+            'age': '',
+            'gender': '',
+            'occupation': '',
             'createdAt': FieldValue.serverTimestamp(),
             'lastLoginAt': FieldValue.serverTimestamp(),
           },

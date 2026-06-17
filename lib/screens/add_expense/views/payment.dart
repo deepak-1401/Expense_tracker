@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:flutter/material.dart';
 
 class Payment
@@ -31,9 +32,7 @@ class _PaymentState
       title: const Text(
         'Payment Method',
         style: TextStyle(
-          color: Color(
-            0xFF8B4CFF,
-          ),
+          color: AppColors.primary,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -48,12 +47,8 @@ class _PaymentState
               color:
                   selectedPayment ==
                       "Credit Card"
-                  ? Color(
-                      0xFF8B4CFF,
-                    )
-                  : Color(
-                      0xFF0F1330,
-                    ),
+                  ? AppColors.primary
+                  : AppColors.filledColor,
               child: InkWell(
                 onTap: () {
                   setState(
@@ -65,12 +60,12 @@ class _PaymentState
                 child: const ListTile(
                   leading: Icon(
                     Icons.credit_card,
-                    color: Colors.white,
+                    color: AppColors.iconColor,
                   ),
                   title: Text(
                     'Credit Card',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                 ),
@@ -80,12 +75,8 @@ class _PaymentState
               color:
                   selectedPayment ==
                       "Cash"
-                  ? Color(
-                      0xFF8B4CFF,
-                    )
-                  : Color(
-                      0xFF0F1330,
-                    ),
+                  ? AppColors.primary
+                  : AppColors.filledColor,
               child: InkWell(
                 onTap: () {
                   setState(
@@ -97,12 +88,12 @@ class _PaymentState
                 child: ListTile(
                   leading: Icon(
                     Icons.account_balance_wallet,
-                    color: Colors.white,
+                    color: AppColors.iconColor,
                   ),
                   title: Text(
                     'Cash',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                 ),
@@ -112,12 +103,8 @@ class _PaymentState
               color:
                   selectedPayment ==
                       "UPI"
-                  ? Color(
-                      0xFF8B4CFF,
-                    )
-                  : Color(
-                      0xFF0F1330,
-                    ),
+                  ? AppColors.primary
+                  : AppColors.filledColor,
               child: InkWell(
                 onTap: () {
                   setState(
@@ -129,12 +116,12 @@ class _PaymentState
                 child: ListTile(
                   leading: Icon(
                     Icons.payments,
-                    color: Colors.white,
+                    color: AppColors.iconColor,
                   ),
                   title: Text(
                     'UPI',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                 ),
@@ -198,7 +185,7 @@ class _PaymentState
                   child: const Text(
                     "Save",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                 ),

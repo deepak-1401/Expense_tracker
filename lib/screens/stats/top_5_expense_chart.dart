@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:expense_repository/expense_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -48,7 +49,7 @@ class _MychartState
     >
   >
   getCategoryTotals() {
-    Map<
+    final Map<
       String,
       Map<
         String,
@@ -129,24 +130,13 @@ class _MychartState
   ) {
     final chartData = getChartData();
 
-    if (chartData.isEmpty) {
-      return const Center(
-        child: Text(
-          'No expense data',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-      );
-    }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
           "Top 5 Expenses",
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.textPrimary,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -163,105 +153,103 @@ class _MychartState
             width: MediaQuery.of(
               context,
             ).size.width,
-            height: MediaQuery.of(
-              context,
-            ).size.width,
             padding: const EdgeInsets.all(
               16.0,
             ),
             decoration: BoxDecoration(
-              color: const Color(
-                0xff10173A,
-              ),
+              color: AppColors.container,
               borderRadius: BorderRadius.circular(
                 20,
               ),
             ),
-            child: SfCartesianChart(
-              backgroundColor: Colors.transparent,
-              plotAreaBorderWidth: 0,
-
-              primaryXAxis: CategoryAxis(
-                isInversed: true,
-                majorGridLines: const MajorGridLines(
-                  width: 0,
-                ),
-                labelStyle: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 12,
-                ),
-              ),
-
-              primaryYAxis: NumericAxis(
-                isVisible: false,
-                majorGridLines: const MajorGridLines(
-                  width: 0,
-                ),
-              ),
-
-              tooltipBehavior: TooltipBehavior(
-                enable: true,
-              ),
-
-              series:
-                  <
-                    CartesianSeries
-                  >[
-                    BarSeries<
-                      ChartData,
-                      String
-                    >(
-                      dataSource: chartData,
-
-                      xValueMapper:
-                          (
-                            ChartData data,
-                            _,
-                          ) => data.category,
-
-                      yValueMapper:
-                          (
-                            ChartData data,
-                            _,
-                          ) => data.amount,
-
-                      dataLabelSettings: const DataLabelSettings(
-                        isVisible: true,
-                        labelAlignment: ChartDataLabelAlignment.outer,
-                        textStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [
-                          Theme.of(
-                            context,
-                          ).colorScheme.secondary,
-                          Theme.of(
-                            context,
-                          ).colorScheme.primary,
-                          Theme.of(
-                            context,
-                          ).colorScheme.tertiary,
-                        ],
-                      ),
-
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(
-                          12,
-                        ),
+            child: chartData.isEmpty
+                ? const Center(
+                    child: Text(
+                      'No expense data available for the selected period.',
+                      style: TextStyle(
+                        color: AppColors.fadeText,
                       ),
                     ),
-                  ],
-            ),
+                  )
+                : SfCartesianChart(
+                    backgroundColor: Colors.transparent,
+                    plotAreaBorderWidth: 0,
+                    primaryXAxis: CategoryAxis(
+                      isInversed: true,
+                      majorGridLines: const MajorGridLines(
+                        width: 0,
+                      ),
+                      labelStyle: const TextStyle(
+                        color: AppColors.fadeText,
+                        fontSize: 12,
+                      ),
+                    ),
+                    primaryYAxis: NumericAxis(
+                      isVisible: false,
+                      majorGridLines: const MajorGridLines(
+                        width: 0,
+                      ),
+                    ),
+                    tooltipBehavior: TooltipBehavior(
+                      enable: true,
+                    ),
+                    series:
+                        <
+                          CartesianSeries
+                        >[
+                          BarSeries<
+                            ChartData,
+                            String
+                          >(
+                            dataSource: chartData,
+                            xValueMapper:
+                                (
+                                  ChartData data,
+                                  _,
+                                ) => data.category,
+                            yValueMapper:
+                                (
+                                  ChartData data,
+                                  _,
+                                ) => data.amount,
+                            dataLabelSettings: const DataLabelSettings(
+                              isVisible: true,
+                              labelAlignment: ChartDataLabelAlignment.outer,
+                              textStyle: TextStyle(
+                                color: AppColors.textPrimary,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                Theme.of(
+                                  context,
+                                ).colorScheme.secondary,
+                                Theme.of(
+                                  context,
+                                ).colorScheme.primary,
+                                Theme.of(
+                                  context,
+                                ).colorScheme.tertiary,
+                              ],
+                            ),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(
+                                12,
+                              ),
+                            ),
+                          ),
+                        ],
+                  ),
           ),
         ),
-        const Divider(
-          color: Colors.white24,
+        Divider(
+          color: AppColors.fadeText.withValues(
+            alpha: 0.2,
+          ),
           thickness: 1,
           height: 40,
         ),

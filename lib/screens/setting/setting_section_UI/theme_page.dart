@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:flutter/material.dart';
 
 class ThemePage
@@ -25,11 +26,12 @@ class _ThemePageState
     BuildContext context,
   ) {
     return AlertDialog(
-      backgroundColor: const Color(
-        0xFF161D47,
-      ),
+      backgroundColor: AppColors.alartdialogBG,
       title: const Text(
         'Theme ',
+        style: TextStyle(
+          color: AppColors.primary,
+        ),
       ),
       content:
           RadioGroup<
@@ -54,9 +56,7 @@ class _ThemePageState
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: const Color(
-                      0xFF0F1330,
-                    ),
+                    color: AppColors.filledColor,
                     borderRadius: BorderRadius.circular(
                       8,
                     ),
@@ -65,6 +65,9 @@ class _ThemePageState
                     value: "Light",
                     title: Text(
                       "Light",
+                      style: TextStyle(
+                        color: AppColors.textPrimary,
+                      ),
                     ),
                   ),
                 ),
@@ -73,9 +76,7 @@ class _ThemePageState
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: const Color(
-                      0xFF0F1330,
-                    ),
+                    color: AppColors.filledColor,
                     borderRadius: BorderRadius.circular(
                       8,
                     ),
@@ -84,6 +85,9 @@ class _ThemePageState
                     value: "Dark",
                     title: Text(
                       "Dark",
+                      style: TextStyle(
+                        color: AppColors.textPrimary,
+                      ),
                     ),
                   ),
                 ),
@@ -92,9 +96,7 @@ class _ThemePageState
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: const Color(
-                      0xFF0F1330,
-                    ),
+                    color: AppColors.filledColor,
                     borderRadius: BorderRadius.circular(
                       8,
                     ),
@@ -103,23 +105,24 @@ class _ThemePageState
                     value: "System",
                     title: Text(
                       "System Default",
+                      style: TextStyle(
+                        color: AppColors.textPrimary,
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: const Color(
-                      0xFF0F1330,
-                    ),
-                    borderRadius: BorderRadius.circular(
-                      8,
-                    ),
-                  ),
-                  //child:
-                ),
+                // Container(
+                //   decoration: BoxDecoration(
+                //     color: AppColors.filledColor,
+                //     borderRadius: BorderRadius.circular(
+                //       8,
+                //     ),
+                //   ),
+                //   //child:
+                // ),
                 SizedBox(
                   width: double.infinity,
                   child: Container(
@@ -172,7 +175,7 @@ class _ThemePageState
                       child: const Text(
                         "Save",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColors.textPrimary,
                           fontSize: 16,
                         ),
                       ),

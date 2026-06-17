@@ -1,4 +1,6 @@
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
+import 'package:budget_manager/core/utils/colours.dart';
+import 'package:budget_manager/core/utils/helpers/summary_period_helper.dart';
 import 'package:budget_manager/screens/stats/stats.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_repository/expense_repository.dart';
@@ -24,6 +26,7 @@ class SummaryCardLayout
     required IconData icon,
     required String title,
     required String value,
+    //required Color color,
     String? subtitle,
   }) {
     return Expanded(
@@ -35,9 +38,7 @@ class SummaryCardLayout
           16,
         ),
         decoration: BoxDecoration(
-          color: const Color(
-            0xFF10173A,
-          ),
+          color: AppColors.container,
           borderRadius: BorderRadius.circular(
             20,
           ),
@@ -47,7 +48,7 @@ class SummaryCardLayout
           children: [
             Icon(
               icon,
-              color: Colors.white70,
+              color: AppColors.fadeiconColor,
               size: 22,
             ),
             const SizedBox(
@@ -56,7 +57,7 @@ class SummaryCardLayout
             Text(
               title,
               style: const TextStyle(
-                color: Colors.white60,
+                color: AppColors.fadeText,
                 fontSize: 12,
               ),
             ),
@@ -79,7 +80,7 @@ class SummaryCardLayout
               Text(
                 subtitle,
                 style: const TextStyle(
-                  color: Colors.white54,
+                  color: AppColors.fadeText,
                   fontSize: 11,
                 ),
               ),
@@ -227,26 +228,31 @@ class SummaryCardLayout
 
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(
+        Padding(
+          padding: const EdgeInsets.symmetric(
             horizontal: 6,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Monthly Summary",
+                SummaryPeriodHelper.getTitle(
+                  selectedPeriod,
+                ),
 
-                style: TextStyle(
-                  color: Colors.white,
+                style: const TextStyle(
+                  color: AppColors.textPrimary,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                "June 2026",
-                style: TextStyle(
-                  color: Colors.white54,
+                SummaryPeriodHelper.getSubtitle(
+                  selectedPeriod,
+                ),
+
+                style: const TextStyle(
+                  color: AppColors.fadeText,
                   fontSize: 13,
                 ),
               ),

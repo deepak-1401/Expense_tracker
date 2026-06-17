@@ -52,8 +52,8 @@ class UserAvatar
             final data = snapshot.data?.data();
 
             final avatarPath =
-                data?['avatar']?.toString() ??
-                'assets/avatar/avatar1.png';
+                data?['selectedAvatar']?.toString() ??
+                'assets/avatar/avatar0.png';
 
             return CircleAvatar(
               radius: radius,

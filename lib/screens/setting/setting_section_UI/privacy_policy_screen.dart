@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:flutter/material.dart';
 
 class PrivacyPolicyScreen
@@ -15,6 +16,9 @@ class PrivacyPolicyScreen
       appBar: AppBar(
         title: const Text(
           'Privacy Policy',
+          style: TextStyle(
+            color: AppColors.primary,
+          ),
         ),
       ),
       body: const SingleChildScrollView(
@@ -74,6 +78,8 @@ This Privacy Policy may be updated in the future. Continued use of the app means
 For questions about this Privacy Policy, please contact the app developer.
           ''',
           style: TextStyle(
+            color: AppColors.textPrimary,
+
             fontSize: 15,
             height: 1.6,
           ),

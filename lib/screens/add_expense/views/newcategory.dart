@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:budget_manager/screens/add_expense/blocs/create_categoryblocs/create_category_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
 import 'package:flutter/material.dart';
@@ -38,9 +39,7 @@ class _NewCategoryState
   void openIconPicker() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(
-        0xFF161D47,
-      ),
+      backgroundColor: AppColors.background,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(
@@ -88,9 +87,7 @@ class _NewCategoryState
                           color:
                               selectedIcon ==
                                   icon
-                              ? const Color(
-                                  0xFF8B4CFF,
-                                )
+                              ? AppColors.primary
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(
                             12,
@@ -101,7 +98,7 @@ class _NewCategoryState
                         ),
                         child: Icon(
                           icon,
-                          color: Colors.white,
+                          color: AppColors.iconColor,
                         ),
                       ),
                     );
@@ -123,6 +120,7 @@ class _NewCategoryState
     ];
 
     showModalBottomSheet(
+      backgroundColor: AppColors.background,
       context: context,
       builder:
           (
@@ -166,16 +164,12 @@ class _NewCategoryState
     BuildContext context,
   ) {
     return AlertDialog(
-      backgroundColor: const Color(
-        0xFF161D47,
-      ),
+      backgroundColor: AppColors.container,
 
       title: const Text(
         "Create Category",
         style: TextStyle(
-          color: Color(
-            0xFF8B4CFF,
-          ),
+          color: AppColors.primary,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -192,12 +186,10 @@ class _NewCategoryState
             decoration: InputDecoration(
               hintText: "name",
               hintStyle: const TextStyle(
-                color: Colors.white54,
+                color: AppColors.textPrimary,
               ),
               filled: true,
-              fillColor: const Color(
-                0xFF0F1330,
-              ),
+              fillColor: AppColors.filledColor,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(
                   10,
@@ -220,22 +212,20 @@ class _NewCategoryState
             decoration: InputDecoration(
               hintText: "icon",
               hintStyle: const TextStyle(
-                color: Colors.white54,
+                color: AppColors.textPrimary,
               ),
               filled: true,
-              fillColor: const Color(
-                0xFF0F1330,
-              ),
+              fillColor: AppColors.filledColor,
               prefixIcon: Icon(
                 selectedIcon ??
                     Icons.category,
-                color: Colors.white,
+                color: AppColors.iconColor,
               ),
               suffixIcon: IconButton(
                 onPressed: openIconPicker,
                 icon: const Icon(
                   Icons.expand_more,
-                  color: Colors.white,
+                  color: AppColors.iconColor,
                 ),
               ),
               border: OutlineInputBorder(
@@ -256,17 +246,15 @@ class _NewCategoryState
             readOnly: true,
             onTap: openColorPicker,
             style: const TextStyle(
-              color: Colors.white,
+              color: AppColors.textPrimary,
             ),
             decoration: InputDecoration(
               hintText: "color",
               hintStyle: const TextStyle(
-                color: Colors.white54,
+                color: AppColors.textPrimary,
               ),
               filled: true,
-              fillColor: const Color(
-                0xFF0F1330,
-              ),
+              fillColor: AppColors.filledColor,
               prefixIcon: Container(
                 margin: const EdgeInsets.all(
                   10,
@@ -374,7 +362,7 @@ class _NewCategoryState
                 child: const Text(
                   "Save Category",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.textPrimary,
                   ),
                 ),
               ),

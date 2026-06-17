@@ -1,5 +1,6 @@
 //import 'dart:math';
 import 'package:budget_manager/blocs/get_expenses_bloc/get_expenses_bloc.dart';
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:budget_manager/screens/stats/top_5_expense_chart.dart';
 import 'package:budget_manager/screens/stats/Spending_Trend_Chart.dart';
 import 'package:budget_manager/screens/stats/Payment_Method_Split_Chart.dart';
@@ -136,13 +137,15 @@ class _StatScreenState
                             const Text(
                               "Analytics",
                               style: TextStyle(
-                                color: Colors.white,
+                                color: AppColors.textPrimary,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Divider(
-                              color: Colors.white24,
+                              color: AppColors.fadeText.withValues(
+                                alpha: 0.2,
+                              ),
                               thickness: 1,
                               height: 40,
                             ),
@@ -174,7 +177,7 @@ class _StatScreenState
                                             ? Theme.of(
                                                 context,
                                               ).colorScheme.primary
-                                            : Colors.white.withValues(
+                                            : AppColors.container.withValues(
                                                 alpha: 0.08,
                                               ),
                                         borderRadius: BorderRadius.circular(
@@ -185,8 +188,8 @@ class _StatScreenState
                                         period.name.toUpperCase(),
                                         style: TextStyle(
                                           color: isSelected
-                                              ? Colors.white
-                                              : Colors.white70,
+                                              ? AppColors.textPrimary
+                                              : AppColors.fadeText,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
@@ -196,7 +199,9 @@ class _StatScreenState
                               ).toList(),
                             ),
                             Divider(
-                              color: Colors.white24,
+                              color: AppColors.fadeText.withValues(
+                                alpha: 0.2,
+                              ),
                               thickness: 1,
                               height: 40,
                             ),

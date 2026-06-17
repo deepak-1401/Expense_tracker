@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:budget_manager/models/expense_filter_model.dart';
 import 'package:flutter/material.dart';
 
@@ -99,6 +100,7 @@ class _FiltersState
                         child: Text(
                           'Filters',
                           style: TextStyle(
+                            color: AppColors.textPrimary,
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
@@ -116,6 +118,7 @@ class _FiltersState
                       Text(
                         "Period",
                         style: TextStyle(
+                          color: AppColors.textPrimary,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -130,6 +133,9 @@ class _FiltersState
                           FilterChip(
                             label: Text(
                               "Today",
+                              style: TextStyle(
+                                color: AppColors.textPrimary,
+                              ),
                             ),
                             selected:
                                 selectedPeriod ==
@@ -153,6 +159,9 @@ class _FiltersState
                           FilterChip(
                             label: Text(
                               "This Week",
+                              style: TextStyle(
+                                color: AppColors.textPrimary,
+                              ),
                             ),
                             selected:
                                 selectedPeriod ==
@@ -176,6 +185,9 @@ class _FiltersState
                           FilterChip(
                             label: Text(
                               "This Month",
+                              style: TextStyle(
+                                color: AppColors.textPrimary,
+                              ),
                             ),
                             selected:
                                 selectedPeriod ==
@@ -199,6 +211,9 @@ class _FiltersState
                           FilterChip(
                             label: Text(
                               "This Year",
+                              style: TextStyle(
+                                color: AppColors.textPrimary,
+                              ),
                             ),
                             selected:
                                 selectedPeriod ==
@@ -230,6 +245,7 @@ class _FiltersState
                       Text(
                         "payment Method",
                         style: TextStyle(
+                          color: AppColors.textPrimary,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -246,6 +262,9 @@ class _FiltersState
                           FilterChip(
                             label: Text(
                               "Cash",
+                              style: TextStyle(
+                                color: AppColors.textPrimary,
+                              ),
                             ),
                             selected: selectedPayments.contains(
                               "Cash",
@@ -262,6 +281,9 @@ class _FiltersState
                           FilterChip(
                             label: Text(
                               "Credit Card",
+                              style: TextStyle(
+                                color: AppColors.textPrimary,
+                              ),
                             ),
                             selected: selectedPayments.contains(
                               "Credit Card",
@@ -278,6 +300,9 @@ class _FiltersState
                           FilterChip(
                             label: Text(
                               "UPI",
+                              style: TextStyle(
+                                color: AppColors.textPrimary,
+                              ),
                             ),
                             selected: selectedPayments.contains(
                               "UPI",
@@ -294,6 +319,9 @@ class _FiltersState
                           FilterChip(
                             label: Text(
                               "Other",
+                              style: TextStyle(
+                                color: AppColors.textPrimary,
+                              ),
                             ),
                             selected: selectedPayments.contains(
                               "Other",
@@ -319,6 +347,8 @@ class _FiltersState
                       Text(
                         "Sort-By",
                         style: TextStyle(
+                          color: AppColors.textPrimary,
+
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -333,6 +363,9 @@ class _FiltersState
                           FilterChip(
                             label: Text(
                               "Newest First",
+                              style: TextStyle(
+                                color: AppColors.textPrimary,
+                              ),
                             ),
                             selected:
                                 selectedSort ==
@@ -356,6 +389,9 @@ class _FiltersState
                           FilterChip(
                             label: Text(
                               "Oldest First",
+                              style: TextStyle(
+                                color: AppColors.textPrimary,
+                              ),
                             ),
                             selected:
                                 selectedSort ==
@@ -379,6 +415,9 @@ class _FiltersState
                           FilterChip(
                             label: Text(
                               "Amount High → Low",
+                              style: TextStyle(
+                                color: AppColors.textPrimary,
+                              ),
                             ),
                             selected:
                                 selectedSort ==
@@ -402,6 +441,9 @@ class _FiltersState
                           FilterChip(
                             label: Text(
                               "Amount Low → High",
+                              style: TextStyle(
+                                color: AppColors.textPrimary,
+                              ),
                             ),
                             selected:
                                 selectedSort ==
@@ -444,9 +486,7 @@ class _FiltersState
                               ),
                               width: 100,
                               decoration: BoxDecoration(
-                                color: Color(
-                                  0xFF7B4EFF,
-                                ),
+                                color: AppColors.primary,
                                 borderRadius: BorderRadius.circular(
                                   10,
                                 ),
@@ -454,7 +494,7 @@ class _FiltersState
                               child: Text(
                                 "Clear All",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: AppColors.textPrimary,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -495,7 +535,7 @@ class _FiltersState
                               child: Text(
                                 "Apply",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: AppColors.textPrimary,
                                 ),
                                 textAlign: TextAlign.center,
                               ),

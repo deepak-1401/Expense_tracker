@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:flutter/material.dart';
 
 class HelpSupportScreen
@@ -15,6 +16,9 @@ class HelpSupportScreen
       appBar: AppBar(
         title: const Text(
           'Help & Support',
+          style: TextStyle(
+            color: AppColors.primary,
+          ),
         ),
       ),
       body: ListView(
@@ -25,6 +29,8 @@ class HelpSupportScreen
           Text(
             'How can we help you?',
             style: TextStyle(
+              color: AppColors.textPrimary,
+
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
@@ -38,7 +44,7 @@ class HelpSupportScreen
             'Find answers to common questions about using Expense Tracker.',
             style: TextStyle(
               fontSize: 15,
-              color: Colors.grey,
+              color: AppColors.fadeText,
             ),
           ),
 
@@ -84,6 +90,8 @@ class HelpSupportScreen
           Text(
             'Contact Support',
             style: TextStyle(
+              color: AppColors.textPrimary,
+
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -98,6 +106,7 @@ class HelpSupportScreen
             style: TextStyle(
               fontSize: 15,
               height: 1.5,
+              color: AppColors.fadeText,
             ),
           ),
 
@@ -109,6 +118,7 @@ class HelpSupportScreen
             children: [
               Icon(
                 Icons.email_outlined,
+                color: AppColors.iconColor,
               ),
               SizedBox(
                 width: 10,
@@ -116,6 +126,7 @@ class HelpSupportScreen
               Text(
                 'your-email@example.com',
                 style: TextStyle(
+                  color: AppColors.textPrimary,
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                 ),
@@ -151,6 +162,8 @@ class _FaqTile
         title: Text(
           question,
           style: const TextStyle(
+            color: AppColors.textPrimary,
+
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -164,6 +177,8 @@ class _FaqTile
           Text(
             answer,
             style: const TextStyle(
+              color: AppColors.fadeText,
+
               fontSize: 14,
               height: 1.5,
             ),

@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:flutter/material.dart';
 
 class TermsConditionsScreen
@@ -15,6 +16,9 @@ class TermsConditionsScreen
       appBar: AppBar(
         title: const Text(
           'Terms & Conditions',
+          style: TextStyle(
+            color: AppColors.primary,
+          ),
         ),
       ),
       body: const SingleChildScrollView(
@@ -66,6 +70,7 @@ These Terms & Conditions may be updated in the future. Continued use of the app 
 For questions or support, please contact the app developer.
           ''',
           style: TextStyle(
+            color: AppColors.textPrimary,
             fontSize: 15,
             height: 1.6,
           ),

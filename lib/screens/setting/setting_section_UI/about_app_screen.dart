@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:flutter/material.dart';
 
 class AboutAppScreen
@@ -15,6 +16,9 @@ class AboutAppScreen
       appBar: AppBar(
         title: const Text(
           'About App',
+          style: TextStyle(
+            color: AppColors.primary,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -27,6 +31,7 @@ class AboutAppScreen
             Center(
               child: Icon(
                 Icons.account_balance_wallet_rounded,
+                color: AppColors.iconColor,
                 size: 80,
               ),
             ),
@@ -37,6 +42,8 @@ class AboutAppScreen
               child: Text(
                 'Expense Tracker',
                 style: TextStyle(
+                  color: AppColors.textPrimary,
+
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
                 ),
@@ -46,8 +53,8 @@ class AboutAppScreen
               child: Text(
                 'Version 1.0.0',
                 style: TextStyle(
+                  color: AppColors.fadeText,
                   fontSize: 16,
-                  color: Colors.grey,
                 ),
               ),
             ),
@@ -58,6 +65,8 @@ class AboutAppScreen
             Text(
               'About',
               style: TextStyle(
+                color: AppColors.textPrimary,
+
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -71,6 +80,7 @@ class AboutAppScreen
               'You can record transactions, categorize spending, view '
               'analytics, and gain insights into your financial habits.',
               style: TextStyle(
+                color: AppColors.fadeText,
                 fontSize: 15,
                 height: 1.6,
               ),
@@ -83,6 +93,8 @@ class AboutAppScreen
             Text(
               'Features',
               style: TextStyle(
+                color: AppColors.textPrimary,
+
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -98,6 +110,7 @@ class AboutAppScreen
               '• Secure cloud backup with Firebase\n'
               '• Dark mode support',
               style: TextStyle(
+                color: AppColors.fadeText,
                 fontSize: 15,
                 height: 1.6,
               ),
@@ -110,6 +123,8 @@ class AboutAppScreen
             Text(
               'Developer',
               style: TextStyle(
+                color: AppColors.textPrimary,
+
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -120,6 +135,8 @@ class AboutAppScreen
             Text(
               'Developed by Deepak as a Flutter & Firebase project to help users manage personal finances efficiently.',
               style: TextStyle(
+                color: AppColors.fadeText,
+
                 fontSize: 15,
                 height: 1.6,
               ),
@@ -141,7 +158,7 @@ class AboutAppScreen
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 13,
-                  color: Colors.grey,
+                  color: AppColors.fadeText,
                 ),
               ),
             ),

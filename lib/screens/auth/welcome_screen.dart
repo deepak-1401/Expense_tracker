@@ -1,6 +1,7 @@
 import 'package:budget_manager/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart';
 import 'package:budget_manager/blocs/sign_up_bloc/sign_up_bloc.dart';
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:budget_manager/screens/auth/login.dart';
 import 'package:budget_manager/screens/auth/sign_up.dart';
 import 'package:flutter/material.dart';
@@ -50,9 +51,6 @@ class _WelcomeScreenState
     BuildContext context,
   ) {
     return Scaffold(
-      backgroundColor: const Color(
-        0xFF070B2C,
-      ),
       body: SingleChildScrollView(
         child: SizedBox(
           width: MediaQuery.of(
@@ -74,7 +72,7 @@ class _WelcomeScreenState
                     const Text(
                       'Welcome to Budget Manager',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.textPrimary,
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -85,7 +83,7 @@ class _WelcomeScreenState
                     const Text(
                       'Manage your expenses efficiently',
                       style: TextStyle(
-                        color: Colors.white70,
+                        color: AppColors.fadeText,
                         fontSize: 16.0,
                       ),
                     ),
@@ -100,9 +98,7 @@ class _WelcomeScreenState
                 child: Icon(
                   Icons.account_balance_wallet_rounded,
                   size: 120,
-                  color: Color(
-                    0xFF9A5DFF,
-                  ),
+                  color: AppColors.iconColor,
                 ),
               ),
               Align(
@@ -120,9 +116,7 @@ class _WelcomeScreenState
                     16,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(
-                      alpha: 0.06,
-                    ),
+                    color: AppColors.container,
                     borderRadius: BorderRadius.circular(
                       30,
                     ),
@@ -147,15 +141,10 @@ class _WelcomeScreenState
                           ),
                           child: TabBar(
                             controller: tabController,
-                            unselectedLabelColor:
-                                Color(
-                                  0xFF9A5DFF,
-                                ).withValues(
-                                  alpha: 0.5,
-                                ),
-                            labelColor: Color(
-                              0xFF9A5DFF,
+                            unselectedLabelColor: AppColors.primary.withValues(
+                              alpha: 0.5,
                             ),
+                            labelColor: AppColors.primary,
                             tabs: const [
                               Padding(
                                 padding: EdgeInsets.all(

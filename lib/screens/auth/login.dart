@@ -1,5 +1,6 @@
 //import 'dart:math';
 import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart';
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:budget_manager/screens/auth/forget_password.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -58,12 +59,11 @@ class _LoginScreenState
                 decoration: InputDecoration(
                   prefixIcon: const Icon(
                     CupertinoIcons.mail_solid,
+                    color: AppColors.iconColor,
                   ),
                   labelText: 'Email',
                   filled: true,
-                  fillColor: const Color(
-                    0xFF0F1330,
-                  ),
+                  fillColor: AppColors.filledColor,
                   border: const OutlineInputBorder(),
                   errorText: errorMessage,
                 ),
@@ -99,14 +99,14 @@ class _LoginScreenState
                   ),
                   labelText: 'Password',
                   filled: true,
-                  fillColor: const Color(
-                    0xFF0F1330,
-                  ),
+                  fillColor: AppColors.filledColor,
+
                   border: const OutlineInputBorder(),
                   errorText: errorMessage,
                   suffixIcon: IconButton(
                     icon: Icon(
                       iconPassword,
+                      color: AppColors.iconColor,
                     ),
                     onPressed: () {
                       setState(
@@ -162,9 +162,7 @@ class _LoginScreenState
                     child: const Text(
                       "Forgot Password",
                       style: TextStyle(
-                        color: Color(
-                          0xFF9A5DFF,
-                        ),
+                        color: AppColors.primary,
                         fontSize: 14.0,
                       ),
                     ),
@@ -211,13 +209,13 @@ class _LoginScreenState
                         boxShadow: [
                           BoxShadow(
                             color:
-                                Color(
-                                  0xFF8B5CF6,
-                                ).withValues(
+                                Theme.of(
+                                  context,
+                                ).colorScheme.primary.withValues(
                                   alpha: 0.35,
                                 ),
                             blurRadius: 15,
-                            offset: Offset(
+                            offset: const Offset(
                               0,
                               6,
                             ),
@@ -259,6 +257,7 @@ class _LoginScreenState
                             'Login',
                             textAlign: TextAlign.center,
                             style: TextStyle(
+                              color: AppColors.textPrimary,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
@@ -298,6 +297,7 @@ class _LoginScreenState
                 label: const Text(
                   "Continue with Google",
                   style: TextStyle(
+                    color: AppColors.textPrimary,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),

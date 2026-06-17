@@ -1,5 +1,6 @@
 import 'package:budget_manager/blocs/create_expense_bloc/create_expense_bloc.dart';
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:budget_manager/screens/add_expense/blocs/get_categorybloc/get_category_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
 import 'package:budget_manager/screens/add_expense/views/newcategory.dart';
@@ -7,7 +8,6 @@ import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:budget_manager/screens/add_expense/views/payment.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budget_manager/screens/add_expense/blocs/create_categoryblocs/create_category_bloc.dart';
 import 'package:uuid/uuid.dart';
@@ -188,9 +188,7 @@ class _AddExpenseState
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(
-        0xFF161D47,
-      ),
+      backgroundColor: AppColors.alartdialogBG,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(
@@ -239,7 +237,7 @@ class _AddExpenseState
                               },
                               child: Icon(
                                 iconList[index],
-                                color: Colors.white,
+                                color: AppColors.iconColor,
                                 size: 28,
                               ),
                             );
@@ -299,9 +297,7 @@ class _AddExpenseState
                           "Add Expense",
                           style: TextStyle(
                             fontSize: 22,
-                            color: Color(
-                              0xFF8B4CFF,
-                            ),
+                            color: AppColors.primary,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -328,9 +324,7 @@ class _AddExpenseState
                                 22.0,
                               ),
                               filled: true,
-                              fillColor: Color(
-                                0xFF161D47,
-                              ),
+                              fillColor: AppColors.container,
 
                               prefixIcon: Padding(
                                 padding: const EdgeInsets.only(
@@ -344,18 +338,14 @@ class _AddExpenseState
                                     style: const TextStyle(
                                       fontSize: 22,
                                       fontWeight: FontWeight.bold,
-                                      color: Color(
-                                        0xFFA26DFF,
-                                      ),
+                                      color: AppColors.primary,
                                     ),
                                   ),
                                 ),
                               ),
                               hintText: "00.00",
                               hintStyle: TextStyle(
-                                color: Color(
-                                  0xFFA26DFF,
-                                ),
+                                color: AppColors.primary,
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -380,6 +370,9 @@ class _AddExpenseState
                               22.0,
                             ),
                             hintText: "Category",
+                            hintStyle: TextStyle(
+                              color: AppColors.textPrimary,
+                            ),
 
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
@@ -387,9 +380,7 @@ class _AddExpenseState
                               ),
                             ),
                             filled: true,
-                            fillColor: Color(
-                              0xFF161D47,
-                            ),
+                            fillColor: AppColors.container,
                             prefixIcon:
                                 selectedCategory ==
                                     null
@@ -406,7 +397,7 @@ class _AddExpenseState
                                       ),
                                       child: Icon(
                                         Icons.list_alt_outlined,
-                                        color: Colors.white,
+                                        color: AppColors.iconColor,
                                         size: 18,
                                       ),
                                     ),
@@ -426,7 +417,7 @@ class _AddExpenseState
                                         _iconFromName(
                                           selectedCategory!.icon,
                                         ),
-                                        color: Colors.white,
+                                        color: AppColors.iconColor,
                                         size: 18,
                                       ),
                                     ),
@@ -450,7 +441,7 @@ class _AddExpenseState
 
                                 icon: Icon(
                                   Icons.add,
-                                  color: Colors.white,
+                                  color: AppColors.iconColor,
                                   size: 24,
                                 ),
                               ),
@@ -503,9 +494,7 @@ class _AddExpenseState
                                     22.0,
                                   ),
                                   decoration: const BoxDecoration(
-                                    color: Color(
-                                      0xFF161D47,
-                                    ),
+                                    color: AppColors.container,
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(
@@ -541,7 +530,7 @@ class _AddExpenseState
                                                     backgroundColor: bgColor,
                                                     child: Icon(
                                                       iconData,
-                                                      color: Colors.white,
+                                                      color: AppColors.iconColor,
                                                     ),
                                                   ),
                                                   title: Text(
@@ -595,15 +584,16 @@ class _AddExpenseState
                               22.0,
                             ),
                             hintText: "Date",
+                            hintStyle: TextStyle(
+                              color: AppColors.textPrimary,
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
                                 10,
                               ),
                             ),
                             filled: true,
-                            fillColor: Color(
-                              0xFF161D47,
-                            ),
+                            fillColor: AppColors.container,
                             prefixIcon: Padding(
                               padding: EdgeInsets.all(
                                 8.0,
@@ -618,7 +608,7 @@ class _AddExpenseState
 
                                 child: Icon(
                                   Icons.calendar_month_outlined,
-                                  color: Colors.white,
+                                  color: AppColors.iconColor,
                                   size: 18,
                                 ),
                               ),
@@ -637,15 +627,16 @@ class _AddExpenseState
                               22.0,
                             ),
                             hintText: "Payment Method",
+                            hintStyle: TextStyle(
+                              color: AppColors.textPrimary,
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
                                 10,
                               ),
                             ),
                             filled: true,
-                            fillColor: Color(
-                              0xFF161D47,
-                            ),
+                            fillColor: AppColors.container,
                             prefixIcon: Padding(
                               padding: EdgeInsets.all(
                                 8.0,
@@ -659,7 +650,7 @@ class _AddExpenseState
                                 ),
                                 child: Icon(
                                   Icons.payment,
-                                  color: Colors.white,
+                                  color: AppColors.iconColor,
                                   size: 18,
                                 ),
                               ),
@@ -835,7 +826,7 @@ class _AddExpenseState
                                   child: const Text(
                                     "Save",
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: AppColors.textPrimary,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),

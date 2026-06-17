@@ -1,5 +1,6 @@
-import 'package:budget_manager/blocs/authentication_bloc/authentication_bloc.dart';
+//import 'package:budget_manager/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:budget_manager/blocs/change_password_bloc/change_password_bloc.dart';
+import 'package:budget_manager/core/utils/colours.dart';
 // import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart'
 //     hide
 //         LogOutRequired;
@@ -65,6 +66,7 @@ class _SettingState
                   child: Text(
                     'Settings',
                     style: TextStyle(
+                      color: AppColors.textPrimary,
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
@@ -109,11 +111,9 @@ class _SettingState
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Color(
-                          0xFF161D47,
-                        ),
-                        Color(
-                          0xFF1F2960,
+                        AppColors.container,
+                        AppColors.container.withValues(
+                          alpha: 0.8,
                         ),
                       ],
                     ),
@@ -127,14 +127,12 @@ class _SettingState
                         width: 60,
                         height: 60,
                         decoration: BoxDecoration(
-                          color: const Color(
-                            0xFF9B4EFF,
-                          ),
+                          color: AppColors.container,
                           borderRadius: BorderRadius.circular(
                             30,
                           ),
                         ),
-                        child: const UserAvatar(
+                        child: UserAvatar(
                           radius: 30,
                         ),
                       ),
@@ -152,7 +150,7 @@ class _SettingState
                         backgroundColor: Colors.transparent,
                         child: const Icon(
                           Icons.arrow_forward_ios_outlined,
-                          color: Colors.white,
+                          color: AppColors.iconColor,
                           size: 16,
                         ),
                       ),

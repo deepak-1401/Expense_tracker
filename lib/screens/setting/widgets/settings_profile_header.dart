@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class SettingsProfileHeader
           CircleAvatar(
             radius: 28,
             child: Icon(
+              color: AppColors.iconColor,
               Icons.person,
             ),
           ),
@@ -40,7 +42,7 @@ class SettingsProfileHeader
           Text(
             'Guest User',
             style: TextStyle(
-              color: Colors.white,
+              color: AppColors.textPrimary,
             ),
           ),
         ],
@@ -104,7 +106,7 @@ class SettingsProfileHeader
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: AppColors.textPrimary,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -117,7 +119,7 @@ class SettingsProfileHeader
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    color: Colors.grey,
+                    color: AppColors.fadeText,
                     fontSize: 13,
                   ),
                 ),

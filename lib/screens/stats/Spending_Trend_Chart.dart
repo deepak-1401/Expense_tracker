@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:budget_manager/screens/stats/stats.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -188,7 +189,7 @@ class MySpendingChart
         const Text(
           "Spending Trend",
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.textPrimary,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -205,14 +206,12 @@ class MySpendingChart
             16,
           ),
           decoration: BoxDecoration(
-            color: const Color(
-              0xff10173A,
-            ),
+            color: AppColors.container,
             borderRadius: BorderRadius.circular(
               20,
             ),
             border: Border.all(
-              color: Colors.white.withValues(
+              color: AppColors.fadeText.withValues(
                 alpha: 0.06,
               ),
               width: 1,
@@ -222,9 +221,9 @@ class MySpendingChart
             child: chartData.isEmpty
                 ? const Center(
                     child: Text(
-                      "No spending data available",
+                      "No spending data available for the selected period.",
                       style: TextStyle(
-                        color: Colors.white54,
+                        color: AppColors.fadeText,
                         fontSize: 13,
                       ),
                     ),
@@ -232,9 +231,7 @@ class MySpendingChart
                 : SfCartesianChart(
                     tooltipBehavior: TooltipBehavior(
                       enable: true,
-                      color: Color(
-                        0xff10173A,
-                      ),
+                      color: AppColors.primary,
                       builder:
                           (
                             data,
@@ -254,7 +251,7 @@ class MySpendingChart
                               child: Text(
                                 '${getTooltipLabel(chartData.xValue)} : ₹${chartData.amount.toStringAsFixed(0)}',
                                 style: const TextStyle(
-                                  color: Colors.white,
+                                  color: AppColors.textPrimary,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -276,7 +273,7 @@ class MySpendingChart
                       ),
                       // labelFormat: "Day {value}",
                       labelStyle: const TextStyle(
-                        color: Colors.white54,
+                        color: AppColors.fadeText,
                         fontSize: 11,
                       ),
                       axisLabelFormatter:
@@ -357,7 +354,7 @@ class MySpendingChart
                       ),
                       //labelFormat: "\${{value}}",
                       labelStyle: TextStyle(
-                        color: Colors.white54,
+                        color: AppColors.fadeText,
                         fontSize: 11,
                       ),
                     ),
@@ -385,9 +382,7 @@ class MySpendingChart
                                   _,
                                 ) => data.amount,
                             borderWidth: 3,
-                            borderColor: Color(
-                              0xffffffff,
-                            ),
+                            borderColor: AppColors.textPrimary,
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
@@ -413,8 +408,10 @@ class MySpendingChart
                   ),
           ),
         ),
-        const Divider(
-          color: Colors.white24,
+        Divider(
+          color: AppColors.fadeText.withValues(
+            alpha: 0.2,
+          ),
           thickness: 1,
           height: 40,
         ),

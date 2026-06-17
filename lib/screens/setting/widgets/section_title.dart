@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:flutter/material.dart';
 
 Widget
@@ -17,7 +18,7 @@ sectionTitle(
           child: Text(
             title,
             style: const TextStyle(
-              color: Colors.grey,
+              color: AppColors.fadeText,
               fontSize: 13,
               fontWeight: FontWeight.w600,
               letterSpacing: 1,
@@ -28,7 +29,7 @@ sectionTitle(
           child: Divider(
             thickness: 1,
 
-            color: Colors.grey.withValues(
+            color: AppColors.fadeText.withValues(
               alpha: 0.3,
             ),
           ),

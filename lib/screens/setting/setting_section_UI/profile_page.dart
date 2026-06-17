@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/utils/colours.dart';
 import 'package:budget_manager/screens/setting/widgets/avatar_picker_bottom_sheet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -132,7 +133,7 @@ class _ProfileState
             user.email ??
             '';
         selectedAvatar =
-            data['avatar']?.toString() ??
+            data['selectedAvatar']?.toString() ??
             'assets/avatar/avatar0.png';
       } else {
         nameController.text =
@@ -171,40 +172,22 @@ class _ProfileState
     void
   >
   saveProfileData() async {
-    FocusScope.of(
-      context,
-    ).unfocus();
-
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
-
-    final user = FirebaseAuth.instance.currentUser;
-
-    if (user ==
-        null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'User not found. Please login again.',
-          ),
-        ),
-      );
-      return;
-    }
-
     setState(
       () {
         isSaving = true;
       },
     );
+    // String selectedAvatar = 'assets/avatar/avatar0.png';
 
     try {
-      final String name = nameController.text.trim();
-      final String ageText = ageController.text.trim();
-      final String occupation = occupationController.text.trim();
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user ==
+          null) {
+        throw Exception(
+          "No user logged in",
+        );
+      }
 
       await FirebaseFirestore.instance
           .collection(
@@ -215,28 +198,18 @@ class _ProfileState
           )
           .set(
             {
-              'userId': user.uid,
-              'name': name,
-              'age': ageText.isEmpty
-                  ? null
-                  : int.parse(
-                      ageText,
-                    ),
+              'name': nameController.text.trim(),
+              'age': ageController.text.trim(),
               'gender': selectedGender,
-              'occupation': occupation,
-              'email': user.email,
-              'avatar': selectedAvatar,
-
+              'occupation': occupationController.text.trim(),
+              'email': emailController.text.trim(),
+              'selectedAvatar': selectedAvatar,
               'updatedAt': FieldValue.serverTimestamp(),
             },
             SetOptions(
               merge: true,
             ),
           );
-
-      await user.updateDisplayName(
-        name,
-      );
 
       if (!mounted) return;
 
@@ -245,28 +218,9 @@ class _ProfileState
       ).showSnackBar(
         const SnackBar(
           content: Text(
-            'Profile updated successfully',
+            "Profile updated successfully",
           ),
-        ),
-      );
-
-      Navigator.pop(
-        context,
-        true,
-      );
-    } on FirebaseException catch (
-      e
-    ) {
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(
-        SnackBar(
-          content: Text(
-            e.message ??
-                'Failed to update profile',
-          ),
+          backgroundColor: Colors.green,
         ),
       );
     } catch (
@@ -277,21 +231,22 @@ class _ProfileState
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text(
-            'Something went wrong',
+            "Failed to update profile",
           ),
+          backgroundColor: Colors.red,
         ),
       );
+    } finally {
+      if (mounted) {
+        setState(
+          () {
+            isSaving = false;
+          },
+        );
+      }
     }
-
-    if (!mounted) return;
-
-    setState(
-      () {
-        isSaving = false;
-      },
-    );
   }
 
   InputDecoration inputDecoration({
@@ -301,12 +256,10 @@ class _ProfileState
     return InputDecoration(
       labelText: label,
       labelStyle: const TextStyle(
-        color: Colors.white54,
+        color: AppColors.fadeText,
       ),
       filled: true,
-      fillColor: const Color(
-        0xFF0F1330,
-      ),
+      fillColor: AppColors.filledColor,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(
           10,
@@ -316,8 +269,10 @@ class _ProfileState
         borderRadius: BorderRadius.circular(
           10,
         ),
-        borderSide: const BorderSide(
-          color: Colors.white12,
+        borderSide: BorderSide(
+          color: AppColors.fadeText.withValues(
+            alpha: 0.5,
+          ),
         ),
       ),
       focusedBorder: OutlineInputBorder(
@@ -332,7 +287,7 @@ class _ProfileState
       ),
       prefixIcon: Icon(
         icon,
-        color: Colors.red,
+        color: AppColors.iconColor,
       ),
     );
   }
@@ -345,6 +300,10 @@ class _ProfileState
       appBar: AppBar(
         title: const Text(
           'Profile',
+          style: TextStyle(
+            color: AppColors.primary,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       body: SafeArea(
@@ -404,7 +363,7 @@ class _ProfileState
                         TextFormField(
                           controller: nameController,
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: AppColors.textPrimary,
                           ),
                           decoration: inputDecoration(
                             label: 'Name',
@@ -430,7 +389,7 @@ class _ProfileState
                         TextFormField(
                           controller: ageController,
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: AppColors.textPrimary,
                           ),
                           decoration: inputDecoration(
                             label: 'Age',
@@ -478,21 +437,17 @@ class _ProfileState
                             selectedGender,
                           ),
                           initialValue: selectedGender,
-                          dropdownColor: const Color(
-                            0xFF0F1330,
-                          ),
+                          dropdownColor: AppColors.filledColor,
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: AppColors.textPrimary,
                           ),
                           decoration: InputDecoration(
                             labelText: 'Gender',
                             labelStyle: const TextStyle(
-                              color: Colors.white54,
+                              color: AppColors.fadeText,
                             ),
                             filled: true,
-                            fillColor: const Color(
-                              0xFF0F1330,
-                            ),
+                            fillColor: AppColors.filledColor,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
                                 10,
@@ -502,8 +457,10 @@ class _ProfileState
                               borderRadius: BorderRadius.circular(
                                 10,
                               ),
-                              borderSide: const BorderSide(
-                                color: Colors.white12,
+                              borderSide: BorderSide(
+                                color: AppColors.fadeText.withValues(
+                                  alpha: 0.5,
+                                ),
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
@@ -593,7 +550,7 @@ class _ProfileState
                         TextFormField(
                           controller: occupationController,
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: AppColors.textPrimary,
                           ),
                           decoration: inputDecoration(
                             label: 'Occupation',
@@ -609,7 +566,7 @@ class _ProfileState
                           controller: emailController,
                           readOnly: true,
                           style: const TextStyle(
-                            color: Colors.white70,
+                            color: AppColors.textPrimary,
                           ),
                           decoration: inputDecoration(
                             label: 'Email',
@@ -667,64 +624,20 @@ class _ProfileState
                               ),
                               onPressed: isSaving
                                   ? null
-                                  : () async {
-                                      setState(
-                                        () {
-                                          isSaving = true;
-                                        },
-                                      );
-
-                                      try {
-                                        // your existing save profile function/code here
-
-                                        if (!mounted) return;
-
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              "Profile updated successfully",
-                                            ),
-                                          ),
-                                        );
-                                      } catch (
-                                        e
-                                      ) {
-                                        if (!mounted) return;
-
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              "Failed to update profile: $e",
-                                            ),
-                                          ),
-                                        );
-                                      } finally {
-                                        if (mounted) {
-                                          setState(
-                                            () {
-                                              isSaving = false;
-                                            },
-                                          );
-                                        }
-                                      }
-                                    },
+                                  : saveProfileData,
                               child: isSaving
                                   ? const SizedBox(
                                       width: 20,
                                       height: 20,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2,
-                                        color: Colors.white,
+                                        color: AppColors.textPrimary,
                                       ),
                                     )
                                   : const Text(
                                       "Save Changes",
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: AppColors.textPrimary,
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                       ),
