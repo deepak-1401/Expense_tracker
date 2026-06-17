@@ -1,4 +1,5 @@
 import 'package:budget_manager/blocs/create_expense_bloc/create_expense_bloc.dart';
+import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
 import 'package:budget_manager/screens/add_expense/blocs/get_categorybloc/get_category_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
 import 'package:budget_manager/screens/add_expense/views/newcategory.dart';
@@ -254,6 +255,11 @@ class _AddExpenseState
   Widget build(
     BuildContext context,
   ) {
+    final currencyState = context
+        .watch<
+          CurrencyBloc
+        >()
+        .state;
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusScope.of(
@@ -312,7 +318,7 @@ class _AddExpenseState
                               MediaQuery.of(
                                 context,
                               ).size.height *
-                              0.1,
+                              0.080,
                           child: TextFormField(
                             controller: expenseController,
                             textAlignVertical: TextAlignVertical.center,
@@ -325,6 +331,26 @@ class _AddExpenseState
                               fillColor: Color(
                                 0xFF161D47,
                               ),
+
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 22,
+                                  right: 10,
+                                ),
+                                child: Center(
+                                  widthFactor: 1,
+                                  child: Text(
+                                    currencyState.symbol,
+                                    style: const TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(
+                                        0xFFA26DFF,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                               hintText: "00.00",
                               hintStyle: TextStyle(
                                 color: Color(
@@ -333,9 +359,7 @@ class _AddExpenseState
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
                               ),
-                              prefixIcon: Icon(
-                                Icons.currency_rupee,
-                              ),
+
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(
                                   40,

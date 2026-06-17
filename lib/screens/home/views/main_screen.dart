@@ -1,3 +1,4 @@
+import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
 import 'package:budget_manager/core/widget/user_name_text.dart';
 import 'package:budget_manager/models/expense_filter_model.dart';
 import 'package:budget_manager/screens/home/views/expense_filters.dart';
@@ -5,6 +6,7 @@ import 'package:budget_manager/core/widget/user_avatar.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:intl/intl.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
@@ -70,10 +72,11 @@ class _MainScreenState
 
   String formatCurrency(
     double amount,
+    String symbol,
   ) {
     return NumberFormat.currency(
       locale: 'en_IN',
-      symbol: '₹ ',
+      symbol: '$symbol ',
       decimalDigits: 0,
     ).format(
       amount,
@@ -84,6 +87,11 @@ class _MainScreenState
   Widget build(
     BuildContext context,
   ) {
+    final currencyState = context
+        .watch<
+          CurrencyBloc
+        >()
+        .state;
     final expenses = widget.expenses;
     List<
       Expense
@@ -526,9 +534,10 @@ class _MainScreenState
 
                               child: Text(
                                 hideAmount
-                                    ? '₹ ••••••'
+                                    ? '${currencyState.symbol} ••••••'
                                     : formatCurrency(
                                         totalExpense,
+                                        currencyState.symbol,
                                       ),
 
                                 style: const TextStyle(
@@ -849,7 +858,7 @@ class _MainScreenState
                                                   crossAxisAlignment: CrossAxisAlignment.end,
                                                   children: [
                                                     Text(
-                                                      "₹ ${expense.amount.toStringAsFixed(2)}",
+                                                      "${currencyState.symbol} ${expense.amount.toStringAsFixed(2)}",
                                                       style: TextStyle(
                                                         fontSize: 18,
                                                         color: Color(

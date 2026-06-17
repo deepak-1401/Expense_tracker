@@ -1,6 +1,8 @@
+import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
 import 'package:budget_manager/screens/stats/stats.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_repository/expense_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class SummaryCardLayout
@@ -92,6 +94,11 @@ class SummaryCardLayout
   Widget build(
     BuildContext context,
   ) {
+    final currencyState = context
+        .watch<
+          CurrencyBloc
+        >()
+        .state;
     //Total Spent Logic
     final totalSpent =
         expenses.fold<
@@ -207,10 +214,11 @@ class SummaryCardLayout
 
     String formatCurrency(
       double amount,
+      String symbol,
     ) {
       return NumberFormat.currency(
         locale: 'en_IN',
-        symbol: '₹',
+        symbol: '$symbol ',
         decimalDigits: 0,
       ).format(
         amount,
@@ -256,6 +264,7 @@ class SummaryCardLayout
                 title: "Highest",
                 value: formatCurrency(
                   highestExpense,
+                  currencyState.symbol,
                 ),
               ),
               summaryCard(
@@ -265,6 +274,7 @@ class SummaryCardLayout
                 value: topCategoryName,
                 subtitle: formatCurrency(
                   topCategoryAmount,
+                  currencyState.symbol,
                 ),
               ),
               summaryCard(
@@ -272,6 +282,7 @@ class SummaryCardLayout
                 title: getAverageTitle(),
                 value: formatCurrency(
                   averageAmount,
+                  currencyState.symbol,
                 ),
               ),
             ],
@@ -286,6 +297,7 @@ class SummaryCardLayout
                 title: "Total Spent",
                 value: formatCurrency(
                   totalSpent,
+                  currencyState.symbol,
                 ),
               ),
             ],

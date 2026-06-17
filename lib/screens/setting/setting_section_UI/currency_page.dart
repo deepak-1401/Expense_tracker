@@ -1,5 +1,7 @@
+import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
 import 'package:budget_manager/data/currencies_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CurrencyPage
     extends
@@ -20,12 +22,32 @@ class _CurrencyPageState
         State<
           CurrencyPage
         > {
+  // late String selectedCurrencyCode;
   String selectedCurrencyCode = "INR";
+  @override
+  void initState() {
+    super.initState();
+
+    selectedCurrencyCode = context
+        .read<
+          CurrencyBloc
+        >()
+        .state
+        .code;
+  }
 
   @override
   Widget build(
     BuildContext context,
   ) {
+    final currencyState = context
+        .watch<
+          CurrencyBloc
+        >()
+        .state;
+
+    selectedCurrencyCode = currencyState.code;
+
     return AlertDialog(
       backgroundColor: const Color(
         0xFF161D47,
@@ -95,6 +117,18 @@ class _CurrencyPageState
                             selectedCurrencyCode = currency['code']!;
                           },
                         );
+
+                        context
+                            .read<
+                              CurrencyBloc
+                            >()
+                            .add(
+                              CurrencyChanged(
+                                code: currency['code']!,
+                                symbol: currency['symbol']!,
+                                name: currency['name']!,
+                              ),
+                            );
 
                         Navigator.pop(
                           context,

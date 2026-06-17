@@ -1,5 +1,7 @@
+import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -32,6 +34,11 @@ class PaymentMethodSplitChart
   Widget build(
     BuildContext context,
   ) {
+    final currencyState = context
+        .watch<
+          CurrencyBloc
+        >()
+        .state;
     // final now = DateTime.now();
 
     // final currentMonthExpenses = expenses.where(
@@ -123,10 +130,11 @@ class PaymentMethodSplitChart
     );
     String formatCurrency(
       double amount,
+      String symbol,
     ) {
       return NumberFormat.currency(
         locale: 'en_IN',
-        symbol: '₹',
+        symbol: '$symbol ',
         decimalDigits: 0,
       ).format(
         amount,
@@ -308,6 +316,7 @@ class PaymentMethodSplitChart
                                     Text(
                                       formatCurrency(
                                         totalAmount,
+                                        currencyState.symbol,
                                       ),
                                       style: const TextStyle(
                                         fontSize: 18,
