@@ -1,7 +1,7 @@
 import 'package:budget_manager/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart';
 import 'package:budget_manager/blocs/sign_up_bloc/sign_up_bloc.dart';
-import 'package:budget_manager/core/utils/colours.dart';
+import 'package:budget_manager/theme/colours.dart';
 import 'package:budget_manager/screens/auth/login.dart';
 import 'package:budget_manager/screens/auth/sign_up.dart';
 import 'package:flutter/material.dart';

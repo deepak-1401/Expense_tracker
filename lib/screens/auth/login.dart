@@ -1,6 +1,6 @@
 //import 'dart:math';
 import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart';
-import 'package:budget_manager/core/utils/colours.dart';
+import 'package:budget_manager/theme/colours.dart';
 import 'package:budget_manager/screens/auth/forget_password.dart';
 import 'package:user_repository/user_repository.dart';
 

@@ -1,5 +1,5 @@
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
-import 'package:budget_manager/core/utils/colours.dart';
+import 'package:budget_manager/theme/colours.dart';
 import 'package:budget_manager/core/widget/user_name_text.dart';
 import 'package:budget_manager/models/expense_filter_model.dart';
 import 'package:budget_manager/screens/home/views/expense_filters.dart';

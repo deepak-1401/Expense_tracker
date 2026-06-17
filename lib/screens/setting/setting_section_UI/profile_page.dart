@@ -1,4 +1,4 @@
-import 'package:budget_manager/core/utils/colours.dart';
+import 'package:budget_manager/theme/colours.dart';
 import 'package:budget_manager/screens/setting/widgets/avatar_picker_bottom_sheet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

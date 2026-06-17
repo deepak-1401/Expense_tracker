@@ -1,6 +1,6 @@
 //import 'package:budget_manager/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:budget_manager/blocs/change_password_bloc/change_password_bloc.dart';
-import 'package:budget_manager/core/utils/colours.dart';
+import 'package:budget_manager/theme/colours.dart';
 // import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart'
 //     hide
 //         LogOutRequired;

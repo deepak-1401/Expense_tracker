@@ -1,6 +1,6 @@
 import 'package:budget_manager/blocs/create_expense_bloc/create_expense_bloc.dart';
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
-import 'package:budget_manager/core/utils/colours.dart';
+import 'package:budget_manager/theme/colours.dart';
 import 'package:budget_manager/screens/add_expense/blocs/get_categorybloc/get_category_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
 import 'package:budget_manager/screens/add_expense/views/newcategory.dart';
@@ -284,559 +284,567 @@ class _AddExpenseState
                     }
                   },
               child: Scaffold(
-                appBar: AppBar(),
-                body: SingleChildScrollView(
+                body: SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.all(
-                      16.0,
+                    padding: const EdgeInsets.only(
+                      top: kToolbarHeight,
+                      left: 16,
+                      right: 16,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Add Expense",
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.w500,
-                          ),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(
+                          16.0,
                         ),
-                        const SizedBox(
-                          height: 22,
-                        ),
-                        SizedBox(
-                          width:
-                              MediaQuery.of(
-                                context,
-                              ).size.width *
-                              0.8,
-                          height:
-                              MediaQuery.of(
-                                context,
-                              ).size.height *
-                              0.080,
-                          child: TextFormField(
-                            controller: expenseController,
-                            textAlignVertical: TextAlignVertical.center,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(
-                                22.0,
-                              ),
-                              filled: true,
-                              fillColor: AppColors.container,
-
-                              prefixIcon: Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 22,
-                                  right: 10,
-                                ),
-                                child: Center(
-                                  widthFactor: 1,
-                                  child: Text(
-                                    currencyState.symbol,
-                                    style: const TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.primary,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              hintText: "00.00",
-                              hintStyle: TextStyle(
-                                color: AppColors.primary,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Add Expense",
+                              style: TextStyle(
                                 fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                              ),
-
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(
-                                  40,
-                                ),
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 22,
-                        ),
-                        TextFormField(
-                          readOnly: true,
-                          textAlignVertical: TextAlignVertical.center,
-                          controller: categoryController,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(
-                              22.0,
+                            const SizedBox(
+                              height: 22,
                             ),
-                            hintText: "Category",
-                            hintStyle: TextStyle(
-                              color: AppColors.textPrimary,
-                            ),
-
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                10,
-                              ),
-                            ),
-                            filled: true,
-                            fillColor: AppColors.container,
-                            prefixIcon:
-                                selectedCategory ==
-                                    null
-                                ? Padding(
-                                    padding: const EdgeInsets.all(
-                                      8.0,
-                                    ),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(
-                                          0xFF9B4EFF,
-                                        ),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Icon(
-                                        Icons.list_alt_outlined,
-                                        color: AppColors.iconColor,
-                                        size: 18,
-                                      ),
-                                    ),
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.all(
-                                      7.0,
-                                    ),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: _colorFromString(
-                                          selectedCategory!.color,
-                                        ),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Icon(
-                                        _iconFromName(
-                                          selectedCategory!.icon,
-                                        ),
-                                        color: AppColors.iconColor,
-                                        size: 18,
-                                      ),
-                                    ),
-                                  ),
-                            suffixIcon: Padding(
-                              padding: EdgeInsets.all(
-                                8.0,
-                              ),
-                              child: IconButton(
-                                onPressed: () async {
-                                  await showDialog(
-                                    context: context,
-                                    builder:
-                                        (
-                                          context,
-                                        ) {
-                                          return const NewCategory();
-                                        },
-                                  );
-                                },
-
-                                icon: Icon(
-                                  Icons.add,
-                                  color: AppColors.iconColor,
-                                  size: 24,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        BlocBuilder<
-                          CreateCategoryBloc,
-                          CreateCategoryState
-                        >(
-                          builder:
-                              (
-                                context,
-                                state,
-                              ) {
-                                List<
-                                  Category
-                                >
-                                items = [];
-
-                                if (state
-                                    is CreateCategoryLoadSuccess) {
-                                  items = state.categories;
-                                }
-
-                                // if (state
-                                //     is CreateCategoryLoading) {
-                                //   return const Center(
-                                //     child: CircularProgressIndicator(),
-                                //   );
-                                // }
-
-                                if (state
-                                    is CreateCategoryFailure) {
-                                  return const Center(
-                                    child: Text(
-                                      'Failed to load categories',
-                                    ),
-                                  );
-                                }
-
-                                if (items.isEmpty) {
-                                  return const SizedBox.shrink();
-                                }
-
-                                return Container(
-                                  height: 200,
-                                  padding: const EdgeInsets.all(
+                            SizedBox(
+                              width:
+                                  MediaQuery.of(
+                                    context,
+                                  ).size.width *
+                                  0.8,
+                              height:
+                                  MediaQuery.of(
+                                    context,
+                                  ).size.height *
+                                  0.080,
+                              child: TextFormField(
+                                controller: expenseController,
+                                textAlignVertical: TextAlignVertical.center,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(
                                     22.0,
                                   ),
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.container,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(
-                                      8.0,
+                                  filled: true,
+                                  fillColor: AppColors.container,
+
+                                  prefixIcon: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 22,
+                                      right: 10,
                                     ),
-                                    child: ListView.builder(
-                                      itemCount: items.length,
-                                      itemBuilder:
-                                          (
-                                            context,
-                                            i,
-                                          ) {
-                                            final c = items[i];
-                                            final iconData = _iconFromName(
-                                              c.icon,
-                                            );
-                                            final bgColor = _colorFromString(
-                                              c.color,
-                                            );
-                                            return Card(
-                                              child: InkWell(
-                                                onTap: () {
-                                                  setState(
-                                                    () {
-                                                      expense.category = c;
-                                                      categoryController.text = c.name;
-                                                      selectedCategory = c;
+                                    child: Center(
+                                      widthFactor: 1,
+                                      child: Text(
+                                        currencyState.symbol,
+                                        style: const TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.primary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  hintText: "00.00",
+                                  hintStyle: TextStyle(
+                                    color: AppColors.primary,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      40,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 22,
+                            ),
+                            TextFormField(
+                              readOnly: true,
+                              textAlignVertical: TextAlignVertical.center,
+                              controller: categoryController,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(
+                                  22.0,
+                                ),
+                                hintText: "Category",
+                                hintStyle: TextStyle(
+                                  color: AppColors.textPrimary,
+                                ),
+
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    10,
+                                  ),
+                                ),
+                                filled: true,
+                                fillColor: AppColors.container,
+                                prefixIcon:
+                                    selectedCategory ==
+                                        null
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(
+                                          8.0,
+                                        ),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Color(
+                                              0xFF9B4EFF,
+                                            ),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Icon(
+                                            Icons.list_alt_outlined,
+                                            color: AppColors.iconColor,
+                                            size: 18,
+                                          ),
+                                        ),
+                                      )
+                                    : Padding(
+                                        padding: const EdgeInsets.all(
+                                          7.0,
+                                        ),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: _colorFromString(
+                                              selectedCategory!.color,
+                                            ),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Icon(
+                                            _iconFromName(
+                                              selectedCategory!.icon,
+                                            ),
+                                            color: AppColors.iconColor,
+                                            size: 18,
+                                          ),
+                                        ),
+                                      ),
+                                suffixIcon: Padding(
+                                  padding: EdgeInsets.all(
+                                    8.0,
+                                  ),
+                                  child: IconButton(
+                                    onPressed: () async {
+                                      await showDialog(
+                                        context: context,
+                                        builder:
+                                            (
+                                              context,
+                                            ) {
+                                              return const NewCategory();
+                                            },
+                                      );
+                                    },
+
+                                    icon: Icon(
+                                      Icons.add,
+                                      color: AppColors.iconColor,
+                                      size: 24,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            BlocBuilder<
+                              CreateCategoryBloc,
+                              CreateCategoryState
+                            >(
+                              builder:
+                                  (
+                                    context,
+                                    state,
+                                  ) {
+                                    List<
+                                      Category
+                                    >
+                                    items = [];
+
+                                    if (state
+                                        is CreateCategoryLoadSuccess) {
+                                      items = state.categories;
+                                    }
+
+                                    // if (state
+                                    //     is CreateCategoryLoading) {
+                                    //   return const Center(
+                                    //     child: CircularProgressIndicator(),
+                                    //   );
+                                    // }
+
+                                    if (state
+                                        is CreateCategoryFailure) {
+                                      return const Center(
+                                        child: Text(
+                                          'Failed to load categories',
+                                        ),
+                                      );
+                                    }
+
+                                    if (items.isEmpty) {
+                                      return const SizedBox.shrink();
+                                    }
+
+                                    return Container(
+                                      height: 200,
+                                      padding: const EdgeInsets.all(
+                                        22.0,
+                                      ),
+                                      decoration: const BoxDecoration(
+                                        color: AppColors.container,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(
+                                          8.0,
+                                        ),
+                                        child: ListView.builder(
+                                          itemCount: items.length,
+                                          itemBuilder:
+                                              (
+                                                context,
+                                                i,
+                                              ) {
+                                                final c = items[i];
+                                                final iconData = _iconFromName(
+                                                  c.icon,
+                                                );
+                                                final bgColor = _colorFromString(
+                                                  c.color,
+                                                );
+                                                return Card(
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      setState(
+                                                        () {
+                                                          expense.category = c;
+                                                          categoryController.text = c.name;
+                                                          selectedCategory = c;
+                                                        },
+                                                      );
                                                     },
-                                                  );
-                                                },
-                                                child: ListTile(
-                                                  leading: CircleAvatar(
-                                                    backgroundColor: bgColor,
-                                                    child: Icon(
-                                                      iconData,
-                                                      color: AppColors.iconColor,
+                                                    child: ListTile(
+                                                      leading: CircleAvatar(
+                                                        backgroundColor: bgColor,
+                                                        child: Icon(
+                                                          iconData,
+                                                          color: AppColors.iconColor,
+                                                        ),
+                                                      ),
+                                                      title: Text(
+                                                        c.name,
+                                                      ),
                                                     ),
                                                   ),
-                                                  title: Text(
-                                                    c.name,
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
+                                                );
+                                              },
+                                        ),
+                                      ),
+                                    );
+                                  },
+                            ),
+
+                            const SizedBox(
+                              height: 22,
+                            ),
+                            TextFormField(
+                              controller: dateController,
+                              textAlignVertical: TextAlignVertical.center,
+                              readOnly: true,
+                              onTap: () async {
+                                DateTime? newDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: expense.date,
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime.now().add(
+                                    Duration(
+                                      days: 365,
                                     ),
                                   ),
                                 );
+                                if (newDate !=
+                                    null) {
+                                  setState(
+                                    () {
+                                      dateController.text =
+                                          DateFormat(
+                                            'dd-MM-yyyy',
+                                          ).format(
+                                            newDate,
+                                          );
+                                      expense.date = newDate;
+                                    },
+                                  );
+                                }
                               },
-                        ),
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(
+                                  22.0,
+                                ),
+                                hintText: "Date",
+                                hintStyle: TextStyle(
+                                  color: AppColors.textPrimary,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    10,
+                                  ),
+                                ),
+                                filled: true,
+                                fillColor: AppColors.container,
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.all(
+                                    8.0,
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(
+                                        0xFF20D3A7,
+                                      ),
+                                      shape: BoxShape.circle,
+                                    ),
 
-                        const SizedBox(
-                          height: 22,
-                        ),
-                        TextFormField(
-                          controller: dateController,
-                          textAlignVertical: TextAlignVertical.center,
-                          readOnly: true,
-                          onTap: () async {
-                            DateTime? newDate = await showDatePicker(
-                              context: context,
-                              initialDate: expense.date,
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime.now().add(
-                                Duration(
-                                  days: 365,
+                                    child: Icon(
+                                      Icons.calendar_month_outlined,
+                                      color: AppColors.iconColor,
+                                      size: 18,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            );
-                            if (newDate !=
-                                null) {
-                              setState(
-                                () {
-                                  dateController.text =
-                                      DateFormat(
-                                        'dd-MM-yyyy',
-                                      ).format(
-                                        newDate,
+                            ),
+                            const SizedBox(
+                              height: 22,
+                            ),
+                            TextFormField(
+                              controller: paymentController,
+                              readOnly: true,
+                              textAlignVertical: TextAlignVertical.center,
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(
+                                  22.0,
+                                ),
+                                hintText: "Payment Method",
+                                hintStyle: TextStyle(
+                                  color: AppColors.textPrimary,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    10,
+                                  ),
+                                ),
+                                filled: true,
+                                fillColor: AppColors.container,
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.all(
+                                    8.0,
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(
+                                        0xFFFF9A3D,
+                                      ),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.payment,
+                                      color: AppColors.iconColor,
+                                      size: 18,
+                                    ),
+                                  ),
+                                ),
+                                suffixIcon: Padding(
+                                  padding: const EdgeInsets.all(
+                                    8.0,
+                                  ),
+                                  child: IconButton(
+                                    onPressed: () async {
+                                      final result = await showDialog(
+                                        context: context,
+                                        builder:
+                                            (
+                                              context,
+                                            ) {
+                                              return const Payment();
+                                            },
                                       );
-                                  expense.date = newDate;
-                                },
-                              );
-                            }
-                          },
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(
-                              22.0,
-                            ),
-                            hintText: "Date",
-                            hintStyle: TextStyle(
-                              color: AppColors.textPrimary,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                10,
+
+                                      print(
+                                        "PAYMENT DIALOG RESULT = $result",
+                                      );
+
+                                      if (result !=
+                                          null) {
+                                        setState(
+                                          () {
+                                            selectedPaymentMethod = result;
+                                            paymentController.text = selectedPaymentMethod;
+
+                                            expense.paymentMethod = selectedPaymentMethod;
+                                          },
+                                        );
+
+                                        print(
+                                          "SELECTED PAYMENT = $selectedPaymentMethod",
+                                        );
+                                        print(
+                                          "PAYMENT CONTROLLER = ${paymentController.text}",
+                                        );
+                                        print(
+                                          "EXPENSE PAYMENT = ${expense.paymentMethod}",
+                                        );
+                                      }
+                                    },
+                                    icon: const Icon(
+                                      Icons.expand_more,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                            filled: true,
-                            fillColor: AppColors.container,
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.all(
-                                8.0,
-                              ),
+                            const SizedBox(
+                              height: 60,
+                            ),
+
+                            SizedBox(
+                              width:
+                                  MediaQuery.of(
+                                    context,
+                                  ).size.width *
+                                  0.75,
+                              height:
+                                  MediaQuery.of(
+                                    context,
+                                  ).size.height *
+                                  0.075,
+
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Color(
-                                    0xFF20D3A7,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color:
+                                          Color(
+                                            0xFF8B5CF6,
+                                          ).withValues(
+                                            alpha: 0.35,
+                                          ),
+                                      blurRadius: 15,
+                                      offset: Offset(
+                                        0,
+                                        6,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                child: TextButton(
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    padding: EdgeInsets.zero,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                        40,
+                                      ),
+                                    ),
                                   ),
-                                  shape: BoxShape.circle,
-                                ),
 
-                                child: Icon(
-                                  Icons.calendar_month_outlined,
-                                  color: AppColors.iconColor,
-                                  size: 18,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 22,
-                        ),
-                        TextFormField(
-                          controller: paymentController,
-                          readOnly: true,
-                          textAlignVertical: TextAlignVertical.center,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(
-                              22.0,
-                            ),
-                            hintText: "Payment Method",
-                            hintStyle: TextStyle(
-                              color: AppColors.textPrimary,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(
-                                10,
-                              ),
-                            ),
-                            filled: true,
-                            fillColor: AppColors.container,
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.all(
-                                8.0,
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Color(
-                                    0xFFFF9A3D,
-                                  ),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  Icons.payment,
-                                  color: AppColors.iconColor,
-                                  size: 18,
-                                ),
-                              ),
-                            ),
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.all(
-                                8.0,
-                              ),
-                              child: IconButton(
-                                onPressed: () async {
-                                  final result = await showDialog(
-                                    context: context,
-                                    builder:
-                                        (
-                                          context,
-                                        ) {
-                                          return const Payment();
-                                        },
-                                  );
-
-                                  print(
-                                    "PAYMENT DIALOG RESULT = $result",
-                                  );
-
-                                  if (result !=
-                                      null) {
+                                  onPressed: () {
                                     setState(
                                       () {
-                                        selectedPaymentMethod = result;
-                                        paymentController.text = selectedPaymentMethod;
+                                        expense.expenseId = const Uuid().v1();
 
-                                        expense.paymentMethod = selectedPaymentMethod;
+                                        expense.amount =
+                                            double.tryParse(
+                                              expenseController.text,
+                                            ) ??
+                                            0.00;
                                       },
                                     );
 
                                     print(
-                                      "SELECTED PAYMENT = $selectedPaymentMethod",
+                                      "SAVE BUTTON CLICKED",
+                                    );
+                                    // print(
+                                    //   "Amount: ${amountController.text}",
+                                    // );
+                                    print(
+                                      "Category: ${expense.category.name}",
                                     );
                                     print(
-                                      "PAYMENT CONTROLLER = ${paymentController.text}",
+                                      "Payment: ${expense.paymentMethod}",
                                     );
                                     print(
-                                      "EXPENSE PAYMENT = ${expense.paymentMethod}",
+                                      "Date: ${expense.date}",
                                     );
-                                  }
-                                },
-                                icon: const Icon(
-                                  Icons.expand_more,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 60,
-                        ),
 
-                        SizedBox(
-                          width:
-                              MediaQuery.of(
-                                context,
-                              ).size.width *
-                              0.75,
-                          height:
-                              MediaQuery.of(
-                                context,
-                              ).size.height *
-                              0.075,
-
-                          child: Container(
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color:
-                                      Color(
-                                        0xFF8B5CF6,
-                                      ).withValues(
-                                        alpha: 0.35,
-                                      ),
-                                  blurRadius: 15,
-                                  offset: Offset(
-                                    0,
-                                    6,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: Colors.transparent,
-                                padding: EdgeInsets.zero,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    40,
-                                  ),
-                                ),
-                              ),
-
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    expense.expenseId = const Uuid().v1();
-
-                                    expense.amount =
-                                        double.tryParse(
-                                          expenseController.text,
-                                        ) ??
-                                        0.00;
+                                    context
+                                        .read<
+                                          CreateExpenseBloc
+                                        >()
+                                        .add(
+                                          CreateExpense(
+                                            Expense(
+                                              expenseId: const Uuid().v1(),
+                                              category: expense.category,
+                                              amount:
+                                                  double.tryParse(
+                                                    expenseController.text,
+                                                  ) ??
+                                                  0.00,
+                                              date: expense.date,
+                                              paymentMethod: expense.paymentMethod,
+                                            ),
+                                          ),
+                                        );
                                   },
-                                );
 
-                                print(
-                                  "SAVE BUTTON CLICKED",
-                                );
-                                // print(
-                                //   "Amount: ${amountController.text}",
-                                // );
-                                print(
-                                  "Category: ${expense.category.name}",
-                                );
-                                print(
-                                  "Payment: ${expense.paymentMethod}",
-                                );
-                                print(
-                                  "Date: ${expense.date}",
-                                );
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.tertiary,
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.secondary,
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                        ],
+                                      ),
 
-                                context
-                                    .read<
-                                      CreateExpenseBloc
-                                    >()
-                                    .add(
-                                      CreateExpense(
-                                        Expense(
-                                          expenseId: const Uuid().v1(),
-                                          category: expense.category,
-                                          amount:
-                                              double.tryParse(
-                                                expenseController.text,
-                                              ) ??
-                                              0.00,
-                                          date: expense.date,
-                                          paymentMethod: expense.paymentMethod,
+                                      borderRadius: BorderRadius.circular(
+                                        40,
+                                      ),
+                                    ),
+
+                                    child: Container(
+                                      alignment: Alignment.center,
+
+                                      child: const Text(
+                                        "Save",
+                                        style: TextStyle(
+                                          color: AppColors.textPrimary,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    );
-                              },
-
-                              child: Ink(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.tertiary,
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.secondary,
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.primary,
-                                    ],
-                                  ),
-
-                                  borderRadius: BorderRadius.circular(
-                                    40,
-                                  ),
-                                ),
-
-                                child: Container(
-                                  alignment: Alignment.center,
-
-                                  child: const Text(
-                                    "Save",
-                                    style: TextStyle(
-                                      color: AppColors.textPrimary,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),

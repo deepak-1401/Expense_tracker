@@ -1,5 +1,5 @@
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
-import 'package:budget_manager/core/utils/colours.dart';
+import 'package:budget_manager/theme/colours.dart';
 import 'package:budget_manager/core/utils/helpers/summary_period_helper.dart';
 import 'package:budget_manager/screens/stats/stats.dart';
 import 'package:flutter/material.dart';

@@ -1,7 +1,7 @@
-import 'package:budget_manager/app_theme.dart';
+import 'package:budget_manager/theme/app_theme.dart';
 import 'package:budget_manager/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:budget_manager/blocs/get_expenses_bloc/get_expenses_bloc.dart';
-import 'package:budget_manager/core/utils/colours.dart';
+import 'package:budget_manager/theme/colours.dart';
 import 'package:budget_manager/screens/auth/welcome_screen.dart';
 import 'package:budget_manager/screens/home/views/home_screen.dart';
 import 'package:expense_repository/expense_repository.dart';
