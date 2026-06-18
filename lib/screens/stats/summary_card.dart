@@ -75,8 +75,8 @@ class SummaryCardLayout
             ),
             Text(
               value,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: extraColors.fadeText,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),

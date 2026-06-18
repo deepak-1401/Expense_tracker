@@ -1,4 +1,4 @@
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/models/expense_filter_model.dart';
 import 'package:flutter/material.dart';
 
@@ -77,6 +77,14 @@ class _FiltersState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
+
     return SingleChildScrollView(
       child: BottomSheet(
         // backgroundColor: Color(
@@ -100,7 +108,7 @@ class _FiltersState
                         child: Text(
                           'Filters',
                           style: TextStyle(
-                            color: AppColors.textPrimary,
+                            color: extraColors.textPrimary,
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
@@ -118,7 +126,7 @@ class _FiltersState
                       Text(
                         "Period",
                         style: TextStyle(
-                          color: AppColors.textPrimary,
+                          color: extraColors.textPrimary,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -131,10 +139,11 @@ class _FiltersState
                         spacing: 12,
                         children: [
                           FilterChip(
+                            backgroundColor: extraColors.filledColor,
                             label: Text(
                               "Today",
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                               ),
                             ),
                             selected:
@@ -157,10 +166,11 @@ class _FiltersState
                                 },
                           ),
                           FilterChip(
+                            backgroundColor: extraColors.filledColor,
                             label: Text(
                               "This Week",
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                               ),
                             ),
                             selected:
@@ -183,10 +193,11 @@ class _FiltersState
                                 },
                           ),
                           FilterChip(
+                            backgroundColor: extraColors.filledColor,
                             label: Text(
                               "This Month",
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                               ),
                             ),
                             selected:
@@ -209,10 +220,11 @@ class _FiltersState
                                 },
                           ),
                           FilterChip(
+                            backgroundColor: extraColors.filledColor,
                             label: Text(
                               "This Year",
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                               ),
                             ),
                             selected:
@@ -245,7 +257,7 @@ class _FiltersState
                       Text(
                         "payment Method",
                         style: TextStyle(
-                          color: AppColors.textPrimary,
+                          color: extraColors.textPrimary,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
@@ -260,10 +272,11 @@ class _FiltersState
                         runSpacing: 20,
                         children: [
                           FilterChip(
+                            backgroundColor: extraColors.filledColor,
                             label: Text(
                               "Cash",
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                               ),
                             ),
                             selected: selectedPayments.contains(
@@ -279,10 +292,11 @@ class _FiltersState
                                 },
                           ),
                           FilterChip(
+                            backgroundColor: extraColors.filledColor,
                             label: Text(
                               "Credit Card",
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                               ),
                             ),
                             selected: selectedPayments.contains(
@@ -298,10 +312,11 @@ class _FiltersState
                                 },
                           ),
                           FilterChip(
+                            backgroundColor: extraColors.filledColor,
                             label: Text(
                               "UPI",
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                               ),
                             ),
                             selected: selectedPayments.contains(
@@ -317,10 +332,11 @@ class _FiltersState
                                 },
                           ),
                           FilterChip(
+                            backgroundColor: extraColors.filledColor,
                             label: Text(
                               "Other",
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                               ),
                             ),
                             selected: selectedPayments.contains(
@@ -347,7 +363,7 @@ class _FiltersState
                       Text(
                         "Sort-By",
                         style: TextStyle(
-                          color: AppColors.textPrimary,
+                          color: extraColors.textPrimary,
 
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -361,10 +377,11 @@ class _FiltersState
                         runSpacing: 20,
                         children: [
                           FilterChip(
+                            backgroundColor: extraColors.filledColor,
                             label: Text(
                               "Newest First",
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                               ),
                             ),
                             selected:
@@ -387,10 +404,11 @@ class _FiltersState
                                 },
                           ),
                           FilterChip(
+                            backgroundColor: extraColors.filledColor,
                             label: Text(
                               "Oldest First",
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                               ),
                             ),
                             selected:
@@ -413,10 +431,11 @@ class _FiltersState
                                 },
                           ),
                           FilterChip(
+                            backgroundColor: extraColors.filledColor,
                             label: Text(
                               "Amount High → Low",
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                               ),
                             ),
                             selected:
@@ -439,10 +458,11 @@ class _FiltersState
                                 },
                           ),
                           FilterChip(
+                            backgroundColor: extraColors.filledColor,
                             label: Text(
                               "Amount Low → High",
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                               ),
                             ),
                             selected:
@@ -486,7 +506,7 @@ class _FiltersState
                               ),
                               width: 100,
                               decoration: BoxDecoration(
-                                color: AppColors.primary,
+                                color: extraColors.filledColor,
                                 borderRadius: BorderRadius.circular(
                                   10,
                                 ),
@@ -494,7 +514,7 @@ class _FiltersState
                               child: Text(
                                 "Clear All",
                                 style: TextStyle(
-                                  color: AppColors.textPrimary,
+                                  color: extraColors.textPrimary,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -535,7 +555,7 @@ class _FiltersState
                               child: Text(
                                 "Apply",
                                 style: TextStyle(
-                                  color: AppColors.textPrimary,
+                                  color: extraColors.textPrimary,
                                 ),
                                 textAlign: TextAlign.center,
                               ),

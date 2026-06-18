@@ -144,8 +144,9 @@ class _SignUpScreenState
                   obscureText: obscurePassword,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(
-                      CupertinoIcons.mail_solid,
+                    prefixIcon: Icon(
+                      CupertinoIcons.padlock_solid,
+                      color: extraColors.iconColor,
                     ),
                     labelText: 'Password',
                     labelStyle: TextStyle(

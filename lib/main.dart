@@ -1,5 +1,6 @@
 import 'package:budget_manager/app.dart';
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
+import 'package:budget_manager/blocs/theme_bloc/theme_bloc.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -43,6 +44,15 @@ main() async {
                 (
                   context,
                 ) => CurrencyBloc(),
+          ),
+          BlocProvider(
+            create:
+                (
+                  context,
+                ) => ThemeBloc()
+                  ..add(
+                    LoadSavedTheme(),
+                  ),
           ),
         ],
         child: MyApp(

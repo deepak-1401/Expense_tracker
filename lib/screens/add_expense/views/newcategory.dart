@@ -1,5 +1,5 @@
 import 'package:budget_manager/theme/app_extra_colors.dart';
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/dark_theme_colors.dart';
 import 'package:budget_manager/screens/add_expense/blocs/create_categoryblocs/create_category_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
 import 'package:flutter/material.dart';
@@ -47,9 +47,7 @@ class _NewCategoryState
   void openIconPicker() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Theme.of(
-        context,
-      ).colorScheme.surface,
+      backgroundColor: extraColors.filledColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(
@@ -100,12 +98,12 @@ class _NewCategoryState
                               ? Theme.of(
                                   context,
                                 ).colorScheme.primary
-                              : Colors.transparent,
+                              : extraColors.container,
                           borderRadius: BorderRadius.circular(
                             12,
                           ),
                           border: Border.all(
-                            color: Colors.white24,
+                            color: extraColors.border,
                           ),
                         ),
                         child: Icon(
@@ -132,9 +130,7 @@ class _NewCategoryState
     ];
 
     showModalBottomSheet(
-      backgroundColor: Theme.of(
-        context,
-      ).colorScheme.surface,
+      backgroundColor: extraColors.filledColor,
       context: context,
       builder:
           (

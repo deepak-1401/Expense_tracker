@@ -4,6 +4,7 @@ import 'package:budget_manager/blocs/get_expenses_bloc/get_expenses_bloc.dart';
 import 'package:budget_manager/screens/home/views/main_screen.dart';
 import 'package:budget_manager/screens/setting/settings.dart';
 import 'package:budget_manager/screens/stats/stats.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +32,6 @@ class _HomeScreenState
         > {
   // var WidgetList = [MainScreen(), StatScreen(), Setting()];
   int index = 0;
-  Color SelectedItem = Colors.white;
-  Color UnselectedItem = Colors.grey;
 
   Widget? get bottomNavigationBar => null;
 
@@ -40,6 +39,13 @@ class _HomeScreenState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return BlocBuilder<
       GetExpensesBloc,
       GetExpensesState
@@ -82,7 +88,9 @@ class _HomeScreenState
                     showUnselectedLabels: false,
                     type: BottomNavigationBarType.fixed,
 
-                    selectedItemColor: Colors.white,
+                    selectedItemColor: Theme.of(
+                      context,
+                    ).colorScheme.primary,
                     unselectedItemColor: Colors.grey,
 
                     items: const [

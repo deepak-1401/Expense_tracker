@@ -99,8 +99,9 @@ class _LoginScreenState
                 obscureText: obscurePassword,
                 keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(
+                  prefixIcon: Icon(
                     CupertinoIcons.padlock_solid,
+                    color: extraColors.iconColor,
                   ),
                   labelText: 'Password',
                   filled: true,

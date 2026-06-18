@@ -1,7 +1,7 @@
 //import 'dart:math';
 import 'package:budget_manager/blocs/get_expenses_bloc/get_expenses_bloc.dart';
 import 'package:budget_manager/theme/app_extra_colors.dart';
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/dark_theme_colors.dart';
 import 'package:budget_manager/screens/stats/top_5_expense_chart.dart';
 import 'package:budget_manager/screens/stats/Spending_Trend_Chart.dart';
 import 'package:budget_manager/screens/stats/Payment_Method_Split_Chart.dart';

@@ -1,5 +1,7 @@
+import 'package:budget_manager/blocs/theme_bloc/theme_bloc.dart';
 import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ThemePage
     extends
@@ -21,6 +23,25 @@ class _ThemePageState
           ThemePage
         > {
   String? selectedTheme;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final themeState = context
+        .read<
+          ThemeBloc
+        >()
+        .state;
+
+    if (themeState
+        is LightThemeState) {
+      selectedTheme = "Light";
+    } else {
+      selectedTheme = "Dark";
+    }
+  }
+
   @override
   Widget build(
     BuildContext context,
@@ -56,6 +77,26 @@ class _ThemePageState
                       selectedTheme = value;
                     },
                   );
+
+                  if (value ==
+                      "Light") {
+                    context
+                        .read<
+                          ThemeBloc
+                        >()
+                        .add(
+                          LightThemeSelected(),
+                        );
+                  } else if (value ==
+                      "Dark") {
+                    context
+                        .read<
+                          ThemeBloc
+                        >()
+                        .add(
+                          DarkThemeSelected(),
+                        );
+                  }
                 },
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -63,133 +104,92 @@ class _ThemePageState
                 const SizedBox(
                   height: 0,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: extraColors.filledColor,
-                    borderRadius: BorderRadius.circular(
-                      8,
-                    ),
+                Material(
+                  color: extraColors.filledColor,
+                  borderRadius: BorderRadius.circular(
+                    16,
                   ),
-                  child: RadioListTile(
-                    value: "Light",
-                    title: Text(
-                      "Light",
-                      style: TextStyle(
-                        color: extraColors.textPrimary,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: extraColors.filledColor,
-                    borderRadius: BorderRadius.circular(
-                      8,
-                    ),
-                  ),
-                  child: RadioListTile(
-                    value: "Dark",
-                    title: Text(
-                      "Dark",
-                      style: TextStyle(
-                        color: extraColors.textPrimary,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: extraColors.filledColor,
-                    borderRadius: BorderRadius.circular(
-                      8,
-                    ),
-                  ),
-                  child: RadioListTile(
-                    value: "System",
-                    title: Text(
-                      "System Default",
-                      style: TextStyle(
-                        color: extraColors.textPrimary,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                // Container(
-                //   decoration: BoxDecoration(
-                //     color: extraColors.filledColor,
-                //     borderRadius: BorderRadius.circular(
-                //       8,
-                //     ),
-                //   ),
-                //   //child:
-                // ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Theme.of(
-                            context,
-                          ).colorScheme.tertiary,
-                          Theme.of(
-                            context,
-                          ).colorScheme.secondary,
-                          Theme.of(
-                            context,
-                          ).colorScheme.primary,
-                        ],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: BorderRadius.circular(
-                        60,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color:
-                              Color(
-                                0xFF8B5CF6,
-                              ).withValues(
-                                alpha: 0.35,
-                              ),
-                          blurRadius: 15,
-                          offset: Offset(
-                            0,
-                            6,
+                  child:
+                      RadioListTile<
+                        String
+                      >(
+                        value: "Light",
+                        // ignore: deprecated_member_use
+                        groupValue: selectedTheme,
+                        activeColor: Theme.of(
+                          context,
+                        ).colorScheme.primary,
+                        title: Text(
+                          "Light",
+                          style: TextStyle(
+                            color: extraColors.textPrimary,
                           ),
                         ),
-                      ],
-                    ),
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent,
+                        // ignore: deprecated_member_use
+                        onChanged:
+                            (
+                              value,
+                            ) {
+                              setState(
+                                () {
+                                  selectedTheme = value;
+                                },
+                              );
+
+                              context
+                                  .read<
+                                    ThemeBloc
+                                  >()
+                                  .add(
+                                    LightThemeSelected(),
+                                  );
+                            },
                       ),
-                      onPressed: () {
-                        // Handle save action
-                        Navigator.pop(
-                          context,
-                        );
-                      },
-                      child: Text(
-                        "Save",
-                        style: TextStyle(
-                          color: extraColors.textPrimary,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                Material(
+                  color: extraColors.filledColor,
+                  borderRadius: BorderRadius.circular(
+                    16,
                   ),
+                  child:
+                      RadioListTile<
+                        String
+                      >(
+                        value: "Dark",
+                        // ignore: deprecated_member_use
+                        groupValue: selectedTheme,
+                        activeColor: Theme.of(
+                          context,
+                        ).colorScheme.primary,
+                        title: Text(
+                          "Dark",
+                          style: TextStyle(
+                            color: extraColors.textPrimary,
+                          ),
+                        ),
+                        // ignore: deprecated_member_use
+                        onChanged:
+                            (
+                              value,
+                            ) {
+                              setState(
+                                () {
+                                  selectedTheme = value;
+                                },
+                              );
+
+                              context
+                                  .read<
+                                    ThemeBloc
+                                  >()
+                                  .add(
+                                    DarkThemeSelected(),
+                                  );
+                            },
+                      ),
                 ),
               ],
             ),

@@ -369,9 +369,9 @@ class _ProfileState
                                   ).colorScheme.primary,
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.camera_alt_rounded,
-                                  color: Colors.white,
+                                  color: extraColors.iconColor,
                                   size: 18,
                                 ),
                               ),

@@ -1,7 +1,6 @@
 import 'package:budget_manager/blocs/create_expense_bloc/create_expense_bloc.dart';
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
 import 'package:budget_manager/theme/app_extra_colors.dart';
-import 'package:budget_manager/theme/colours.dart';
 import 'package:budget_manager/screens/add_expense/blocs/get_categorybloc/get_category_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
 import 'package:budget_manager/screens/add_expense/views/newcategory.dart';
@@ -469,7 +468,7 @@ class _AddExpenseState
 
                                     icon: Icon(
                                       Icons.add,
-                                      color: extraColors.iconColor,
+
                                       size: 24,
                                     ),
                                   ),
@@ -524,51 +523,54 @@ class _AddExpenseState
                                       decoration: BoxDecoration(
                                         color: extraColors.container,
                                       ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(
-                                          8.0,
-                                        ),
-                                        child: ListView.builder(
-                                          itemCount: items.length,
-                                          itemBuilder:
-                                              (
-                                                context,
-                                                i,
-                                              ) {
-                                                final c = items[i];
-                                                final iconData = _iconFromName(
-                                                  c.icon,
-                                                );
-                                                final bgColor = _colorFromString(
-                                                  c.color,
-                                                );
-                                                return Card(
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      setState(
-                                                        () {
-                                                          expense.category = c;
-                                                          categoryController.text = c.name;
-                                                          selectedCategory = c;
-                                                        },
-                                                      );
-                                                    },
-                                                    child: ListTile(
-                                                      leading: CircleAvatar(
-                                                        backgroundColor: bgColor,
-                                                        child: Icon(
-                                                          iconData,
-                                                          color: extraColors.iconColor,
-                                                        ),
-                                                      ),
-                                                      title: Text(
-                                                        c.name,
+                                      child: ListView.builder(
+                                        itemCount: items.length,
+                                        itemBuilder:
+                                            (
+                                              context,
+                                              i,
+                                            ) {
+                                              final c = items[i];
+                                              final iconData = _iconFromName(
+                                                c.icon,
+                                              );
+                                              final bgColor = _colorFromString(
+                                                c.color,
+                                              );
+                                              return Card(
+                                                color: extraColors.filledColor,
+                                                elevation: 2,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(
+                                                    12,
+                                                  ),
+                                                ),
+
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    setState(
+                                                      () {
+                                                        expense.category = c;
+                                                        categoryController.text = c.name;
+                                                        selectedCategory = c;
+                                                      },
+                                                    );
+                                                  },
+                                                  child: ListTile(
+                                                    leading: CircleAvatar(
+                                                      backgroundColor: bgColor,
+                                                      child: Icon(
+                                                        iconData,
+                                                        color: extraColors.iconColor,
                                                       ),
                                                     ),
+                                                    title: Text(
+                                                      c.name,
+                                                    ),
                                                   ),
-                                                );
-                                              },
-                                        ),
+                                                ),
+                                              );
+                                            },
                                       ),
                                     );
                                   },

@@ -1,3 +1,4 @@
+import 'package:budget_manager/blocs/theme_bloc/theme_bloc.dart';
 import 'package:budget_manager/theme/app_theme.dart';
 import 'package:budget_manager/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:budget_manager/blocs/get_expenses_bloc/get_expenses_bloc.dart';
@@ -18,40 +19,57 @@ class MyAppView
   Widget build(
     BuildContext context,
   ) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Budget Manager",
-      theme: AppTheme.darkTheme,
+    return BlocBuilder<
+      ThemeBloc,
+      ThemeState
+    >(
+      builder:
+          (
+            context,
+            state,
+          ) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: "Budget Manager",
+              theme: AppTheme.lightTheme,
+              darkTheme: AppTheme.darkTheme,
+              themeMode:
+                  state
+                      is LightThemeState
+                  ? ThemeMode.light
+                  : ThemeMode.dark,
 
-      home:
-          BlocBuilder<
-            AuthenticationBloc,
-            AuthenticationState
-          >(
-            builder:
-                (
-                  context,
-                  state,
-                ) {
-                  if (state.status ==
-                      AuthenticationStatus.authenticated) {
-                    return BlocProvider(
-                      create:
-                          (
-                            context,
-                          ) =>
-                              GetExpensesBloc(
-                                FirebaseExpenseRepo(),
-                              )..add(
-                                GetExpenses(),
-                              ),
-                      child: const HomeScreen(),
-                    );
-                  } else {
-                    return const WelcomeScreen();
-                  }
-                },
-          ),
+              home:
+                  BlocBuilder<
+                    AuthenticationBloc,
+                    AuthenticationState
+                  >(
+                    builder:
+                        (
+                          context,
+                          state,
+                        ) {
+                          if (state.status ==
+                              AuthenticationStatus.authenticated) {
+                            return BlocProvider(
+                              create:
+                                  (
+                                    context,
+                                  ) =>
+                                      GetExpensesBloc(
+                                        FirebaseExpenseRepo(),
+                                      )..add(
+                                        GetExpenses(),
+                                      ),
+                              child: const HomeScreen(),
+                            );
+                          } else {
+                            return const WelcomeScreen();
+                          }
+                        },
+                  ),
+            );
+          },
     );
   }
 }

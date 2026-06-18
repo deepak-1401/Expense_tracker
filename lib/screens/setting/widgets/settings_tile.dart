@@ -103,7 +103,7 @@ class SettingsTile
             trailing ??
                 Icon(
                   Icons.arrow_forward_ios_outlined,
-                  color: extraColors.iconColor,
+                  //color: extraColors.iconColor,
                   size: 18,
                 ),
           ],

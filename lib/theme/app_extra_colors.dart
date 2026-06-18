@@ -11,6 +11,7 @@ class AppExtraColors
   final Color alertDialogBG;
   final Color purpleText;
   final Color fadeText;
+  final Color textPrimary;
   final Color iconColor;
   final Color fadeIconColor;
   final Color success;
@@ -24,6 +25,7 @@ class AppExtraColors
     required this.alertDialogBG,
     required this.purpleText,
     required this.fadeText,
+    required this.textPrimary,
     required this.iconColor,
     required this.fadeIconColor,
     required this.success,
@@ -32,8 +34,6 @@ class AppExtraColors
     required this.border,
   });
 
-  Color? get textPrimary => null;
-
   @override
   AppExtraColors copyWith({
     Color? filledColor,
@@ -41,6 +41,7 @@ class AppExtraColors
     Color? alertDialogBG,
     Color? purpleText,
     Color? fadeText,
+    Color? textPrimary,
     Color? iconColor,
     Color? fadeIconColor,
     Color? success,
@@ -64,6 +65,9 @@ class AppExtraColors
       fadeText:
           fadeText ??
           this.fadeText,
+      textPrimary:
+          textPrimary ??
+          this.textPrimary,
       iconColor:
           iconColor ??
           this.iconColor,
@@ -121,6 +125,11 @@ class AppExtraColors
       fadeText: Color.lerp(
         fadeText,
         other.fadeText,
+        t,
+      )!,
+      textPrimary: Color.lerp(
+        textPrimary,
+        other.textPrimary,
         t,
       )!,
       iconColor: Color.lerp(

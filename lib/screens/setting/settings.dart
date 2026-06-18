@@ -149,14 +149,10 @@ class _SettingState
                         child: SettingsProfileHeader(),
                       ),
 
-                      CircleAvatar(
-                        radius: 18,
-                        backgroundColor: Colors.transparent,
-                        child: Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: extraColors.iconColor,
-                          size: 16,
-                        ),
+                      Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        //color: extraColors.textPrimary,
+                        size: 16,
                       ),
                     ],
                   ),

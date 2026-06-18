@@ -1,5 +1,4 @@
 import 'package:budget_manager/theme/app_extra_colors.dart';
-import 'package:budget_manager/theme/colours.dart';
 import 'package:flutter/material.dart';
 
 class Payment
@@ -34,9 +33,7 @@ class _PaymentState
               AppExtraColors
             >()!;
     return AlertDialog(
-      backgroundColor: const Color(
-        0xFF161D47,
-      ),
+      backgroundColor: extraColors.alertDialogBG,
       title: Text(
         'Payment Method',
         style: TextStyle(
