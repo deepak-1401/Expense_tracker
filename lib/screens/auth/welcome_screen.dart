@@ -1,7 +1,7 @@
 import 'package:budget_manager/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart';
 import 'package:budget_manager/blocs/sign_up_bloc/sign_up_bloc.dart';
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/screens/auth/login.dart';
 import 'package:budget_manager/screens/auth/sign_up.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +50,13 @@ class _WelcomeScreenState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
@@ -69,10 +76,10 @@ class _WelcomeScreenState
                 child: Column(
                   //mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Welcome to Budget Manager',
                       style: TextStyle(
-                        color: AppColors.textPrimary,
+                        color: extraColors.textPrimary,
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -80,10 +87,10 @@ class _WelcomeScreenState
                     const SizedBox(
                       height: 10.0,
                     ),
-                    const Text(
+                    Text(
                       'Manage your expenses efficiently',
                       style: TextStyle(
-                        color: AppColors.fadeText,
+                        color: extraColors.fadeText,
                         fontSize: 16.0,
                       ),
                     ),
@@ -98,7 +105,7 @@ class _WelcomeScreenState
                 child: Icon(
                   Icons.account_balance_wallet_rounded,
                   size: 120,
-                  color: AppColors.iconColor,
+                  color: extraColors.iconColor,
                 ),
               ),
               Align(
@@ -116,7 +123,7 @@ class _WelcomeScreenState
                     16,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.container,
+                    color: extraColors.container,
                     borderRadius: BorderRadius.circular(
                       30,
                     ),
@@ -141,10 +148,15 @@ class _WelcomeScreenState
                           ),
                           child: TabBar(
                             controller: tabController,
-                            unselectedLabelColor: AppColors.primary.withValues(
-                              alpha: 0.5,
-                            ),
-                            labelColor: AppColors.primary,
+                            unselectedLabelColor:
+                                Theme.of(
+                                  context,
+                                ).colorScheme.primary.withValues(
+                                  alpha: 0.5,
+                                ),
+                            labelColor: Theme.of(
+                              context,
+                            ).colorScheme.primary,
                             tabs: const [
                               Padding(
                                 padding: EdgeInsets.all(

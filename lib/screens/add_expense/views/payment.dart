@@ -1,3 +1,4 @@
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/theme/colours.dart';
 import 'package:flutter/material.dart';
 
@@ -25,14 +26,23 @@ class _PaymentState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return AlertDialog(
       backgroundColor: const Color(
         0xFF161D47,
       ),
-      title: const Text(
+      title: Text(
         'Payment Method',
         style: TextStyle(
-          color: AppColors.primary,
+          color: Theme.of(
+            context,
+          ).colorScheme.primary,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -47,8 +57,10 @@ class _PaymentState
               color:
                   selectedPayment ==
                       "Credit Card"
-                  ? AppColors.primary
-                  : AppColors.filledColor,
+                  ? Theme.of(
+                      context,
+                    ).colorScheme.primary
+                  : extraColors.filledColor,
               child: InkWell(
                 onTap: () {
                   setState(
@@ -57,15 +69,15 @@ class _PaymentState
                     },
                   );
                 },
-                child: const ListTile(
+                child: ListTile(
                   leading: Icon(
                     Icons.credit_card,
-                    color: AppColors.iconColor,
+                    color: extraColors.iconColor,
                   ),
                   title: Text(
                     'Credit Card',
                     style: TextStyle(
-                      color: AppColors.textPrimary,
+                      color: extraColors.textPrimary,
                     ),
                   ),
                 ),
@@ -75,8 +87,10 @@ class _PaymentState
               color:
                   selectedPayment ==
                       "Cash"
-                  ? AppColors.primary
-                  : AppColors.filledColor,
+                  ? Theme.of(
+                      context,
+                    ).colorScheme.primary
+                  : extraColors.filledColor,
               child: InkWell(
                 onTap: () {
                   setState(
@@ -88,12 +102,12 @@ class _PaymentState
                 child: ListTile(
                   leading: Icon(
                     Icons.account_balance_wallet,
-                    color: AppColors.iconColor,
+                    color: extraColors.iconColor,
                   ),
                   title: Text(
                     'Cash',
                     style: TextStyle(
-                      color: AppColors.textPrimary,
+                      color: extraColors.textPrimary,
                     ),
                   ),
                 ),
@@ -103,8 +117,10 @@ class _PaymentState
               color:
                   selectedPayment ==
                       "UPI"
-                  ? AppColors.primary
-                  : AppColors.filledColor,
+                  ? Theme.of(
+                      context,
+                    ).colorScheme.primary
+                  : extraColors.filledColor,
               child: InkWell(
                 onTap: () {
                   setState(
@@ -116,12 +132,12 @@ class _PaymentState
                 child: ListTile(
                   leading: Icon(
                     Icons.payments,
-                    color: AppColors.iconColor,
+                    color: extraColors.iconColor,
                   ),
                   title: Text(
                     'UPI',
                     style: TextStyle(
-                      color: AppColors.textPrimary,
+                      color: extraColors.textPrimary,
                     ),
                   ),
                 ),
@@ -182,10 +198,10 @@ class _PaymentState
                     );
                   },
 
-                  child: const Text(
+                  child: Text(
                     "Save",
                     style: TextStyle(
-                      color: AppColors.textPrimary,
+                      color: extraColors.textPrimary,
                     ),
                   ),
                 ),

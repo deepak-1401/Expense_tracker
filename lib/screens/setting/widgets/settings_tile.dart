@@ -1,4 +1,4 @@
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:flutter/material.dart';
 
 class SettingsTile
@@ -25,6 +25,13 @@ class SettingsTile
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return InkWell(
       borderRadius: BorderRadius.circular(
         20,
@@ -40,7 +47,7 @@ class SettingsTile
           16,
         ),
         decoration: BoxDecoration(
-          color: AppColors.container,
+          color: extraColors.container,
           borderRadius: BorderRadius.circular(
             20,
           ),
@@ -58,7 +65,7 @@ class SettingsTile
               ),
               child: Icon(
                 icon,
-                color: AppColors.iconColor,
+                color: extraColors.iconColor,
                 size: 22,
               ),
             ),
@@ -74,8 +81,8 @@ class SettingsTile
                   Text(
                     title,
 
-                    style: const TextStyle(
-                      color: AppColors.textPrimary,
+                    style: TextStyle(
+                      color: extraColors.textPrimary,
                       fontSize: 16,
                     ),
                   ),
@@ -84,8 +91,8 @@ class SettingsTile
                   ),
                   Text(
                     subtitle,
-                    style: const TextStyle(
-                      color: AppColors.fadeText,
+                    style: TextStyle(
+                      color: extraColors.fadeText,
                       fontSize: 13,
                     ),
                   ),
@@ -94,9 +101,9 @@ class SettingsTile
             ),
 
             trailing ??
-                const Icon(
+                Icon(
                   Icons.arrow_forward_ios_outlined,
-                  color: AppColors.iconColor,
+                  color: extraColors.iconColor,
                   size: 18,
                 ),
           ],

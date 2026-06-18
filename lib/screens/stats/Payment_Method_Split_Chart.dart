@@ -1,5 +1,5 @@
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,6 +35,13 @@ class PaymentMethodSplitChart
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     final currencyState = context
         .watch<
           CurrencyBloc
@@ -167,8 +174,8 @@ class PaymentMethodSplitChart
             Expanded(
               child: Text(
                 method,
-                style: const TextStyle(
-                  color: AppColors.fadeText,
+                style: TextStyle(
+                  color: extraColors.fadeText,
                   fontSize: 13,
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -176,8 +183,8 @@ class PaymentMethodSplitChart
             ),
             Text(
               percentage,
-              style: const TextStyle(
-                color: AppColors.textPrimary,
+              style: TextStyle(
+                color: extraColors.textPrimary,
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
               ),
@@ -190,10 +197,10 @@ class PaymentMethodSplitChart
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Payment Method Split",
           style: TextStyle(
-            color: AppColors.textPrimary,
+            color: extraColors.textPrimary,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -208,23 +215,23 @@ class PaymentMethodSplitChart
             16,
           ),
           decoration: BoxDecoration(
-            color: AppColors.container,
+            color: extraColors.container,
             borderRadius: BorderRadius.circular(
               20,
             ),
             border: Border.all(
-              color: AppColors.fadeText.withValues(
+              color: extraColors.fadeText.withValues(
                 alpha: 0.06,
               ),
               width: 1,
             ),
           ),
           child: chartData.isEmpty
-              ? const Center(
+              ? Center(
                   child: Text(
                     "No payment data available for the selected period.",
                     style: TextStyle(
-                      color: AppColors.fadeText,
+                      color: extraColors.fadeText,
                       fontSize: 13,
                     ),
                   ),
@@ -236,7 +243,9 @@ class PaymentMethodSplitChart
                       child: SfCircularChart(
                         tooltipBehavior: TooltipBehavior(
                           enable: true,
-                          color: AppColors.primary,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.primary,
                           builder:
                               (
                                 data,
@@ -254,15 +263,15 @@ class PaymentMethodSplitChart
                                     10,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: AppColors.container,
+                                    color: extraColors.container,
                                     borderRadius: BorderRadius.circular(
                                       10,
                                     ),
                                   ),
                                   child: Text(
                                     '${paymentData.method}\n₹${paymentData.amount.toStringAsFixed(0)}',
-                                    style: const TextStyle(
-                                      color: AppColors.textPrimary,
+                                    style: TextStyle(
+                                      color: extraColors.textPrimary,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -313,20 +322,20 @@ class PaymentMethodSplitChart
                                         totalAmount,
                                         currencyState.symbol,
                                       ),
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
-                                        color: AppColors.textPrimary,
+                                        color: extraColors.textPrimary,
                                       ),
                                     ),
                                     const SizedBox(
                                       height: 2,
                                     ),
-                                    const Text(
+                                    Text(
                                       'Total',
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: AppColors.fadeText,
+                                        color: extraColors.fadeText,
                                       ),
                                     ),
                                   ],

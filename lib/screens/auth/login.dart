@@ -1,9 +1,7 @@
 //import 'dart:math';
 import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart';
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/screens/auth/forget_password.dart';
-import 'package:user_repository/user_repository.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,6 +40,13 @@ class _LoginScreenState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return Form(
       key: _formKey,
       child: SingleChildScrollView(
@@ -57,13 +62,13 @@ class _LoginScreenState
                 obscureText: false,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(
+                  prefixIcon: Icon(
                     CupertinoIcons.mail_solid,
-                    color: AppColors.iconColor,
+                    color: extraColors.iconColor,
                   ),
                   labelText: 'Email',
                   filled: true,
-                  fillColor: AppColors.filledColor,
+                  fillColor: extraColors.filledColor,
                   border: const OutlineInputBorder(),
                   errorText: errorMessage,
                 ),
@@ -99,14 +104,14 @@ class _LoginScreenState
                   ),
                   labelText: 'Password',
                   filled: true,
-                  fillColor: AppColors.filledColor,
+                  fillColor: extraColors.filledColor,
 
                   border: const OutlineInputBorder(),
                   errorText: errorMessage,
                   suffixIcon: IconButton(
                     icon: Icon(
                       iconPassword,
-                      color: AppColors.iconColor,
+                      color: extraColors.iconColor,
                     ),
                     onPressed: () {
                       setState(
@@ -159,10 +164,12 @@ class _LoginScreenState
                         ),
                       );
                     },
-                    child: const Text(
+                    child: Text(
                       "Forgot Password",
                       style: TextStyle(
-                        color: AppColors.primary,
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primary,
                         fontSize: 14.0,
                       ),
                     ),
@@ -253,11 +260,11 @@ class _LoginScreenState
                           padding: const EdgeInsets.all(
                             8.0,
                           ),
-                          child: const Text(
+                          child: Text(
                             'Login',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: AppColors.textPrimary,
+                              color: extraColors.textPrimary,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
@@ -294,10 +301,10 @@ class _LoginScreenState
                   'assets/logos/google_logo.png',
                   height: 50,
                 ),
-                label: const Text(
+                label: Text(
                   "Continue with Google",
                   style: TextStyle(
-                    color: AppColors.textPrimary,
+                    color: extraColors.textPrimary,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),

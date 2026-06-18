@@ -1,4 +1,4 @@
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/screens/stats/stats.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -7,11 +7,20 @@ import 'package:expense_repository/expense_repository.dart';
 class SpendingTrendData {
   final int xValue;
   final double amount;
+  final BuildContext context;
 
   SpendingTrendData({
     required this.xValue,
     required this.amount,
+    required this.context,
   });
+  AppExtraColors get extraColors =>
+      Theme.of(
+            context,
+          )
+          .extension<
+            AppExtraColors
+          >()!;
 }
 
 class MySpendingChart
@@ -33,6 +42,14 @@ class MySpendingChart
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
+
     final now = DateTime.now();
     final daysInMonth = DateTime(
       now.year,
@@ -83,6 +100,7 @@ class MySpendingChart
             return SpendingTrendData(
               xValue: entry.key,
               amount: entry.value,
+              context: context,
             );
           },
         ).toList()..sort(
@@ -186,10 +204,10 @@ class MySpendingChart
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Spending Trend",
           style: TextStyle(
-            color: AppColors.textPrimary,
+            color: extraColors.textPrimary,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -206,12 +224,12 @@ class MySpendingChart
             16,
           ),
           decoration: BoxDecoration(
-            color: AppColors.container,
+            color: extraColors.container,
             borderRadius: BorderRadius.circular(
               20,
             ),
             border: Border.all(
-              color: AppColors.fadeText.withValues(
+              color: extraColors.fadeText.withValues(
                 alpha: 0.06,
               ),
               width: 1,
@@ -219,11 +237,11 @@ class MySpendingChart
           ),
           child: Center(
             child: chartData.isEmpty
-                ? const Center(
+                ? Center(
                     child: Text(
                       "No spending data available for the selected period.",
                       style: TextStyle(
-                        color: AppColors.fadeText,
+                        color: extraColors.fadeText,
                         fontSize: 13,
                       ),
                     ),
@@ -231,7 +249,9 @@ class MySpendingChart
                 : SfCartesianChart(
                     tooltipBehavior: TooltipBehavior(
                       enable: true,
-                      color: AppColors.primary,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.primary,
                       builder:
                           (
                             data,
@@ -250,8 +270,8 @@ class MySpendingChart
                               ),
                               child: Text(
                                 '${getTooltipLabel(chartData.xValue)} : ₹${chartData.amount.toStringAsFixed(0)}',
-                                style: const TextStyle(
-                                  color: AppColors.textPrimary,
+                                style: TextStyle(
+                                  color: extraColors.textPrimary,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -272,8 +292,8 @@ class MySpendingChart
                         width: 0,
                       ),
                       // labelFormat: "Day {value}",
-                      labelStyle: const TextStyle(
-                        color: AppColors.fadeText,
+                      labelStyle: TextStyle(
+                        color: extraColors.fadeText,
                         fontSize: 11,
                       ),
                       axisLabelFormatter:
@@ -342,19 +362,19 @@ class MySpendingChart
                           },
                     ),
 
-                    primaryYAxis: const NumericAxis(
+                    primaryYAxis: NumericAxis(
                       // minimum: 0,
                       // maximum: 1600,
                       // interval: 400,
-                      majorGridLines: MajorGridLines(
+                      majorGridLines: const MajorGridLines(
                         width: 0,
                       ),
-                      axisLine: AxisLine(
+                      axisLine: const AxisLine(
                         width: 0,
                       ),
                       //labelFormat: "\${{value}}",
                       labelStyle: TextStyle(
-                        color: AppColors.fadeText,
+                        color: extraColors.fadeText,
                         fontSize: 11,
                       ),
                     ),
@@ -382,7 +402,9 @@ class MySpendingChart
                                   _,
                                 ) => data.amount,
                             borderWidth: 3,
-                            borderColor: AppColors.textPrimary,
+                            borderColor:
+                                extraColors.textPrimary ??
+                                Colors.white,
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
@@ -409,7 +431,7 @@ class MySpendingChart
           ),
         ),
         Divider(
-          color: AppColors.fadeText.withValues(
+          color: extraColors.fadeText.withValues(
             alpha: 0.2,
           ),
           thickness: 1,

@@ -1,4 +1,5 @@
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/theme/colours.dart';
 import 'package:budget_manager/core/widget/user_name_text.dart';
 import 'package:budget_manager/models/expense_filter_model.dart';
@@ -88,6 +89,13 @@ class _MainScreenState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     final currencyState = context
         .watch<
           CurrencyBloc
@@ -355,20 +363,20 @@ class _MainScreenState
                         width: 8,
                       ),
 
-                      const Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "Welcome",
                             style: TextStyle(
-                              color: AppColors.textPrimary,
+                              color: extraColors.textPrimary,
                               fontSize: 12,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
                           UserNameText(
-                            style: const TextStyle(
-                              color: AppColors.textPrimary,
+                            style: TextStyle(
+                              color: extraColors.textPrimary,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -482,9 +490,9 @@ class _MainScreenState
                           children: [
                             Text(
                               getGreeting(),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 18,
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -495,7 +503,7 @@ class _MainScreenState
                               getCurrentDate(),
                               style: TextStyle(
                                 fontSize: 14,
-                                color: AppColors.fadeText,
+                                color: extraColors.fadeText,
                                 letterSpacing: 1.2,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -510,7 +518,7 @@ class _MainScreenState
                                 fontSize: 13,
                                 letterSpacing: 1.5,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.fadeText,
+                                color: extraColors.fadeText,
                               ),
                             ),
                             const SizedBox(
@@ -539,9 +547,9 @@ class _MainScreenState
                                         currencyState.symbol,
                                       ),
 
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 44,
-                                  color: AppColors.textPrimary,
+                                  color: extraColors.textPrimary,
                                   //fontWeight: FontWeight.bold,
                                   fontWeight: FontWeight.w800,
                                   letterSpacing: -1,
@@ -568,9 +576,9 @@ class _MainScreenState
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     CupertinoIcons.calendar,
-                                    color: AppColors.iconColor,
+                                    color: extraColors.iconColor,
                                     size: 16,
                                   ),
                                   const SizedBox(
@@ -579,8 +587,8 @@ class _MainScreenState
                                   Text(
                                     activeFilter?.period ??
                                         "This Month",
-                                    style: const TextStyle(
-                                      color: AppColors.textPrimary,
+                                    style: TextStyle(
+                                      color: extraColors.textPrimary,
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -612,7 +620,7 @@ class _MainScreenState
                               hideAmount
                                   ? CupertinoIcons.eye_slash_fill
                                   : CupertinoIcons.eye_fill,
-                              color: AppColors.iconColor,
+                              color: extraColors.iconColor,
                               size: 24,
                             ),
                           ),
@@ -629,11 +637,11 @@ class _MainScreenState
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     "Transactions",
                     style: TextStyle(
                       fontSize: 18,
-                      color: AppColors.textPrimary,
+                      color: extraColors.textPrimary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -677,14 +685,14 @@ class _MainScreenState
                         Icon(
                           Icons.tune_rounded,
                           size: 20,
-                          color: AppColors.textPrimary,
+                          color: extraColors.textPrimary,
                         ),
 
-                        const Text(
+                        Text(
                           "Filter",
                           style: TextStyle(
                             fontSize: 18,
-                            color: AppColors.textPrimary,
+                            color: extraColors.textPrimary,
 
                             fontWeight: FontWeight.w600,
                           ),
@@ -700,16 +708,16 @@ class _MainScreenState
               ),
               Expanded(
                 child: filteredExpenses.isEmpty
-                    ? const Center(
+                    ? Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
                               Icons.receipt_long_outlined,
                               size: 70,
-                              color: AppColors.iconColor,
+                              color: extraColors.iconColor,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                             Text(
@@ -717,10 +725,10 @@ class _MainScreenState
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.fadeText,
+                                color: extraColors.fadeText,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
                             Text(
@@ -728,7 +736,7 @@ class _MainScreenState
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 15,
-                                color: AppColors.fadeText,
+                                color: extraColors.fadeText,
                               ),
                             ),
                           ],
@@ -764,7 +772,7 @@ class _MainScreenState
                                             fontSize: 12,
                                             fontWeight: FontWeight.w700,
                                             letterSpacing: 1.2,
-                                            color: AppColors.fadeText,
+                                            color: extraColors.fadeText,
                                           ),
                                         ),
                                       ),
@@ -774,7 +782,7 @@ class _MainScreenState
                                       Expanded(
                                         child: Divider(
                                           thickness: 1,
-                                          color: AppColors.fadeText.withValues(
+                                          color: extraColors.fadeText.withValues(
                                             alpha: 0.3,
                                           ),
                                         ),
@@ -792,7 +800,9 @@ class _MainScreenState
                                         ),
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: AppColors.container,
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.surface,
                                             borderRadius: BorderRadius.circular(
                                               20,
                                             ),
@@ -824,7 +834,7 @@ class _MainScreenState
                                                         ),
 
                                                         Icon(
-                                                          color: AppColors.iconColor,
+                                                          color: extraColors.iconColor,
                                                           getIconByName(
                                                             expense.category.icon,
                                                           ),
@@ -838,7 +848,7 @@ class _MainScreenState
                                                       expense.category.name,
                                                       style: TextStyle(
                                                         fontSize: 18,
-                                                        color: AppColors.textPrimary,
+                                                        color: extraColors.textPrimary,
 
                                                         fontWeight: FontWeight.w600,
                                                       ),
@@ -852,7 +862,7 @@ class _MainScreenState
                                                       "${currencyState.symbol} ${expense.amount.toStringAsFixed(2)}",
                                                       style: TextStyle(
                                                         fontSize: 18,
-                                                        color: AppColors.fadeText,
+                                                        color: extraColors.fadeText,
 
                                                         fontWeight: FontWeight.w600,
                                                       ),
@@ -861,7 +871,7 @@ class _MainScreenState
                                                       expense.paymentMethod,
                                                       style: TextStyle(
                                                         fontSize: 18,
-                                                        color: AppColors.fadeText,
+                                                        color: extraColors.fadeText,
 
                                                         fontWeight: FontWeight.w600,
                                                       ),

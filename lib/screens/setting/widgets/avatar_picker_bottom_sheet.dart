@@ -1,3 +1,4 @@
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:budget_manager/data/avatar_data.dart';
 
@@ -20,14 +21,19 @@ class AvatarPickerBottomSheet
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return Container(
       padding: const EdgeInsets.all(
         20,
       ),
-      decoration: const BoxDecoration(
-        color: Color(
-          0xFF0F1330,
-        ),
+      decoration: BoxDecoration(
+        color: extraColors.container,
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(
             24,

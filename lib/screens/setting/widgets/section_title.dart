@@ -1,10 +1,18 @@
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:flutter/material.dart';
 
 Widget
 sectionTitle(
   String title,
+  BuildContext context,
 ) {
+  final extraColors =
+      Theme.of(
+            context,
+          )
+          .extension<
+            AppExtraColors
+          >()!;
   return Padding(
     padding: const EdgeInsets.only(
       left: 24,
@@ -17,8 +25,8 @@ sectionTitle(
           alignment: Alignment.centerLeft,
           child: Text(
             title,
-            style: const TextStyle(
-              color: AppColors.fadeText,
+            style: TextStyle(
+              color: extraColors.fadeText,
               fontSize: 13,
               fontWeight: FontWeight.w600,
               letterSpacing: 1,
@@ -29,7 +37,7 @@ sectionTitle(
           child: Divider(
             thickness: 1,
 
-            color: AppColors.fadeText.withValues(
+            color: extraColors.fadeText.withValues(
               alpha: 0.3,
             ),
           ),

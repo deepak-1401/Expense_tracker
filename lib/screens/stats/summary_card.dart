@@ -1,5 +1,5 @@
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/core/utils/helpers/summary_period_helper.dart';
 import 'package:budget_manager/screens/stats/stats.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +23,21 @@ class SummaryCardLayout
   });
 
   Widget summaryCard({
+    required BuildContext context,
+
     required IconData icon,
     required String title,
     required String value,
     //required Color color,
     String? subtitle,
   }) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return Expanded(
       child: Container(
         margin: const EdgeInsets.all(
@@ -38,7 +47,7 @@ class SummaryCardLayout
           16,
         ),
         decoration: BoxDecoration(
-          color: AppColors.container,
+          color: extraColors.container,
           borderRadius: BorderRadius.circular(
             20,
           ),
@@ -48,7 +57,7 @@ class SummaryCardLayout
           children: [
             Icon(
               icon,
-              color: AppColors.fadeiconColor,
+              color: extraColors.fadeIconColor,
               size: 22,
             ),
             const SizedBox(
@@ -56,8 +65,8 @@ class SummaryCardLayout
             ),
             Text(
               title,
-              style: const TextStyle(
-                color: AppColors.fadeText,
+              style: TextStyle(
+                color: extraColors.fadeText,
                 fontSize: 12,
               ),
             ),
@@ -79,8 +88,8 @@ class SummaryCardLayout
               ),
               Text(
                 subtitle,
-                style: const TextStyle(
-                  color: AppColors.fadeText,
+                style: TextStyle(
+                  color: extraColors.fadeText,
                   fontSize: 11,
                 ),
               ),
@@ -95,6 +104,13 @@ class SummaryCardLayout
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     final currencyState = context
         .watch<
           CurrencyBloc
@@ -240,8 +256,8 @@ class SummaryCardLayout
                   selectedPeriod,
                 ),
 
-                style: const TextStyle(
-                  color: AppColors.textPrimary,
+                style: TextStyle(
+                  color: extraColors.textPrimary,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -251,8 +267,8 @@ class SummaryCardLayout
                   selectedPeriod,
                 ),
 
-                style: const TextStyle(
-                  color: AppColors.fadeText,
+                style: TextStyle(
+                  color: extraColors.fadeText,
                   fontSize: 13,
                 ),
               ),
@@ -272,11 +288,12 @@ class SummaryCardLayout
                   highestExpense,
                   currencyState.symbol,
                 ),
+                context: context,
               ),
               summaryCard(
                 icon: Icons.emoji_events_outlined,
                 title: "Top Category",
-
+                context: context,
                 value: topCategoryName,
                 subtitle: formatCurrency(
                   topCategoryAmount,
@@ -286,6 +303,7 @@ class SummaryCardLayout
               summaryCard(
                 icon: Icons.calendar_today_outlined,
                 title: getAverageTitle(),
+                context: context,
                 value: formatCurrency(
                   averageAmount,
                   currencyState.symbol,
@@ -301,6 +319,7 @@ class SummaryCardLayout
               summaryCard(
                 icon: Icons.account_balance_wallet_outlined,
                 title: "Total Spent",
+                context: context,
                 value: formatCurrency(
                   totalSpent,
                   currencyState.symbol,

@@ -8,7 +8,7 @@ class AppTheme {
     scaffoldBackgroundColor: AppColors.background,
 
     colorScheme: const ColorScheme.dark(
-      surface: AppColors.container,
+      surface: AppColors.background,
       onSurface: AppColors.textPrimary,
       primary: AppColors.primary,
       secondary: AppColors.secondary,
@@ -17,6 +17,7 @@ class AppTheme {
 
     extensions: const [
       AppExtraColors(
+        container: AppColors.container,
         filledColor: AppColors.filledColor,
         alertDialogBG: AppColors.alartdialogBG,
         purpleText: AppColors.purpleText,
@@ -57,6 +58,9 @@ class AppTheme {
       AppExtraColors(
         filledColor: Color(
           0xFFF0F2F5,
+        ),
+        container: Color(
+          0xFFFFFFFF,
         ),
         alertDialogBG: Colors.white,
         purpleText: Color(

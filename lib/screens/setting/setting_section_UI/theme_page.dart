@@ -1,4 +1,4 @@
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:flutter/material.dart';
 
 class ThemePage
@@ -25,12 +25,21 @@ class _ThemePageState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return AlertDialog(
-      backgroundColor: AppColors.alartdialogBG,
-      title: const Text(
+      backgroundColor: extraColors.alertDialogBG,
+      title: Text(
         'Theme ',
         style: TextStyle(
-          color: AppColors.primary,
+          color: Theme.of(
+            context,
+          ).colorScheme.primary,
         ),
       ),
       content:
@@ -56,17 +65,17 @@ class _ThemePageState
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: AppColors.filledColor,
+                    color: extraColors.filledColor,
                     borderRadius: BorderRadius.circular(
                       8,
                     ),
                   ),
-                  child: const RadioListTile(
+                  child: RadioListTile(
                     value: "Light",
                     title: Text(
                       "Light",
                       style: TextStyle(
-                        color: AppColors.textPrimary,
+                        color: extraColors.textPrimary,
                       ),
                     ),
                   ),
@@ -76,17 +85,17 @@ class _ThemePageState
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: AppColors.filledColor,
+                    color: extraColors.filledColor,
                     borderRadius: BorderRadius.circular(
                       8,
                     ),
                   ),
-                  child: const RadioListTile(
+                  child: RadioListTile(
                     value: "Dark",
                     title: Text(
                       "Dark",
                       style: TextStyle(
-                        color: AppColors.textPrimary,
+                        color: extraColors.textPrimary,
                       ),
                     ),
                   ),
@@ -96,17 +105,17 @@ class _ThemePageState
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: AppColors.filledColor,
+                    color: extraColors.filledColor,
                     borderRadius: BorderRadius.circular(
                       8,
                     ),
                   ),
-                  child: const RadioListTile(
+                  child: RadioListTile(
                     value: "System",
                     title: Text(
                       "System Default",
                       style: TextStyle(
-                        color: AppColors.textPrimary,
+                        color: extraColors.textPrimary,
                       ),
                     ),
                   ),
@@ -116,7 +125,7 @@ class _ThemePageState
                 ),
                 // Container(
                 //   decoration: BoxDecoration(
-                //     color: AppColors.filledColor,
+                //     color: extraColors.filledColor,
                 //     borderRadius: BorderRadius.circular(
                 //       8,
                 //     ),
@@ -172,10 +181,10 @@ class _ThemePageState
                           context,
                         );
                       },
-                      child: const Text(
+                      child: Text(
                         "Save",
                         style: TextStyle(
-                          color: AppColors.textPrimary,
+                          color: extraColors.textPrimary,
                           fontSize: 16,
                         ),
                       ),

@@ -1,4 +1,4 @@
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,16 +23,23 @@ class SettingsProfileHeader
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     final user = FirebaseAuth.instance.currentUser;
 
     if (user ==
         null) {
-      return const Row(
+      return Row(
         children: [
           CircleAvatar(
             radius: 28,
             child: Icon(
-              color: AppColors.iconColor,
+              color: extraColors.iconColor,
               Icons.person,
             ),
           ),
@@ -42,7 +49,7 @@ class SettingsProfileHeader
           Text(
             'Guest User',
             style: TextStyle(
-              color: AppColors.textPrimary,
+              color: extraColors.textPrimary,
             ),
           ),
         ],
@@ -105,8 +112,8 @@ class SettingsProfileHeader
                   displayName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: AppColors.textPrimary,
+                  style: TextStyle(
+                    color: extraColors.textPrimary,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -118,8 +125,8 @@ class SettingsProfileHeader
                   displayEmail,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: AppColors.fadeText,
+                  style: TextStyle(
+                    color: extraColors.fadeText,
                     fontSize: 13,
                   ),
                 ),

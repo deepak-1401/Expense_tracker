@@ -1,5 +1,5 @@
 import 'package:budget_manager/blocs/sign_up_bloc/sign_up_bloc.dart';
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,6 +44,13 @@ class _SignUpScreenState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return BlocListener<
       SignUpBloc,
       SignUpState
@@ -92,16 +99,16 @@ class _SignUpScreenState
                   obscureText: false,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(
+                    prefixIcon: Icon(
                       CupertinoIcons.mail_solid,
-                      color: AppColors.iconColor,
+                      color: extraColors.iconColor,
                     ),
                     labelText: 'Email',
                     labelStyle: TextStyle(
-                      color: AppColors.textPrimary,
+                      color: extraColors.textPrimary,
                     ),
                     filled: true,
-                    fillColor: AppColors.filledColor,
+                    fillColor: extraColors.filledColor,
                     border: const OutlineInputBorder(),
                     // errorText: errorMessage,
                   ),
@@ -142,10 +149,10 @@ class _SignUpScreenState
                     ),
                     labelText: 'Password',
                     labelStyle: TextStyle(
-                      color: AppColors.textPrimary,
+                      color: extraColors.textPrimary,
                     ),
                     filled: true,
-                    fillColor: AppColors.filledColor,
+                    fillColor: extraColors.filledColor,
                     border: const OutlineInputBorder(),
                     //  errorText: errorMessage,
                     suffixIcon: IconButton(
@@ -163,7 +170,7 @@ class _SignUpScreenState
                       },
                       icon: Icon(
                         iconPassword,
-                        color: AppColors.iconColor,
+                        color: extraColors.iconColor,
                       ),
                     ),
                   ),
@@ -287,24 +294,24 @@ class _SignUpScreenState
                         "⚈  1 uppercase",
                         style: TextStyle(
                           color: containsUpperCase
-                              ? Colors.green
-                              : AppColors.textPrimary,
+                              ? extraColors.success
+                              : extraColors.textPrimary,
                         ),
                       ),
                       Text(
                         "⚈  1 lowercase",
                         style: TextStyle(
                           color: containsLowerCase
-                              ? Colors.green
-                              : AppColors.textPrimary,
+                              ? extraColors.success
+                              : extraColors.textPrimary,
                         ),
                       ),
                       Text(
                         "⚈  1 number",
                         style: TextStyle(
                           color: containsNumber
-                              ? Colors.green
-                              : AppColors.textPrimary,
+                              ? extraColors.success
+                              : extraColors.textPrimary,
                         ),
                       ),
                     ],
@@ -316,16 +323,16 @@ class _SignUpScreenState
                         "⚈  1 special character",
                         style: TextStyle(
                           color: containsSpecialChar
-                              ? Colors.green
-                              : AppColors.textPrimary,
+                              ? extraColors.success
+                              : extraColors.textPrimary,
                         ),
                       ),
                       Text(
                         "⚈  8 minimum character",
                         style: TextStyle(
                           color: contains8Length
-                              ? Colors.green
-                              : AppColors.textPrimary,
+                              ? extraColors.success
+                              : extraColors.textPrimary,
                         ),
                       ),
                     ],
@@ -346,14 +353,14 @@ class _SignUpScreenState
                   decoration: InputDecoration(
                     labelText: 'Name',
                     labelStyle: TextStyle(
-                      color: AppColors.textPrimary,
+                      color: extraColors.textPrimary,
                     ),
                     filled: true,
-                    fillColor: AppColors.filledColor,
+                    fillColor: extraColors.filledColor,
                     border: const OutlineInputBorder(),
-                    prefixIcon: const Icon(
+                    prefixIcon: Icon(
                       CupertinoIcons.person_fill,
-                      color: AppColors.iconColor,
+                      color: extraColors.iconColor,
                     ),
                   ),
                   obscureText: false,
@@ -461,7 +468,7 @@ class _SignUpScreenState
                               ),
                             ),
                           ),
-                          child: const Padding(
+                          child: Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: 25,
                               vertical: 5,
@@ -470,7 +477,7 @@ class _SignUpScreenState
                               'Sign Up',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                               ),

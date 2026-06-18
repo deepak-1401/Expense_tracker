@@ -1,4 +1,4 @@
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/screens/setting/widgets/avatar_picker_bottom_sheet.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -172,6 +172,13 @@ class _ProfileState
     void
   >
   saveProfileData() async {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     setState(
       () {
         isSaving = true;
@@ -216,11 +223,11 @@ class _ProfileState
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(
-        const SnackBar(
-          content: Text(
+        SnackBar(
+          content: const Text(
             "Profile updated successfully",
           ),
-          backgroundColor: Colors.green,
+          backgroundColor: extraColors.success,
         ),
       );
     } catch (
@@ -235,7 +242,7 @@ class _ProfileState
           content: Text(
             "Failed to update profile",
           ),
-          backgroundColor: Colors.red,
+          backgroundColor: extraColors.error,
         ),
       );
     } finally {
@@ -253,13 +260,20 @@ class _ProfileState
     required String label,
     required IconData icon,
   }) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return InputDecoration(
       labelText: label,
-      labelStyle: const TextStyle(
-        color: AppColors.fadeText,
+      labelStyle: TextStyle(
+        color: extraColors.fadeText,
       ),
       filled: true,
-      fillColor: AppColors.filledColor,
+      fillColor: extraColors.filledColor,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(
           10,
@@ -270,7 +284,7 @@ class _ProfileState
           10,
         ),
         borderSide: BorderSide(
-          color: AppColors.fadeText.withValues(
+          color: extraColors.fadeText.withValues(
             alpha: 0.5,
           ),
         ),
@@ -287,7 +301,7 @@ class _ProfileState
       ),
       prefixIcon: Icon(
         icon,
-        color: AppColors.iconColor,
+        color: extraColors.iconColor,
       ),
     );
   }
@@ -296,12 +310,21 @@ class _ProfileState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Profile',
           style: TextStyle(
-            color: AppColors.primary,
+            color: Theme.of(
+              context,
+            ).colorScheme.primary,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -362,8 +385,8 @@ class _ProfileState
 
                         TextFormField(
                           controller: nameController,
-                          style: const TextStyle(
-                            color: AppColors.textPrimary,
+                          style: TextStyle(
+                            color: extraColors.textPrimary,
                           ),
                           decoration: inputDecoration(
                             label: 'Name',
@@ -388,8 +411,8 @@ class _ProfileState
 
                         TextFormField(
                           controller: ageController,
-                          style: const TextStyle(
-                            color: AppColors.textPrimary,
+                          style: TextStyle(
+                            color: extraColors.textPrimary,
                           ),
                           decoration: inputDecoration(
                             label: 'Age',
@@ -437,17 +460,17 @@ class _ProfileState
                             selectedGender,
                           ),
                           initialValue: selectedGender,
-                          dropdownColor: AppColors.filledColor,
-                          style: const TextStyle(
-                            color: AppColors.textPrimary,
+                          dropdownColor: extraColors.filledColor,
+                          style: TextStyle(
+                            color: extraColors.textPrimary,
                           ),
                           decoration: InputDecoration(
                             labelText: 'Gender',
-                            labelStyle: const TextStyle(
-                              color: AppColors.fadeText,
+                            labelStyle: TextStyle(
+                              color: extraColors.fadeText,
                             ),
                             filled: true,
-                            fillColor: AppColors.filledColor,
+                            fillColor: extraColors.filledColor,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
                                 10,
@@ -458,7 +481,7 @@ class _ProfileState
                                 10,
                               ),
                               borderSide: BorderSide(
-                                color: AppColors.fadeText.withValues(
+                                color: extraColors.fadeText.withValues(
                                   alpha: 0.5,
                                 ),
                               ),
@@ -549,8 +572,8 @@ class _ProfileState
 
                         TextFormField(
                           controller: occupationController,
-                          style: const TextStyle(
-                            color: AppColors.textPrimary,
+                          style: TextStyle(
+                            color: extraColors.textPrimary,
                           ),
                           decoration: inputDecoration(
                             label: 'Occupation',
@@ -565,8 +588,8 @@ class _ProfileState
                         TextFormField(
                           controller: emailController,
                           readOnly: true,
-                          style: const TextStyle(
-                            color: AppColors.textPrimary,
+                          style: TextStyle(
+                            color: extraColors.textPrimary,
                           ),
                           decoration: inputDecoration(
                             label: 'Email',
@@ -626,18 +649,18 @@ class _ProfileState
                                   ? null
                                   : saveProfileData,
                               child: isSaving
-                                  ? const SizedBox(
+                                  ? SizedBox(
                                       width: 20,
                                       height: 20,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2,
-                                        color: AppColors.textPrimary,
+                                        color: extraColors.textPrimary,
                                       ),
                                     )
-                                  : const Text(
+                                  : Text(
                                       "Save Changes",
                                       style: TextStyle(
-                                        color: AppColors.textPrimary,
+                                        color: extraColors.textPrimary,
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                       ),

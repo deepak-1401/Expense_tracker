@@ -1,5 +1,5 @@
 import 'package:budget_manager/blocs/change_password_bloc/change_password_bloc.dart';
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,17 +88,24 @@ class _ChangePasswordScreenState
     required bool obscure,
     required VoidCallback onToggle,
   }) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return InputDecoration(
       prefixIcon: Icon(
         icon,
-        color: AppColors.iconColor,
+        color: extraColors.iconColor,
       ),
       labelText: label,
       labelStyle: TextStyle(
-        color: AppColors.textPrimary,
+        color: extraColors.textPrimary,
       ),
       filled: true,
-      fillColor: AppColors.filledColor,
+      fillColor: extraColors.filledColor,
       border: const OutlineInputBorder(),
       suffixIcon: IconButton(
         onPressed: onToggle,
@@ -106,7 +113,7 @@ class _ChangePasswordScreenState
           obscure
               ? CupertinoIcons.eye_fill
               : CupertinoIcons.eye_slash_fill,
-          color: AppColors.iconColor,
+          color: extraColors.iconColor,
         ),
       ),
     );
@@ -116,12 +123,19 @@ class _ChangePasswordScreenState
     String text,
     bool isValid,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return Text(
       '⚈  $text',
       style: TextStyle(
         color: isValid
             ? Colors.green
-            : AppColors.textPrimary,
+            : extraColors.textPrimary,
         fontSize: 13,
       ),
     );
@@ -131,6 +145,13 @@ class _ChangePasswordScreenState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return BlocListener<
       ChangePasswordBloc,
       ChangePasswordState
@@ -171,10 +192,12 @@ class _ChangePasswordScreenState
           },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'Change Password',
             style: TextStyle(
-              color: AppColors.primary,
+              color: Theme.of(
+                context,
+              ).colorScheme.primary,
             ),
           ),
         ),
@@ -224,10 +247,10 @@ class _ChangePasswordScreenState
                       ),
                     ],
                   ),
-                  child: const Icon(
+                  child: Icon(
                     CupertinoIcons.lock_fill,
                     size: 38,
-                    color: AppColors.iconColor,
+                    color: extraColors.iconColor,
                   ),
                 ),
 
@@ -235,10 +258,10 @@ class _ChangePasswordScreenState
                   height: 18,
                 ),
 
-                const Text(
+                Text(
                   'Update Your Password',
                   style: TextStyle(
-                    color: AppColors.textPrimary,
+                    color: extraColors.textPrimary,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -248,12 +271,12 @@ class _ChangePasswordScreenState
                   height: 8,
                 ),
 
-                const Text(
+                Text(
                   'Choose a strong password to keep your account secure.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 14,
-                    color: AppColors.fadeText,
+                    color: extraColors.fadeText,
                     height: 1.5,
                   ),
                 ),
@@ -418,11 +441,11 @@ class _ChangePasswordScreenState
                         ScaffoldMessenger.of(
                           context,
                         ).showSnackBar(
-                          const SnackBar(
+                          SnackBar(
                             content: Text(
                               'Please fill all fields',
                               style: TextStyle(
-                                color: Colors.red,
+                                color: extraColors.warning,
                               ),
                             ),
                           ),
@@ -435,11 +458,11 @@ class _ChangePasswordScreenState
                         ScaffoldMessenger.of(
                           context,
                         ).showSnackBar(
-                          const SnackBar(
+                          SnackBar(
                             content: Text(
                               'New password and confirm password do not match',
                               style: TextStyle(
-                                color: Colors.red,
+                                color: extraColors.warning,
                               ),
                             ),
                           ),
@@ -458,14 +481,14 @@ class _ChangePasswordScreenState
                             ),
                           );
                     },
-                    child: const Padding(
+                    child: Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 8,
                       ),
                       child: Text(
                         'Update Password',
                         style: TextStyle(
-                          color: AppColors.textPrimary,
+                          color: extraColors.textPrimary,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),

@@ -1,5 +1,6 @@
 import 'package:budget_manager/blocs/create_expense_bloc/create_expense_bloc.dart';
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/theme/colours.dart';
 import 'package:budget_manager/screens/add_expense/blocs/get_categorybloc/get_category_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
@@ -34,6 +35,13 @@ class _AddExpenseState
         State<
           AddExpense
         > {
+  AppExtraColors get extraColors =>
+      Theme.of(
+            context,
+          )
+          .extension<
+            AppExtraColors
+          >()!;
   final TextEditingController expenseController = TextEditingController();
   final TextEditingController categoryController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
@@ -188,7 +196,7 @@ class _AddExpenseState
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColors.alartdialogBG,
+      backgroundColor: extraColors.alertDialogBG,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(
@@ -237,7 +245,7 @@ class _AddExpenseState
                               },
                               child: Icon(
                                 iconList[index],
-                                color: AppColors.iconColor,
+                                color: extraColors.iconColor,
                                 size: 28,
                               ),
                             );
@@ -253,6 +261,14 @@ class _AddExpenseState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
+
     final currencyState = context
         .watch<
           CurrencyBloc
@@ -303,7 +319,9 @@ class _AddExpenseState
                               "Add Expense",
                               style: TextStyle(
                                 fontSize: 22,
-                                color: AppColors.primary,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.primary,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -330,7 +348,7 @@ class _AddExpenseState
                                     22.0,
                                   ),
                                   filled: true,
-                                  fillColor: AppColors.container,
+                                  fillColor: extraColors.container,
 
                                   prefixIcon: Padding(
                                     padding: const EdgeInsets.only(
@@ -341,17 +359,21 @@ class _AddExpenseState
                                       widthFactor: 1,
                                       child: Text(
                                         currencyState.symbol,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 22,
                                           fontWeight: FontWeight.bold,
-                                          color: AppColors.primary,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
                                         ),
                                       ),
                                     ),
                                   ),
                                   hintText: "00.00",
                                   hintStyle: TextStyle(
-                                    color: AppColors.primary,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -377,7 +399,7 @@ class _AddExpenseState
                                 ),
                                 hintText: "Category",
                                 hintStyle: TextStyle(
-                                  color: AppColors.textPrimary,
+                                  color: extraColors.textPrimary,
                                 ),
 
                                 border: OutlineInputBorder(
@@ -386,7 +408,7 @@ class _AddExpenseState
                                   ),
                                 ),
                                 filled: true,
-                                fillColor: AppColors.container,
+                                fillColor: extraColors.container,
                                 prefixIcon:
                                     selectedCategory ==
                                         null
@@ -403,7 +425,7 @@ class _AddExpenseState
                                           ),
                                           child: Icon(
                                             Icons.list_alt_outlined,
-                                            color: AppColors.iconColor,
+                                            color: extraColors.iconColor,
                                             size: 18,
                                           ),
                                         ),
@@ -423,7 +445,7 @@ class _AddExpenseState
                                             _iconFromName(
                                               selectedCategory!.icon,
                                             ),
-                                            color: AppColors.iconColor,
+                                            color: extraColors.iconColor,
                                             size: 18,
                                           ),
                                         ),
@@ -447,7 +469,7 @@ class _AddExpenseState
 
                                     icon: Icon(
                                       Icons.add,
-                                      color: AppColors.iconColor,
+                                      color: extraColors.iconColor,
                                       size: 24,
                                     ),
                                   ),
@@ -499,8 +521,8 @@ class _AddExpenseState
                                       padding: const EdgeInsets.all(
                                         22.0,
                                       ),
-                                      decoration: const BoxDecoration(
-                                        color: AppColors.container,
+                                      decoration: BoxDecoration(
+                                        color: extraColors.container,
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(
@@ -536,7 +558,7 @@ class _AddExpenseState
                                                         backgroundColor: bgColor,
                                                         child: Icon(
                                                           iconData,
-                                                          color: AppColors.iconColor,
+                                                          color: extraColors.iconColor,
                                                         ),
                                                       ),
                                                       title: Text(
@@ -591,7 +613,7 @@ class _AddExpenseState
                                 ),
                                 hintText: "Date",
                                 hintStyle: TextStyle(
-                                  color: AppColors.textPrimary,
+                                  color: extraColors.textPrimary,
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(
@@ -599,7 +621,7 @@ class _AddExpenseState
                                   ),
                                 ),
                                 filled: true,
-                                fillColor: AppColors.container,
+                                fillColor: extraColors.container,
                                 prefixIcon: Padding(
                                   padding: EdgeInsets.all(
                                     8.0,
@@ -614,7 +636,7 @@ class _AddExpenseState
 
                                     child: Icon(
                                       Icons.calendar_month_outlined,
-                                      color: AppColors.iconColor,
+                                      color: extraColors.iconColor,
                                       size: 18,
                                     ),
                                   ),
@@ -634,7 +656,7 @@ class _AddExpenseState
                                 ),
                                 hintText: "Payment Method",
                                 hintStyle: TextStyle(
-                                  color: AppColors.textPrimary,
+                                  color: extraColors.textPrimary,
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(
@@ -642,7 +664,7 @@ class _AddExpenseState
                                   ),
                                 ),
                                 filled: true,
-                                fillColor: AppColors.container,
+                                fillColor: extraColors.container,
                                 prefixIcon: Padding(
                                   padding: EdgeInsets.all(
                                     8.0,
@@ -656,7 +678,7 @@ class _AddExpenseState
                                     ),
                                     child: Icon(
                                       Icons.payment,
-                                      color: AppColors.iconColor,
+                                      color: extraColors.iconColor,
                                       size: 18,
                                     ),
                                   ),
@@ -829,10 +851,10 @@ class _AddExpenseState
                                     child: Container(
                                       alignment: Alignment.center,
 
-                                      child: const Text(
+                                      child: Text(
                                         "Save",
                                         style: TextStyle(
-                                          color: AppColors.textPrimary,
+                                          color: extraColors.textPrimary,
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                         ),

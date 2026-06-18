@@ -1,4 +1,4 @@
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:flutter/material.dart';
 
 class AboutAppScreen
@@ -12,12 +12,21 @@ class AboutAppScreen
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'About App',
           style: TextStyle(
-            color: AppColors.primary,
+            color: Theme.of(
+              context,
+            ).colorScheme.primary,
           ),
         ),
       ),
@@ -27,22 +36,22 @@ class AboutAppScreen
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Center(
               child: Icon(
                 Icons.account_balance_wallet_rounded,
-                color: AppColors.iconColor,
+                color: extraColors.iconColor,
                 size: 80,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Center(
               child: Text(
                 'Expense Tracker',
                 style: TextStyle(
-                  color: AppColors.textPrimary,
+                  color: extraColors.textPrimary,
 
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
@@ -53,25 +62,25 @@ class AboutAppScreen
               child: Text(
                 'Version 1.0.0',
                 style: TextStyle(
-                  color: AppColors.fadeText,
+                  color: extraColors.fadeText,
                   fontSize: 16,
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
 
             Text(
               'About',
               style: TextStyle(
-                color: AppColors.textPrimary,
+                color: extraColors.textPrimary,
 
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
@@ -80,26 +89,26 @@ class AboutAppScreen
               'You can record transactions, categorize spending, view '
               'analytics, and gain insights into your financial habits.',
               style: TextStyle(
-                color: AppColors.fadeText,
+                color: extraColors.fadeText,
                 fontSize: 15,
                 height: 1.6,
               ),
             ),
 
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
 
             Text(
               'Features',
               style: TextStyle(
-                color: AppColors.textPrimary,
+                color: extraColors.textPrimary,
 
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
@@ -110,45 +119,45 @@ class AboutAppScreen
               '• Secure cloud backup with Firebase\n'
               '• Dark mode support',
               style: TextStyle(
-                color: AppColors.fadeText,
+                color: extraColors.fadeText,
                 fontSize: 15,
                 height: 1.6,
               ),
             ),
 
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
 
             Text(
               'Developer',
               style: TextStyle(
-                color: AppColors.textPrimary,
+                color: extraColors.textPrimary,
 
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
               'Developed by Deepak as a Flutter & Firebase project to help users manage personal finances efficiently.',
               style: TextStyle(
-                color: AppColors.fadeText,
+                color: extraColors.fadeText,
 
                 fontSize: 15,
                 height: 1.6,
               ),
             ),
 
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
 
-            Divider(),
+            const Divider(),
 
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
 
@@ -158,7 +167,7 @@ class AboutAppScreen
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 13,
-                  color: AppColors.fadeText,
+                  color: extraColors.fadeText,
                 ),
               ),
             ),

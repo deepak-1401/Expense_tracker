@@ -1,5 +1,5 @@
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/data/currencies_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,6 +41,13 @@ class _CurrencyPageState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     final currencyState = context
         .watch<
           CurrencyBloc
@@ -50,11 +57,13 @@ class _CurrencyPageState
     selectedCurrencyCode = currencyState.code;
 
     return AlertDialog(
-      backgroundColor: AppColors.alartdialogBG,
-      title: const Text(
+      backgroundColor: extraColors.alertDialogBG,
+      title: Text(
         'Currency',
         style: TextStyle(
-          color: AppColors.primary,
+          color: Theme.of(
+            context,
+          ).colorScheme.primary,
         ),
       ),
       content: SizedBox(
@@ -62,7 +71,7 @@ class _CurrencyPageState
         height: 350,
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.container,
+            color: extraColors.container,
             borderRadius: BorderRadius.circular(
               10,
             ),
@@ -80,32 +89,34 @@ class _CurrencyPageState
                       selectedCurrencyCode;
 
                   return Material(
-                    color: AppColors.filledColor,
+                    color: extraColors.filledColor,
                     child: ListTile(
                       leading: Text(
                         currency['symbol']!,
-                        style: const TextStyle(
-                          color: AppColors.textPrimary,
+                        style: TextStyle(
+                          color: extraColors.textPrimary,
                           fontSize: 20,
                         ),
                       ),
                       title: Text(
                         currency['name']!,
-                        style: const TextStyle(
-                          color: AppColors.textPrimary,
+                        style: TextStyle(
+                          color: extraColors.textPrimary,
                         ),
                       ),
                       subtitle: Text(
                         currency['code']!,
-                        style: const TextStyle(
-                          color: AppColors.fadeText,
+                        style: TextStyle(
+                          color: extraColors.fadeText,
                         ),
                       ),
 
                       trailing: isSelected
-                          ? const Icon(
+                          ? Icon(
                               Icons.check_circle_rounded,
-                              color: AppColors.primary,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primary,
                             )
                           : null,
 
@@ -141,8 +152,8 @@ class _CurrencyPageState
                   BuildContext context,
                   int index,
                 ) {
-                  return const Divider(
-                    color: AppColors.filledColor,
+                  return Divider(
+                    color: extraColors.filledColor,
                     thickness: 2.5,
                     indent: 20,
                     endIndent: 20,

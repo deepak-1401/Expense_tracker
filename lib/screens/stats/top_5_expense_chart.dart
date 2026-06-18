@@ -1,4 +1,4 @@
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -128,15 +128,22 @@ class _MychartState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     final chartData = getChartData();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Top 5 Expenses",
           style: TextStyle(
-            color: AppColors.textPrimary,
+            color: extraColors.textPrimary,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -157,17 +164,17 @@ class _MychartState
               16.0,
             ),
             decoration: BoxDecoration(
-              color: AppColors.container,
+              color: extraColors.container,
               borderRadius: BorderRadius.circular(
                 20,
               ),
             ),
             child: chartData.isEmpty
-                ? const Center(
+                ? Center(
                     child: Text(
                       'No expense data available for the selected period.',
                       style: TextStyle(
-                        color: AppColors.fadeText,
+                        color: extraColors.fadeText,
                       ),
                     ),
                   )
@@ -179,8 +186,8 @@ class _MychartState
                       majorGridLines: const MajorGridLines(
                         width: 0,
                       ),
-                      labelStyle: const TextStyle(
-                        color: AppColors.fadeText,
+                      labelStyle: TextStyle(
+                        color: extraColors.fadeText,
                         fontSize: 12,
                       ),
                     ),
@@ -212,11 +219,11 @@ class _MychartState
                                   ChartData data,
                                   _,
                                 ) => data.amount,
-                            dataLabelSettings: const DataLabelSettings(
+                            dataLabelSettings: DataLabelSettings(
                               isVisible: true,
                               labelAlignment: ChartDataLabelAlignment.outer,
                               textStyle: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -247,7 +254,7 @@ class _MychartState
           ),
         ),
         Divider(
-          color: AppColors.fadeText.withValues(
+          color: extraColors.fadeText.withValues(
             alpha: 0.2,
           ),
           thickness: 1,

@@ -1,4 +1,4 @@
-import 'package:budget_manager/theme/colours.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:flutter/material.dart';
 
 class TermsConditionsScreen
@@ -12,17 +12,26 @@ class TermsConditionsScreen
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Terms & Conditions',
           style: TextStyle(
-            color: AppColors.primary,
+            color: Theme.of(
+              context,
+            ).colorScheme.primary,
           ),
         ),
       ),
-      body: const SingleChildScrollView(
-        padding: EdgeInsets.all(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(
           20,
         ),
         child: Text(
@@ -70,7 +79,7 @@ These Terms & Conditions may be updated in the future. Continued use of the app 
 For questions or support, please contact the app developer.
           ''',
           style: TextStyle(
-            color: AppColors.textPrimary,
+            color: extraColors.textPrimary,
             fontSize: 15,
             height: 1.6,
           ),

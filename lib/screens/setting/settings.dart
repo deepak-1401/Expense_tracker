@@ -1,9 +1,5 @@
-//import 'package:budget_manager/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:budget_manager/blocs/change_password_bloc/change_password_bloc.dart';
-import 'package:budget_manager/theme/colours.dart';
-// import 'package:budget_manager/blocs/log_in_bloc/log_in_bloc.dart'
-//     hide
-//         LogOutRequired;
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/about_app_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/change_password_screen.dart';
 import 'package:budget_manager/screens/setting/setting_section_UI/currency_page.dart';
@@ -50,13 +46,20 @@ class _SettingState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(
+              Padding(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                   vertical: 12,
                 ),
@@ -66,7 +69,7 @@ class _SettingState
                   child: Text(
                     'Settings',
                     style: TextStyle(
-                      color: AppColors.textPrimary,
+                      color: extraColors.textPrimary,
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
@@ -78,6 +81,7 @@ class _SettingState
               ),
               sectionTitle(
                 "PROFILE",
+                context,
               ),
 
               const SizedBox(
@@ -111,8 +115,8 @@ class _SettingState
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        AppColors.container,
-                        AppColors.container.withValues(
+                        extraColors.container,
+                        extraColors.container.withValues(
                           alpha: 0.8,
                         ),
                       ],
@@ -127,7 +131,7 @@ class _SettingState
                         width: 60,
                         height: 60,
                         decoration: BoxDecoration(
-                          color: AppColors.container,
+                          color: extraColors.container,
                           borderRadius: BorderRadius.circular(
                             30,
                           ),
@@ -148,9 +152,9 @@ class _SettingState
                       CircleAvatar(
                         radius: 18,
                         backgroundColor: Colors.transparent,
-                        child: const Icon(
+                        child: Icon(
                           Icons.arrow_forward_ios_outlined,
-                          color: AppColors.iconColor,
+                          color: extraColors.iconColor,
                           size: 16,
                         ),
                       ),
@@ -161,6 +165,7 @@ class _SettingState
 
               sectionTitle(
                 "GENERAL",
+                context,
               ),
 
               const SizedBox(
@@ -248,6 +253,7 @@ class _SettingState
 
               sectionTitle(
                 "ACCOUNT",
+                context,
               ),
 
               const SizedBox(
@@ -286,6 +292,7 @@ class _SettingState
 
               sectionTitle(
                 "ABOUT",
+                context,
               ),
 
               const SizedBox(
@@ -391,9 +398,9 @@ class _SettingState
                 title: "Logout",
                 subtitle: "Sign out of your account",
                 icon: CupertinoIcons.power,
-                iconColor: Color(
-                  0xFFE11D48,
-                ),
+                iconColor: Theme.of(
+                  context,
+                ).colorScheme.primary,
                 onTap: () {
                   showLogoutDialog(
                     context,
@@ -402,6 +409,7 @@ class _SettingState
               ),
               sectionTitle(
                 "App Info",
+                context,
               ),
 
               const SizedBox(

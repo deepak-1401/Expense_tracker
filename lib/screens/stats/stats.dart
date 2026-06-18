@@ -1,5 +1,6 @@
 //import 'dart:math';
 import 'package:budget_manager/blocs/get_expenses_bloc/get_expenses_bloc.dart';
+import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/theme/colours.dart';
 import 'package:budget_manager/screens/stats/top_5_expense_chart.dart';
 import 'package:budget_manager/screens/stats/Spending_Trend_Chart.dart';
@@ -35,6 +36,13 @@ class _StatScreenState
         State<
           StatScreen
         > {
+  AppExtraColors get extraColors =>
+      Theme.of(
+            context,
+          )
+          .extension<
+            AppExtraColors
+          >()!;
   AnalyticsPeriod selectedPeriod = AnalyticsPeriod.month;
   List<
     Expense
@@ -109,6 +117,13 @@ class _StatScreenState
   Widget build(
     BuildContext context,
   ) {
+    final extraColors =
+        Theme.of(
+              context,
+            )
+            .extension<
+              AppExtraColors
+            >()!;
     return SafeArea(
       child:
           BlocBuilder<
@@ -134,16 +149,16 @@ class _StatScreenState
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               "Analytics",
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: extraColors.textPrimary,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Divider(
-                              color: AppColors.fadeText.withValues(
+                              color: extraColors.fadeText.withValues(
                                 alpha: 0.2,
                               ),
                               thickness: 1,
@@ -177,7 +192,7 @@ class _StatScreenState
                                             ? Theme.of(
                                                 context,
                                               ).colorScheme.primary
-                                            : AppColors.container.withValues(
+                                            : extraColors.container.withValues(
                                                 alpha: 0.08,
                                               ),
                                         borderRadius: BorderRadius.circular(
@@ -188,8 +203,8 @@ class _StatScreenState
                                         period.name.toUpperCase(),
                                         style: TextStyle(
                                           color: isSelected
-                                              ? AppColors.textPrimary
-                                              : AppColors.fadeText,
+                                              ? extraColors.textPrimary
+                                              : extraColors.fadeText,
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
@@ -199,7 +214,7 @@ class _StatScreenState
                               ).toList(),
                             ),
                             Divider(
-                              color: AppColors.fadeText.withValues(
+                              color: extraColors.fadeText.withValues(
                                 alpha: 0.2,
                               ),
                               thickness: 1,

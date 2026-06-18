@@ -7,6 +7,7 @@ class AppExtraColors
           AppExtraColors
         > {
   final Color filledColor;
+  final Color container;
   final Color alertDialogBG;
   final Color purpleText;
   final Color fadeText;
@@ -19,6 +20,7 @@ class AppExtraColors
 
   const AppExtraColors({
     required this.filledColor,
+    required this.container,
     required this.alertDialogBG,
     required this.purpleText,
     required this.fadeText,
@@ -30,9 +32,12 @@ class AppExtraColors
     required this.border,
   });
 
+  Color? get textPrimary => null;
+
   @override
   AppExtraColors copyWith({
     Color? filledColor,
+    Color? container,
     Color? alertDialogBG,
     Color? purpleText,
     Color? fadeText,
@@ -47,6 +52,9 @@ class AppExtraColors
       filledColor:
           filledColor ??
           this.filledColor,
+      container:
+          container ??
+          this.container,
       alertDialogBG:
           alertDialogBG ??
           this.alertDialogBG,
@@ -93,6 +101,11 @@ class AppExtraColors
       filledColor: Color.lerp(
         filledColor,
         other.filledColor,
+        t,
+      )!,
+      container: Color.lerp(
+        container,
+        other.container,
         t,
       )!,
       alertDialogBG: Color.lerp(
