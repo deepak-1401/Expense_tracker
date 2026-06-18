@@ -43,7 +43,10 @@ main() async {
             create:
                 (
                   context,
-                ) => CurrencyBloc(),
+                ) => CurrencyBloc()
+                  ..add(
+                    LoadSavedCurrency(),
+                  ),
           ),
           BlocProvider(
             create:

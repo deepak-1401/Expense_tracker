@@ -35,3 +35,7 @@ class CurrencyChanged
     name,
   ];
 }
+
+final class LoadSavedCurrency
+    extends
+        CurrencyEvent {}
