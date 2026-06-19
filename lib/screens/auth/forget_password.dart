@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:user_repository/user_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ForgetPasswordScreen
     extends
@@ -16,18 +18,14 @@ class ForgetPasswordScreen
   createState() => _ForgetPasswordScreenState();
 }
 
-final TextEditingController
-emailController = TextEditingController();
-bool
-isLoading = false;
-bool
-isEmailSent = false;
-
 class _ForgetPasswordScreenState
     extends
         State<
           ForgetPasswordScreen
         > {
+  final TextEditingController emailController = TextEditingController();
+  bool isLoading = false;
+  bool isEmailSent = false;
   Future<
     void
   >
@@ -73,10 +71,14 @@ class _ForgetPasswordScreenState
     );
 
     try {
-      // 4. Send reset email
-      await FirebaseAuth.instance.sendPasswordResetEmail(
-        email: email,
-      );
+      await context
+          .read<
+            UserRepository
+          >()
+          .resetPassword(
+            emailController.text.trim(),
+          );
+
       setState(
         () {
           isEmailSent = true;
@@ -85,7 +87,6 @@ class _ForgetPasswordScreenState
 
       emailController.clear();
 
-      // 5. Success message
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(
@@ -95,16 +96,9 @@ class _ForgetPasswordScreenState
           ),
         ),
       );
-
-      // Optional:
-      emailController.clear();
-      // Navigator.pop(
-      //   context,
-      // );
     } on FirebaseAuthException catch (
       e
     ) {
-      // 6. Handle Firebase errors
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(
@@ -116,7 +110,6 @@ class _ForgetPasswordScreenState
         ),
       );
     } finally {
-      // 7. Stop loading (always runs)
       setState(
         () {
           isLoading = false;

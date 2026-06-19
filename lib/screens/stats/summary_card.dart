@@ -1,11 +1,12 @@
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
 import 'package:budget_manager/theme/app_extra_colors.dart';
-import 'package:budget_manager/core/utils/helpers/summary_period_helper.dart';
+import 'package:budget_manager/core/utils/helpers/analytics_page/summary_card/summary_period_helper.dart';
 import 'package:budget_manager/screens/stats/stats.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
+import 'package:budget_manager/core/utils/helpers/analytics_page/summary_card/summary_calculation_helper.dart';
+import 'package:budget_manager/core/utils/helpers/shared/currency_formatter.dart';
 
 class SummaryCardLayout
     extends
@@ -104,6 +105,35 @@ class SummaryCardLayout
   Widget build(
     BuildContext context,
   ) {
+    final totalSpent = SummaryCalculationHelper.totalSpent(
+      expenses,
+    );
+
+    final highestExpense = SummaryCalculationHelper.highestExpense(
+      expenses,
+    );
+
+    final topCategoryEntry = SummaryCalculationHelper.topCategory(
+      expenses,
+    );
+
+    final topCategoryName =
+        topCategoryEntry?.key ??
+        "--";
+
+    final topCategoryAmount =
+        topCategoryEntry?.value ??
+        0.0;
+
+    final averageAmount =
+        totalSpent /
+        SummaryCalculationHelper.averageDivider(
+          selectedPeriod,
+        );
+
+    final averageTitle = SummaryCalculationHelper.averageTitle(
+      selectedPeriod,
+    );
     final extraColors =
         Theme.of(
               context,
@@ -116,131 +146,6 @@ class SummaryCardLayout
           CurrencyBloc
         >()
         .state;
-    //Total Spent Logic
-    final totalSpent =
-        expenses.fold<
-          double
-        >(
-          0,
-          (
-            sum,
-            expense,
-          ) =>
-              sum +
-              expense.amount,
-        );
-    //Highest Expense Logic
-    final highestExpense = expenses.isEmpty
-        ? 0.0
-        : expenses
-              .map(
-                (
-                  expense,
-                ) => expense.amount,
-              )
-              .reduce(
-                (
-                  a,
-                  b,
-                ) =>
-                    a >
-                        b
-                    ? a
-                    : b,
-              );
-    //Top Category Logic
-    final Map<
-      String,
-      double
-    >
-    categoryTotals = {};
-
-    for (var expense in expenses) {
-      final categoryName = expense.category.name;
-
-      categoryTotals[categoryName] =
-          (categoryTotals[categoryName] ??
-              0) +
-          expense.amount;
-    }
-
-    final topCategoryEntry = categoryTotals.isEmpty
-        ? null
-        : categoryTotals.entries.reduce(
-            (
-              a,
-              b,
-            ) =>
-                a.value >
-                    b.value
-                ? a
-                : b,
-          );
-
-    final topCategoryName =
-        topCategoryEntry?.key ??
-        "--";
-    final topCategoryAmount =
-        topCategoryEntry?.value ??
-        0.0;
-
-    //Average Per Day Logic
-    int getAverageDivider() {
-      final now = DateTime.now();
-
-      switch (selectedPeriod) {
-        case AnalyticsPeriod.today:
-          return 24;
-
-        case AnalyticsPeriod.week:
-          return 7;
-
-        case AnalyticsPeriod.month:
-          final daysInMonth = DateTime(
-            now.year,
-            now.month +
-                1,
-            0,
-          ).day;
-          return daysInMonth;
-
-        case AnalyticsPeriod.year:
-          return 12;
-      }
-    }
-
-    final double averageAmount =
-        totalSpent /
-        getAverageDivider();
-
-    String getAverageTitle() {
-      switch (selectedPeriod) {
-        case AnalyticsPeriod.today:
-          return 'Avg / Hour';
-
-        case AnalyticsPeriod.week:
-          return 'Avg / Day';
-
-        case AnalyticsPeriod.month:
-          return 'Avg / Day';
-
-        case AnalyticsPeriod.year:
-          return 'Avg / Month';
-      }
-    }
-
-    String formatCurrency(
-      double amount,
-      String symbol,
-    ) {
-      return NumberFormat.currency(
-        locale: 'en_IN',
-        symbol: '$symbol ',
-        decimalDigits: 0,
-      ).format(
-        amount,
-      );
-    }
 
     return Column(
       children: [
@@ -284,9 +189,9 @@ class SummaryCardLayout
               summaryCard(
                 icon: Icons.local_fire_department_outlined,
                 title: "Highest",
-                value: formatCurrency(
-                  highestExpense,
-                  currencyState.symbol,
+                value: CurrencyFormatter.format(
+                  amount: highestExpense,
+                  symbol: currencyState.symbol,
                 ),
                 context: context,
               ),
@@ -295,18 +200,18 @@ class SummaryCardLayout
                 title: "Top Category",
                 context: context,
                 value: topCategoryName,
-                subtitle: formatCurrency(
-                  topCategoryAmount,
-                  currencyState.symbol,
+                subtitle: CurrencyFormatter.format(
+                  amount: topCategoryAmount,
+                  symbol: currencyState.symbol,
                 ),
               ),
               summaryCard(
                 icon: Icons.calendar_today_outlined,
-                title: getAverageTitle(),
+                title: averageTitle,
                 context: context,
-                value: formatCurrency(
-                  averageAmount,
-                  currencyState.symbol,
+                value: CurrencyFormatter.format(
+                  amount: averageAmount,
+                  symbol: currencyState.symbol,
                 ),
               ),
             ],
@@ -320,9 +225,9 @@ class SummaryCardLayout
                 icon: Icons.account_balance_wallet_outlined,
                 title: "Total Spent",
                 context: context,
-                value: formatCurrency(
-                  totalSpent,
-                  currencyState.symbol,
+                value: CurrencyFormatter.format(
+                  amount: totalSpent,
+                  symbol: currencyState.symbol,
                 ),
               ),
             ],

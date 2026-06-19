@@ -1,5 +1,4 @@
 import 'package:budget_manager/theme/app_extra_colors.dart';
-import 'package:budget_manager/theme/dark_theme_colors.dart';
 import 'package:budget_manager/screens/add_expense/blocs/create_categoryblocs/create_category_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
 import 'package:flutter/material.dart';
@@ -34,9 +33,6 @@ class _NewCategoryState
             AppExtraColors
           >()!;
   final TextEditingController nameController = TextEditingController();
-  //final CategoryIconController = TextEditingController();
-  //final CategoryColorController = TextEditingController();
-  //TextEditingController CategorynameController = TextEditingController();
   final TextEditingController iconController = TextEditingController();
   final TextEditingController colorController = TextEditingController();
 

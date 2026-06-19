@@ -1,6 +1,7 @@
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
+import 'package:budget_manager/core/utils/helpers/Home_page/expense_filter_helper.dart';
+import 'package:budget_manager/core/utils/helpers/Home_page/greeting_helper.dart';
 import 'package:budget_manager/theme/app_extra_colors.dart';
-import 'package:budget_manager/theme/dark_theme_colors.dart';
 import 'package:budget_manager/core/widget/user_name_text.dart';
 import 'package:budget_manager/models/expense_filter_model.dart';
 import 'package:budget_manager/screens/home/views/expense_filters.dart';
@@ -9,9 +10,12 @@ import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:intl/intl.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
+import 'package:budget_manager/core/utils/helpers/Home_page/home_date_helper.dart';
+import 'package:budget_manager/core/utils/helpers/Home_page/expense_filter_helper.dart';
+import 'package:budget_manager/core/utils/helpers/Home_page/expense_calculation_helper.dart';
+import 'package:budget_manager/core/utils/helpers/Home_page/expense_group_helper.dart';
+import 'package:budget_manager/core/utils/helpers/shared/currency_formatter.dart';
 
 class MainScreen
     extends
@@ -41,50 +45,6 @@ class _MainScreenState
 
   bool hideAmount = false;
 
-  String getGreeting() {
-    final hour = DateTime.now().hour;
-
-    if (hour >=
-            5 &&
-        hour <
-            12) {
-      return 'Good Morning ☀️';
-    } else if (hour >=
-            12 &&
-        hour <
-            17) {
-      return 'Good Afternoon 🌤️';
-    } else if (hour >=
-            17 &&
-        hour <
-            21) {
-      return 'Good Evening 🌆';
-    } else {
-      return 'Good Night 🌙';
-    }
-  }
-
-  String getCurrentDate() {
-    return DateFormat(
-      'EEEE, d MMMM',
-    ).format(
-      DateTime.now(),
-    );
-  }
-
-  String formatCurrency(
-    double amount,
-    String symbol,
-  ) {
-    return NumberFormat.currency(
-      locale: 'en_IN',
-      symbol: '$symbol ',
-      decimalDigits: 0,
-    ).format(
-      amount,
-    );
-  }
-
   @override
   Widget build(
     BuildContext context,
@@ -101,225 +61,22 @@ class _MainScreenState
           CurrencyBloc
         >()
         .state;
-    final expenses = widget.expenses;
-    List<
-      Expense
-    >
-    filteredExpenses = List.from(
-      expenses,
+
+    // Filter AND Sorting function
+    final filteredExpenses = filterAndSortExpenses(
+      widget.expenses,
+      activeFilter,
     );
 
-    // Filter by payment method
-    if (activeFilter !=
-            null &&
-        activeFilter!.paymentMethods.isNotEmpty) {
-      filteredExpenses = filteredExpenses.where(
-        (
-          expense,
-        ) {
-          return activeFilter!.paymentMethods.contains(
-            expense.paymentMethod,
-          );
-        },
-      ).toList();
-    }
-
-    // Filter by period
-    if (activeFilter !=
-            null &&
-        activeFilter!.period !=
-            null) {
-      final now = DateTime.now();
-
-      filteredExpenses = filteredExpenses.where(
-        (
-          expense,
-        ) {
-          final expenseDate = expense.date;
-
-          if (activeFilter!.period ==
-              'Today') {
-            return expenseDate.year ==
-                    now.year &&
-                expenseDate.month ==
-                    now.month &&
-                expenseDate.day ==
-                    now.day;
-          }
-
-          if (activeFilter!.period ==
-              'This Week') {
-            final startOfWeek =
-                DateTime(
-                  now.year,
-                  now.month,
-                  now.day,
-                ).subtract(
-                  Duration(
-                    days:
-                        now.weekday -
-                        1,
-                  ),
-                );
-
-            final endOfWeek = startOfWeek.add(
-              const Duration(
-                days: 7,
-              ),
-            );
-
-            return !expenseDate.isBefore(
-                  startOfWeek,
-                ) &&
-                expenseDate.isBefore(
-                  endOfWeek,
-                );
-          }
-
-          if (activeFilter!.period ==
-              'This Month') {
-            return expenseDate.year ==
-                    now.year &&
-                expenseDate.month ==
-                    now.month;
-          }
-
-          if (activeFilter!.period ==
-              'This Year') {
-            return expenseDate.year ==
-                now.year;
-          }
-
-          return true;
-        },
-      ).toList();
-    }
-
-    // Sorting
-    if (activeFilter !=
-            null &&
-        activeFilter!.sortBy !=
-            null) {
-      if (activeFilter!.sortBy ==
-          'Amount Low → High') {
-        filteredExpenses.sort(
-          (
-            a,
-            b,
-          ) => a.amount.compareTo(
-            b.amount,
-          ),
-        );
-      }
-
-      if (activeFilter!.sortBy ==
-          'Amount High → Low') {
-        filteredExpenses.sort(
-          (
-            a,
-            b,
-          ) => b.amount.compareTo(
-            a.amount,
-          ),
-        );
-      }
-    }
-    if (activeFilter?.sortBy ==
-        'Newest First') {
-      filteredExpenses.sort(
-        (
-          a,
-          b,
-        ) => b.date.compareTo(
-          a.date,
-        ),
-      );
-    }
-    if (activeFilter?.sortBy ==
-        'Oldest First') {
-      filteredExpenses.sort(
-        (
-          a,
-          b,
-        ) => a.date.compareTo(
-          b.date,
-        ),
-      );
-    }
-    if (activeFilter?.sortBy ==
-        null) {
-      filteredExpenses.sort(
-        (
-          a,
-          b,
-        ) => b.date.compareTo(
-          a.date,
-        ),
-      );
-    }
-    // Total expense logic
-
-    double totalExpense = 0;
-
-    for (var expense in filteredExpenses) {
-      totalExpense += expense.amount;
-    }
-
-    final Map<
-      String,
-      List<
-        Expense
-      >
-    >
-    groupedExpenses = {};
-
-    final now = DateTime.now();
-    final today = DateTime(
-      now.year,
-      now.month,
-      now.day,
-    );
-    final yesterday = today.subtract(
-      const Duration(
-        days: 1,
-      ),
+    // Total expense function
+    final totalExpense = calculateTotalExpense(
+      filteredExpenses,
     );
 
-    for (var expense in filteredExpenses) {
-      final expenseDay = DateTime(
-        expense.date.year,
-        expense.date.month,
-        expense.date.day,
-      );
-
-      String dateTitle;
-
-      if (expenseDay ==
-          today) {
-        dateTitle = 'TODAY';
-      } else if (expenseDay ==
-          yesterday) {
-        dateTitle = 'YESTERDAY';
-      } else {
-        dateTitle =
-            DateFormat(
-                  'd MMMM',
-                )
-                .format(
-                  expense.date,
-                )
-                .toUpperCase();
-      }
-
-      groupedExpenses.putIfAbsent(
-        dateTitle,
-        () => [],
-      );
-
-      groupedExpenses[dateTitle]!.add(
-        expense,
-      );
-    }
+    // Grouping function
+    final groupedExpenses = groupExpensesByDate(
+      filteredExpenses,
+    );
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -541,10 +298,12 @@ class _MainScreenState
 
                               child: Text(
                                 hideAmount
-                                    ? '${currencyState.symbol} ••••••'
-                                    : formatCurrency(
-                                        totalExpense,
+                                    ? CurrencyFormatter.hiddenAmount(
                                         currencyState.symbol,
+                                      )
+                                    : CurrencyFormatter.format(
+                                        amount: totalExpense,
+                                        symbol: currencyState.symbol,
                                       ),
 
                                 style: TextStyle(
@@ -857,7 +616,11 @@ class _MainScreenState
                                                   crossAxisAlignment: CrossAxisAlignment.end,
                                                   children: [
                                                     Text(
-                                                      "${currencyState.symbol} ${expense.amount.toStringAsFixed(2)}",
+                                                      CurrencyFormatter.format(
+                                                        amount: expense.amount,
+                                                        symbol: currencyState.symbol,
+                                                        decimalDigits: 2,
+                                                      ),
                                                       style: TextStyle(
                                                         fontSize: 18,
                                                         color: extraColors.fadeText,

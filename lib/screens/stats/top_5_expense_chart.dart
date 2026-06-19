@@ -1,20 +1,8 @@
+import 'package:budget_manager/core/utils/helpers/analytics_page/top_expense_chart/top_expense_chart_helper.dart';
 import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-class ChartData {
-  final String category;
-  final double amount;
-  final String color;
-
-  ChartData({
-    required this.category,
-    required this.amount,
-    required this.color,
-  });
-}
 
 class Mychart
     extends
@@ -41,89 +29,6 @@ class _MychartState
         State<
           Mychart
         > {
-  Map<
-    String,
-    Map<
-      String,
-      dynamic
-    >
-  >
-  getCategoryTotals() {
-    final Map<
-      String,
-      Map<
-        String,
-        dynamic
-      >
-    >
-    totals = {};
-
-    for (var expense in widget.expenses) {
-      final name = expense.category.name;
-      final color = expense.category.color;
-
-      if (totals.containsKey(
-        name,
-      )) {
-        totals[name]!['amount'] += expense.amount;
-      } else {
-        totals[name] = {
-          'amount': expense.amount,
-          'color': color,
-        };
-      }
-    }
-
-    return totals;
-  }
-
-  List<
-    ChartData
-  >
-  getChartData() {
-    final categoryTotals = getCategoryTotals();
-
-    final sortedCategories = categoryTotals.entries.toList()
-      ..sort(
-        (
-          a,
-          b,
-        ) => b.value['amount'].compareTo(
-          a.value['amount'],
-        ),
-      );
-
-    final topCategories = sortedCategories
-        .take(
-          5,
-        )
-        .toList();
-
-    return topCategories.map(
-      (
-        entry,
-      ) {
-        return ChartData(
-          category: entry.key,
-          amount: entry.value['amount'],
-          color: entry.value['color'],
-        );
-      },
-    ).toList();
-  }
-
-  String formatCurrency(
-    double amount,
-  ) {
-    return NumberFormat.currency(
-      locale: 'en_IN',
-      symbol: '₹',
-      decimalDigits: 0,
-    ).format(
-      amount,
-    );
-  }
-
   @override
   Widget build(
     BuildContext context,
@@ -135,7 +40,10 @@ class _MychartState
             .extension<
               AppExtraColors
             >()!;
-    final chartData = getChartData();
+
+    final chartData = TopExpenseChartHelper.getTopFiveExpenses(
+      widget.expenses,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,18 +113,18 @@ class _MychartState
                           CartesianSeries
                         >[
                           BarSeries<
-                            ChartData,
+                            TopExpenseChartData,
                             String
                           >(
                             dataSource: chartData,
                             xValueMapper:
                                 (
-                                  ChartData data,
+                                  TopExpenseChartData data,
                                   _,
                                 ) => data.category,
                             yValueMapper:
                                 (
-                                  ChartData data,
+                                  TopExpenseChartData data,
                                   _,
                                 ) => data.amount,
                             dataLabelSettings: DataLabelSettings(

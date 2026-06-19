@@ -1,9 +1,10 @@
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
+import 'package:budget_manager/core/utils/helpers/analytics_page/payment_method_split/payment_split_helper.dart';
+import 'package:budget_manager/core/utils/helpers/shared/currency_formatter.dart';
 import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class PaymentMethodData {
@@ -47,107 +48,39 @@ class PaymentMethodSplitChart
           CurrencyBloc
         >()
         .state;
-    // final now = DateTime.now();
 
-    // final currentMonthExpenses = expenses.where(
-    //   (
-    //     expense,
-    //   ) {
-    //     return expense.date.month ==
-    //             now.month &&
-    //         expense.date.year ==
-    //             now.year;
-    //   },
-    // ).toList();
-
-    final Map<
-      String,
-      double
-    >
-    paymentTotals = {
-      "UPI": 0,
-      "Credit Card": 0,
-      "Cash": 0,
-    };
-
-    for (var expense in expenses) {
-      final method = expense.paymentMethod.toLowerCase().trim();
-
-      if (method ==
-          "upi") {
-        paymentTotals["UPI"] =
-            paymentTotals["UPI"]! +
-            expense.amount;
-      } else if (method ==
-          "credit card") {
-        paymentTotals["Credit Card"] =
-            paymentTotals["Credit Card"]! +
-            expense.amount;
-      } else if (method ==
-          "cash") {
-        paymentTotals["Cash"] =
-            paymentTotals["Cash"]! +
-            expense.amount;
-      }
-    }
-
-    final List<
-      PaymentMethodData
-    >
-    chartData =
-        [
-              PaymentMethodData(
-                method: "UPI",
-                amount: paymentTotals["UPI"]!,
-                color: Theme.of(
-                  context,
-                ).colorScheme.primary,
-              ),
-              PaymentMethodData(
-                method: "Credit Card",
-                amount: paymentTotals["Credit Card"]!,
-                color: Theme.of(
-                  context,
-                ).colorScheme.secondary,
-              ),
-              PaymentMethodData(
-                method: "Cash",
-                amount: paymentTotals["Cash"]!,
-                color: Theme.of(
-                  context,
-                ).colorScheme.tertiary,
-              ),
-            ]
-            .where(
-              (
-                data,
-              ) =>
-                  data.amount >
-                  0,
-            )
-            .toList();
-
-    final double totalAmount = chartData.fold(
-      0,
-      (
-        sum,
-        item,
-      ) =>
-          sum +
-          item.amount,
+    final paymentTotals = PaymentSplitHelper.generatePaymentTotals(
+      expenses,
     );
-    String formatCurrency(
-      double amount,
-      String symbol,
-    ) {
-      return NumberFormat.currency(
-        locale: 'en_IN',
-        symbol: '$symbol ',
-        decimalDigits: 0,
-      ).format(
-        amount,
-      );
-    }
+
+    final chartData = paymentTotals.map(
+      (
+        data,
+      ) {
+        return PaymentMethodData(
+          method: data.method,
+          amount: data.amount,
+          color: switch (data.method) {
+            'UPI' => Theme.of(
+              context,
+            ).colorScheme.primary,
+            'Credit Card' => Theme.of(
+              context,
+            ).colorScheme.secondary,
+            'Cash' => Theme.of(
+              context,
+            ).colorScheme.tertiary,
+            _ => Theme.of(
+              context,
+            ).colorScheme.primary,
+          },
+        );
+      },
+    ).toList();
+
+    final totalAmount = PaymentSplitHelper.calculateTotalAmount(
+      expenses,
+    );
 
     Widget legendItem({
       required Color color,
@@ -318,9 +251,9 @@ class PaymentMethodSplitChart
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      formatCurrency(
-                                        totalAmount,
-                                        currencyState.symbol,
+                                      CurrencyFormatter.format(
+                                        amount: totalAmount,
+                                        symbol: currencyState.symbol,
                                       ),
                                       style: TextStyle(
                                         fontSize: 18,

@@ -279,4 +279,78 @@ class FirebaseUserRepo
       rethrow;
     }
   }
+
+  @override
+  Future<
+    Map<
+      String,
+      dynamic
+    >?
+  >
+  getUserProfile() async {
+    final user = _firebaseAuth.currentUser;
+
+    if (user ==
+        null) {
+      return null;
+    }
+
+    final doc = await userCollection
+        .doc(
+          user.uid,
+        )
+        .get();
+
+    return doc.data();
+  }
+
+  @override
+  Future<
+    void
+  >
+  updateUserProfile({
+    required String name,
+    required String age,
+    required String gender,
+    required String occupation,
+    required String selectedAvatar,
+  }) async {
+    final user = _firebaseAuth.currentUser;
+
+    if (user ==
+        null) {
+      throw Exception(
+        'No authenticated user found.',
+      );
+    }
+
+    await userCollection
+        .doc(
+          user.uid,
+        )
+        .set(
+          {
+            'name': name,
+            'age': age,
+            'gender': gender,
+            'occupation': occupation,
+            'selectedAvatar': selectedAvatar,
+          },
+          SetOptions(
+            merge: true,
+          ),
+        );
+  }
+
+  @override
+  Future<
+    void
+  >
+  resetPassword(
+    String email,
+  ) async {
+    await _firebaseAuth.sendPasswordResetEmail(
+      email: email,
+    );
+  }
 }

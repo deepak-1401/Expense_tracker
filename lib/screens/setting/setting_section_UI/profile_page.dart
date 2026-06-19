@@ -1,7 +1,7 @@
 import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/screens/setting/widgets/avatar_picker_bottom_sheet.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:user_repository/user_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
 class Profile
@@ -87,61 +87,31 @@ class _ProfileState
     void
   >
   loadProfileData() async {
-    final user = FirebaseAuth.instance.currentUser;
-
-    if (user ==
-        null) {
-      setState(
-        () {
-          isLoading = false;
-        },
-      );
-      return;
-    }
-
     try {
-      final userDoc = await FirebaseFirestore.instance
-          .collection(
-            'users',
-          )
-          .doc(
-            user.uid,
-          )
-          .get();
-
-      final data = userDoc.data();
+      final data = await context
+          .read<
+            UserRepository
+          >()
+          .getUserProfile();
 
       if (data !=
           null) {
         nameController.text =
             data['name']?.toString() ??
-            user.displayName ??
             '';
-
         ageController.text =
             data['age']?.toString() ??
             '';
-
         selectedGender = data['gender']?.toString();
-
         occupationController.text =
             data['occupation']?.toString() ??
             '';
-
         emailController.text =
             data['email']?.toString() ??
-            user.email ??
             '';
         selectedAvatar =
             data['selectedAvatar']?.toString() ??
             'assets/avatar/avatar0.png';
-      } else {
-        nameController.text =
-            user.displayName ??
-            '';
-        emailController.text =
-            user.email ??
-            '';
       }
     } catch (
       e
@@ -184,38 +154,20 @@ class _ProfileState
         isSaving = true;
       },
     );
-    // String selectedAvatar = 'assets/avatar/avatar0.png';
 
     try {
-      final user = FirebaseAuth.instance.currentUser;
-
-      if (user ==
-          null) {
-        throw Exception(
-          "No user logged in",
-        );
-      }
-
-      await FirebaseFirestore.instance
-          .collection(
-            'users',
-          )
-          .doc(
-            user.uid,
-          )
-          .set(
-            {
-              'name': nameController.text.trim(),
-              'age': ageController.text.trim(),
-              'gender': selectedGender,
-              'occupation': occupationController.text.trim(),
-              'email': emailController.text.trim(),
-              'selectedAvatar': selectedAvatar,
-              'updatedAt': FieldValue.serverTimestamp(),
-            },
-            SetOptions(
-              merge: true,
-            ),
+      await context
+          .read<
+            UserRepository
+          >()
+          .updateUserProfile(
+            name: nameController.text.trim(),
+            age: ageController.text.trim(),
+            gender:
+                selectedGender ??
+                '',
+            occupation: occupationController.text.trim(),
+            selectedAvatar: selectedAvatar,
           );
 
       if (!mounted) return;

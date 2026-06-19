@@ -1,5 +1,6 @@
 import 'package:budget_manager/blocs/create_expense_bloc/create_expense_bloc.dart';
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
+import 'package:budget_manager/core/utils/helpers/add_expense_page/add_expense_date_helper.dart';
 import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/screens/add_expense/blocs/get_categorybloc/get_category_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
@@ -11,6 +12,8 @@ import 'package:budget_manager/screens/add_expense/views/payment.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budget_manager/screens/add_expense/blocs/create_categoryblocs/create_category_bloc.dart';
 import 'package:uuid/uuid.dart';
+import 'package:budget_manager/core/utils/helpers/add_expense_page/category_icon_helper.dart';
+import 'package:budget_manager/core/utils/helpers/add_expense_page/color_parser_helper.dart';
 
 class AddExpense
     extends
@@ -54,12 +57,9 @@ class _AddExpenseState
 
   @override
   void initState() {
-    dateController.text =
-        DateFormat(
-          'dd-MM-yyyy',
-        ).format(
-          DateTime.now(),
-        );
+    dateController.text = dateController.text = AddExpenseDateHelper.formatSelectedDate(
+      DateTime.now(),
+    );
     expense = Expense.empty;
     super.initState();
 
@@ -85,61 +85,6 @@ class _AddExpenseState
   Category? selectedCategory;
   String selectedPaymentMethod = "";
 
-  IconData _iconFromName(
-    String? name,
-  ) {
-    if (name ==
-            null ||
-        name.isEmpty) {
-      return AppIcons.other;
-    }
-    try {
-      final m = icons.firstWhere(
-        (
-          m,
-        ) =>
-            m['name'] ==
-            name,
-        orElse: () => {
-          'icon': AppIcons.other,
-        },
-      );
-      return m['icon']
-          as IconData;
-    } catch (
-      _
-    ) {
-      return AppIcons.other;
-    }
-  }
-
-  Color _colorFromString(
-    String? s,
-  ) {
-    if (s ==
-            null ||
-        s.isEmpty) {
-      return Colors.grey;
-    }
-    try {
-      final hex = s.replaceFirst(
-        '#',
-        '',
-      );
-      final value = int.parse(
-        hex,
-        radix: 16,
-      );
-      return Color(
-        value,
-      );
-    } catch (
-      _
-    ) {
-      return Colors.grey;
-    }
-  }
-
   void resetForm() {
     setState(
       () {
@@ -153,12 +98,9 @@ class _AddExpenseState
 
         expense = Expense.empty;
 
-        dateController.text =
-            DateFormat(
-              'dd-MM-yyyy',
-            ).format(
-              DateTime.now(),
-            );
+        dateController.text = AddExpenseDateHelper.formatSelectedDate(
+          DateTime.now(),
+        );
       },
     );
   }
@@ -435,13 +377,13 @@ class _AddExpenseState
                                         ),
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: _colorFromString(
+                                            color: ColorParserHelper.colorFromString(
                                               selectedCategory!.color,
                                             ),
                                             shape: BoxShape.circle,
                                           ),
                                           child: Icon(
-                                            _iconFromName(
+                                            CategoryIconHelper.iconFromName(
                                               selectedCategory!.icon,
                                             ),
                                             color: extraColors.iconColor,
@@ -531,10 +473,10 @@ class _AddExpenseState
                                               i,
                                             ) {
                                               final c = items[i];
-                                              final iconData = _iconFromName(
+                                              final iconData = CategoryIconHelper.iconFromName(
                                                 c.icon,
                                               );
-                                              final bgColor = _colorFromString(
+                                              final bgColor = ColorParserHelper.colorFromString(
                                                 c.color,
                                               );
                                               return Card(
@@ -598,12 +540,9 @@ class _AddExpenseState
                                     null) {
                                   setState(
                                     () {
-                                      dateController.text =
-                                          DateFormat(
-                                            'dd-MM-yyyy',
-                                          ).format(
-                                            newDate,
-                                          );
+                                      dateController.text = AddExpenseDateHelper.formatSelectedDate(
+                                        DateTime.now(),
+                                      );
                                       expense.date = newDate;
                                     },
                                   );

@@ -1,27 +1,10 @@
+import 'package:budget_manager/core/utils/helpers/analytics_page/spending_trend/spending_trend_helper.dart';
+import 'package:budget_manager/core/utils/helpers/shared/currency_formatter.dart';
 import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/screens/stats/stats.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:expense_repository/expense_repository.dart';
-
-class SpendingTrendData {
-  final int xValue;
-  final double amount;
-  final BuildContext context;
-
-  SpendingTrendData({
-    required this.xValue,
-    required this.amount,
-    required this.context,
-  });
-  AppExtraColors get extraColors =>
-      Theme.of(
-            context,
-          )
-          .extension<
-            AppExtraColors
-          >()!;
-}
 
 class MySpendingChart
     extends
@@ -50,156 +33,10 @@ class MySpendingChart
               AppExtraColors
             >()!;
 
-    final now = DateTime.now();
-    final daysInMonth = DateTime(
-      now.year,
-      now.month +
-          1,
-      0,
-    ).day;
-
-    final Map<
-      int,
-      double
-    >
-    dailyTotals = {};
-    int getXAxisValue(
-      DateTime date,
-    ) {
-      switch (selectedPeriod) {
-        case AnalyticsPeriod.today:
-          return date.hour;
-
-        case AnalyticsPeriod.week:
-          return date.weekday;
-
-        case AnalyticsPeriod.month:
-          return date.day;
-
-        case AnalyticsPeriod.year:
-          return date.month;
-      }
-    }
-
-    for (final expense in expenses) {
-      final xValue = getXAxisValue(
-        expense.date,
-      );
-
-      dailyTotals[xValue] =
-          (dailyTotals[xValue] ??
-              0) +
-          expense.amount;
-    }
-
-    final chartData =
-        dailyTotals.entries.map(
-          (
-            entry,
-          ) {
-            return SpendingTrendData(
-              xValue: entry.key,
-              amount: entry.value,
-              context: context,
-            );
-          },
-        ).toList()..sort(
-          (
-            a,
-            b,
-          ) => a.xValue.compareTo(
-            b.xValue,
-          ),
-        );
-    double getXAxisMaximum() {
-      switch (selectedPeriod) {
-        case AnalyticsPeriod.today:
-          return 24;
-
-        case AnalyticsPeriod.week:
-          return 7;
-
-        case AnalyticsPeriod.month:
-          return daysInMonth.toDouble();
-
-        case AnalyticsPeriod.year:
-          return 12;
-      }
-    }
-
-    double getXAxisInterval() {
-      switch (selectedPeriod) {
-        case AnalyticsPeriod.today:
-          return 4;
-
-        case AnalyticsPeriod.week:
-          return 1;
-
-        case AnalyticsPeriod.month:
-          return 5;
-
-        case AnalyticsPeriod.year:
-          return 1;
-      }
-    }
-
-    String getTooltipLabel(
-      int value,
-    ) {
-      if (selectedPeriod ==
-          AnalyticsPeriod.today) {
-        if (value ==
-            0) {
-          return '12AM';
-        }
-        if (value <
-            12) {
-          return '${value}AM';
-        }
-        if (value ==
-            12) {
-          return '12PM';
-        }
-        return '${value - 12}PM';
-      }
-
-      if (selectedPeriod ==
-          AnalyticsPeriod.week) {
-        const days = [
-          '',
-          'Monday',
-          'Tuesday',
-          'Wednesday',
-          'Thursday',
-          'Friday',
-          'Saturday',
-          'Sunday',
-        ];
-        return days[value];
-      }
-
-      if (selectedPeriod ==
-          AnalyticsPeriod.year) {
-        const months = [
-          '',
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June',
-          'July',
-          'August',
-          'September',
-          'October',
-          'November',
-          'December',
-        ];
-        return months[value];
-      }
-
-      return 'Day $value';
-    }
+    final chartData = SpendingTrendHelper.generateChartData(
+      expenses,
+      selectedPeriod,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -269,7 +106,7 @@ class MySpendingChart
                                 10,
                               ),
                               child: Text(
-                                '${getTooltipLabel(chartData.xValue)} : ₹${chartData.amount.toStringAsFixed(0)}',
+                                '${SpendingTrendHelper.getTooltipLabel(chartData.xValue, selectedPeriod)} : ${CurrencyFormatter.format(amount: chartData.amount, symbol: "₹")}',
                                 style: TextStyle(
                                   color: extraColors.textPrimary,
                                   fontWeight: FontWeight.w600,
@@ -281,10 +118,12 @@ class MySpendingChart
                     plotAreaBorderWidth: 0,
                     primaryXAxis: NumericAxis(
                       minimum: 0,
-                      maximum: getXAxisMaximum(),
-
-                      interval: getXAxisInterval(),
-
+                      maximum: SpendingTrendHelper.getXAxisMaximum(
+                        selectedPeriod,
+                      ),
+                      interval: SpendingTrendHelper.getXAxisInterval(
+                        selectedPeriod,
+                      ),
                       majorGridLines: const MajorGridLines(
                         width: 0,
                       ),
@@ -300,60 +139,10 @@ class MySpendingChart
                           (
                             AxisLabelRenderDetails details,
                           ) {
-                            final value = details.value.toInt();
-
-                            String label = value.toString();
-
-                            if (selectedPeriod ==
-                                AnalyticsPeriod.week) {
-                              const days = [
-                                '',
-                                'Mon',
-                                'Tue',
-                                'Wed',
-                                'Thu',
-                                'Fri',
-                                'Sat',
-                                'Sun',
-                              ];
-                              label = days[value];
-                            }
-
-                            if (selectedPeriod ==
-                                AnalyticsPeriod.year) {
-                              const months = [
-                                '',
-                                'Jan',
-                                'Feb',
-                                'Mar',
-                                'Apr',
-                                'May',
-                                'Jun',
-                                'Jul',
-                                'Aug',
-                                'Sep',
-                                'Oct',
-                                'Nov',
-                                'Dec',
-                              ];
-                              label = months[value];
-                            }
-
-                            if (selectedPeriod ==
-                                AnalyticsPeriod.today) {
-                              if (value ==
-                                  0) {
-                                label = '12AM';
-                              } else if (value <
-                                  12) {
-                                label = '${value}AM';
-                              } else if (value ==
-                                  12) {
-                                label = '12PM';
-                              } else {
-                                label = '${value - 12}AM';
-                              }
-                            }
+                            final label = SpendingTrendHelper.getAxisLabel(
+                              details.value.toInt(),
+                              selectedPeriod,
+                            );
 
                             return ChartAxisLabel(
                               label,
@@ -402,9 +191,7 @@ class MySpendingChart
                                   _,
                                 ) => data.amount,
                             borderWidth: 3,
-                            borderColor:
-                                extraColors.textPrimary ??
-                                Colors.white,
+                            borderColor: extraColors.textPrimary,
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,

@@ -1,14 +1,13 @@
 //import 'dart:math';
 import 'package:budget_manager/blocs/get_expenses_bloc/get_expenses_bloc.dart';
 import 'package:budget_manager/theme/app_extra_colors.dart';
-import 'package:budget_manager/theme/dark_theme_colors.dart';
 import 'package:budget_manager/screens/stats/top_5_expense_chart.dart';
-import 'package:budget_manager/screens/stats/Spending_Trend_Chart.dart';
-import 'package:budget_manager/screens/stats/Payment_Method_Split_Chart.dart';
+import 'package:budget_manager/screens/stats/spending_trend_chart.dart';
+import 'package:budget_manager/screens/stats/payment_method_split_chart.dart';
 import 'package:budget_manager/screens/stats/summary_card.dart';
-import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:budget_manager/core/utils/helpers/analytics_page/analytics_filter_helper.dart';
 
 class StatScreen
     extends
@@ -44,74 +43,6 @@ class _StatScreenState
             AppExtraColors
           >()!;
   AnalyticsPeriod selectedPeriod = AnalyticsPeriod.month;
-  List<
-    Expense
-  >
-  applyAnalyticsFilter(
-    List<
-      Expense
-    >
-    expenses,
-  ) {
-    final now = DateTime.now();
-
-    return expenses.where(
-      (
-        expense,
-      ) {
-        final expenseDate = expense.date;
-
-        if (selectedPeriod ==
-            AnalyticsPeriod.today) {
-          return expenseDate.year ==
-                  now.year &&
-              expenseDate.month ==
-                  now.month &&
-              expenseDate.day ==
-                  now.day;
-        }
-        if (selectedPeriod ==
-            AnalyticsPeriod.week) {
-          final startOfWeek = now.subtract(
-            Duration(
-              days:
-                  now.weekday -
-                  1,
-            ),
-          );
-
-          final endOfWeek = startOfWeek.add(
-            const Duration(
-              days: 6,
-            ),
-          );
-
-          return !expenseDate.isBefore(
-                startOfWeek,
-              ) &&
-              !expenseDate.isAfter(
-                endOfWeek,
-              );
-        }
-
-        if (selectedPeriod ==
-            AnalyticsPeriod.month) {
-          return expenseDate.year ==
-                  now.year &&
-              expenseDate.month ==
-                  now.month;
-        }
-
-        if (selectedPeriod ==
-            AnalyticsPeriod.year) {
-          return expenseDate.year ==
-              now.year;
-        }
-
-        return true;
-      },
-    ).toList();
-  }
 
   @override
   Widget build(
@@ -139,6 +70,7 @@ class _StatScreenState
                       is GetExpensesSuccess) {
                     final filteredExpenses = applyAnalyticsFilter(
                       state.expenses,
+                      selectedPeriod,
                     );
                     return SingleChildScrollView(
                       child: Padding(
