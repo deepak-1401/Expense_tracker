@@ -184,9 +184,13 @@ class FirebaseExpenseRepo
             (
               doc,
             ) {
+              final data = doc.data();
+
+              data['expenseId'] = doc.id;
+
               return Expense.fromEntity(
                 ExpenseEntity.fromDocument(
-                  doc.data(),
+                  data,
                 ),
               );
             },
@@ -198,6 +202,34 @@ class FirebaseExpenseRepo
     ) {
       log(
         e.toString(),
+      );
+      rethrow;
+    }
+  }
+
+  @override
+  Future<
+    void
+  >
+  deleteExpense(
+    String expenseId,
+  ) async {
+    try {
+      await ExpenseCollection.doc(
+        expenseId,
+      ).delete();
+    } catch (
+      e,
+      stackTrace
+    ) {
+      print(
+        "FIREBASE DELETE ERROR",
+      );
+      print(
+        e,
+      );
+      print(
+        stackTrace,
       );
       rethrow;
     }

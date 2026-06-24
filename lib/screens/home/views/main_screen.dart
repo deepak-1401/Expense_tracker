@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
 import 'package:budget_manager/core/utils/helpers/Home_page/home_date_helper.dart';
-import 'package:budget_manager/core/utils/helpers/Home_page/expense_filter_helper.dart';
 import 'package:budget_manager/core/utils/helpers/Home_page/expense_calculation_helper.dart';
 import 'package:budget_manager/core/utils/helpers/Home_page/expense_group_helper.dart';
 import 'package:budget_manager/core/utils/helpers/shared/currency_formatter.dart';
@@ -557,89 +556,193 @@ class _MainScreenState
                                         padding: const EdgeInsets.only(
                                           bottom: 18.0,
                                         ),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: extraColors.container,
-                                            borderRadius: BorderRadius.circular(
-                                              20,
+                                        child: Dismissible(
+                                          key: ValueKey(
+                                            expense.expenseId,
+                                          ),
+                                          direction: DismissDirection.endToStart,
+
+                                          confirmDismiss:
+                                              (
+                                                _,
+                                              ) async {
+                                                final shouldDelete =
+                                                    await showDialog<
+                                                      bool
+                                                    >(
+                                                      context: context,
+                                                      builder:
+                                                          (
+                                                            context,
+                                                          ) {
+                                                            return AlertDialog(
+                                                              title: const Text(
+                                                                'Delete Expense?',
+                                                              ),
+                                                              content: const Text(
+                                                                'This action cannot be undone.',
+                                                              ),
+                                                              actions: [
+                                                                TextButton(
+                                                                  onPressed: () {
+                                                                    Navigator.pop(
+                                                                      context,
+                                                                      false,
+                                                                    );
+                                                                  },
+                                                                  child: const Text(
+                                                                    'Cancel',
+                                                                  ),
+                                                                ),
+                                                                TextButton(
+                                                                  onPressed: () {
+                                                                    Navigator.pop(
+                                                                      context,
+                                                                      true,
+                                                                    );
+                                                                  },
+                                                                  child: const Text(
+                                                                    'Delete',
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            );
+                                                          },
+                                                    );
+
+                                                if (shouldDelete !=
+                                                    true) {
+                                                  return false;
+                                                }
+
+                                                try {
+                                                  await context
+                                                      .read<
+                                                        ExpenseRepository
+                                                      >()
+                                                      .deleteExpense(
+                                                        expense.expenseId,
+                                                      );
+
+                                                  return true;
+                                                } catch (
+                                                  e
+                                                ) {
+                                                  ScaffoldMessenger.of(
+                                                    context,
+                                                  ).showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                        'Failed to delete expense',
+                                                      ),
+                                                    ),
+                                                  );
+
+                                                  return false;
+                                                }
+                                              },
+
+                                          background: Container(
+                                            alignment: Alignment.centerRight,
+                                            padding: const EdgeInsets.only(
+                                              right: 24,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Colors.red,
+                                              borderRadius: BorderRadius.circular(
+                                                20,
+                                              ),
+                                            ),
+                                            child: const Icon(
+                                              Icons.delete,
+                                              color: Colors.white,
                                             ),
                                           ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(
-                                              18.0,
+
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: extraColors.container,
+                                              borderRadius: BorderRadius.circular(
+                                                20,
+                                              ),
                                             ),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Stack(
-                                                      alignment: Alignment.center,
-                                                      children: [
-                                                        Container(
-                                                          width: 50,
-                                                          height: 50,
-                                                          decoration: BoxDecoration(
-                                                            color: Color(
-                                                              int.parse(
-                                                                'FF${expense.category.color.replaceFirst('#', '')}',
-                                                                radix: 16,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(
+                                                18.0,
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Stack(
+                                                        alignment: Alignment.center,
+                                                        children: [
+                                                          Container(
+                                                            width: 50,
+                                                            height: 50,
+                                                            decoration: BoxDecoration(
+                                                              color: Color(
+                                                                int.parse(
+                                                                  'FF${expense.category.color.replaceFirst('#', '')}',
+                                                                  radix: 16,
+                                                                ),
                                                               ),
+                                                              shape: BoxShape.circle,
                                                             ),
-                                                            shape: BoxShape.circle,
                                                           ),
-                                                        ),
 
-                                                        Icon(
-                                                          color: extraColors.iconColor,
-                                                          getIconByName(
-                                                            expense.category.icon,
+                                                          Icon(
+                                                            color: extraColors.iconColor,
+                                                            getIconByName(
+                                                              expense.category.icon,
+                                                            ),
                                                           ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 12,
+                                                      ),
+                                                      Text(
+                                                        expense.category.name,
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: extraColors.textPrimary,
+
+                                                          fontWeight: FontWeight.w600,
                                                         ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 12,
-                                                    ),
-                                                    Text(
-                                                      expense.category.name,
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                        color: extraColors.textPrimary,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                        CurrencyFormatter.format(
+                                                          amount: expense.amount,
+                                                          symbol: currencyState.symbol,
+                                                          decimalDigits: 2,
+                                                        ),
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: extraColors.fadeText,
 
-                                                        fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w600,
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                                  children: [
-                                                    Text(
-                                                      CurrencyFormatter.format(
-                                                        amount: expense.amount,
-                                                        symbol: currencyState.symbol,
-                                                        decimalDigits: 2,
-                                                      ),
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                        color: extraColors.fadeText,
+                                                      Text(
+                                                        expense.paymentMethod,
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: extraColors.fadeText,
 
-                                                        fontWeight: FontWeight.w600,
+                                                          fontWeight: FontWeight.w600,
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Text(
-                                                      expense.paymentMethod,
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                        color: extraColors.fadeText,
-
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),

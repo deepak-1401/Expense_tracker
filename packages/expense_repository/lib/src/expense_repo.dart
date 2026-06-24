@@ -27,4 +27,11 @@ abstract class ExpenseRepository {
     >
   >
   getExpenses();
+
+  Future<
+    void
+  >
+  deleteExpense(
+    String expenseId,
+  );
 }
