@@ -616,6 +616,9 @@ class _MainScreenState
                                                 }
 
                                                 try {
+                                                  print(
+                                                    'Deleting expense id: ${expense.expenseId}',
+                                                  );
                                                   await context
                                                       .read<
                                                         ExpenseRepository
@@ -623,6 +626,19 @@ class _MainScreenState
                                                       .deleteExpense(
                                                         expense.expenseId,
                                                       );
+
+                                                  ScaffoldMessenger.of(
+                                                    context,
+                                                  ).showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                        'Expense deleted',
+                                                      ),
+                                                      duration: Duration(
+                                                        seconds: 2,
+                                                      ),
+                                                    ),
+                                                  );
 
                                                   return true;
                                                 } catch (

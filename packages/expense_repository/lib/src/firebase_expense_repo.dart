@@ -215,6 +215,10 @@ class FirebaseExpenseRepo
     String expenseId,
   ) async {
     try {
+      print(
+        'Firestore deleting doc: $expenseId',
+      );
+
       await ExpenseCollection.doc(
         expenseId,
       ).delete();
