@@ -77,7 +77,21 @@ class _SignUpScreenState
               );
             } else if (state
                 is SignUpFailure) {
-              return;
+              setState(
+                () {
+                  signUpRequired = false;
+                },
+              );
+
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'Signup failed. Email may already be in use.',
+                  ),
+                ),
+              );
             }
           },
       child: Form(
@@ -179,7 +193,7 @@ class _SignUpScreenState
                       (
                         val,
                       ) {
-                        if (val!.contains(
+                        if (val.contains(
                           RegExp(
                             r'[A-Z]',
                           ),
@@ -261,7 +275,7 @@ class _SignUpScreenState
                             },
                           );
                         }
-                        return null;
+                        //return null;
                       },
 
                   validator:

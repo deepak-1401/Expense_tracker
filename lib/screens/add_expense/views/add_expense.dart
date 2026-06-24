@@ -1,13 +1,13 @@
 import 'package:budget_manager/blocs/create_expense_bloc/create_expense_bloc.dart';
 import 'package:budget_manager/blocs/currency_bloc/currency_bloc.dart';
 import 'package:budget_manager/core/utils/helpers/add_expense_page/add_expense_date_helper.dart';
+import 'package:budget_manager/core/utils/helpers/add_expense_page/expense_validation_helper.dart';
 import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/screens/add_expense/blocs/get_categorybloc/get_category_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
 import 'package:budget_manager/screens/add_expense/views/newcategory.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:budget_manager/screens/add_expense/views/payment.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:budget_manager/screens/add_expense/blocs/create_categoryblocs/create_category_bloc.dart';
@@ -746,6 +746,25 @@ class _AddExpenseState
                                     print(
                                       "Date: ${expense.date}",
                                     );
+                                    final error = ExpenseValidationHelper.validate(
+                                      amountText: expenseController.text,
+                                      selectedCategory: selectedCategory,
+                                      paymentMethod: selectedPaymentMethod,
+                                    );
+
+                                    if (error !=
+                                        null) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            error,
+                                          ),
+                                        ),
+                                      );
+                                      return;
+                                    }
 
                                     context
                                         .read<

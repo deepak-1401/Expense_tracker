@@ -34,7 +34,9 @@ class _LoginScreenState
   bool loginRequired = false;
   IconData iconPassword = CupertinoIcons.eye_fill;
   bool obscurePassword = true;
-  String? errorMessage;
+  //String? errorMessage;
+  String? emailError;
+  String? passwordError;
 
   @override
   Widget build(
@@ -47,272 +49,316 @@ class _LoginScreenState
             .extension<
               AppExtraColors
             >()!;
-    return Form(
-      key: _formKey,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              width: 300,
-              child: TextFormField(
-                controller: _emailController,
-                obscureText: false,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    CupertinoIcons.mail_solid,
-                    color: extraColors.iconColor,
-                  ),
-                  labelText: 'Email',
-                  filled: true,
-                  fillColor: extraColors.filledColor,
-                  border: const OutlineInputBorder(),
-                  errorText: errorMessage,
-                ),
-                validator:
-                    (
-                      value,
-                    ) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your email';
-                      } else if (!RegExp(
-                        r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
-                      ).hasMatch(
-                        value,
-                      )) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              width: 300,
-              child: TextFormField(
-                controller: _passwordController,
-                obscureText: obscurePassword,
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    CupertinoIcons.padlock_solid,
-                    color: extraColors.iconColor,
-                  ),
-                  labelText: 'Password',
-                  filled: true,
-                  fillColor: extraColors.filledColor,
+    return BlocListener<
+      LogInBloc,
+      LogInState
+    >(
+      listener:
+          (
+            context,
+            state,
+          ) {
+            if (state
+                is LogInFailure) {
+              setState(
+                () {
+                  emailError = null;
+                  passwordError = null;
+                  loginRequired = false;
+                },
+              );
 
-                  border: const OutlineInputBorder(),
-                  errorText: errorMessage,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      iconPassword,
+              if (state.error ==
+                  'user-not-found') {
+                setState(
+                  () {
+                    emailError = 'Enter correct email';
+                  },
+                );
+              } else if (state.error ==
+                      'wrong-password' ||
+                  state.error ==
+                      'invalid-credential') {
+                setState(
+                  () {
+                    passwordError = 'Enter correct password';
+                  },
+                );
+              }
+            }
+          },
+
+      child: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: 300,
+                child: TextFormField(
+                  controller: _emailController,
+                  obscureText: false,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      CupertinoIcons.mail_solid,
                       color: extraColors.iconColor,
                     ),
-                    onPressed: () {
-                      setState(
-                        () {
-                          obscurePassword = !obscurePassword;
-                          if (obscurePassword) {
-                            iconPassword = CupertinoIcons.eye_fill;
-                          } else {
-                            iconPassword = CupertinoIcons.eye_slash_fill;
-                          }
-                        },
-                      );
-                    },
+                    labelText: 'Email',
+                    filled: true,
+                    fillColor: extraColors.filledColor,
+                    border: const OutlineInputBorder(),
+                    errorText: emailError,
                   ),
-                ),
-                validator:
-                    (
-                      value,
-                    ) {
-                      if (value!.isEmpty) {
-                        return 'Please enter your password';
-                      } else if (!RegExp(
-                        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$',
-                      ).hasMatch(
+                  validator:
+                      (
                         value,
-                      )) {
-                        return 'Password must contain uppercase, lowercase, number, and special character';
-                      }
-                      return null;
-                    },
+                      ) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your email';
+                        } else if (!RegExp(
+                          r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$',
+                        ).hasMatch(
+                          value,
+                        )) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      },
+                ),
               ),
-            ),
-            SizedBox(
-              height: 3,
-            ),
-            SizedBox(
-              width: 300,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (
-                                context,
-                              ) => const ForgetPasswordScreen(),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      "Forgot Password",
-                      style: TextStyle(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.primary,
-                        fontSize: 14.0,
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: 300,
+                child: TextFormField(
+                  controller: _passwordController,
+                  obscureText: obscurePassword,
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      CupertinoIcons.padlock_solid,
+                      color: extraColors.iconColor,
+                    ),
+                    labelText: 'Password',
+                    filled: true,
+                    fillColor: extraColors.filledColor,
+
+                    border: const OutlineInputBorder(),
+                    errorText: passwordError,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        iconPassword,
+                        color: extraColors.iconColor,
                       ),
+                      onPressed: () {
+                        setState(
+                          () {
+                            obscurePassword = !obscurePassword;
+                            if (obscurePassword) {
+                              iconPassword = CupertinoIcons.eye_fill;
+                            } else {
+                              iconPassword = CupertinoIcons.eye_slash_fill;
+                            }
+                          },
+                        );
+                      },
                     ),
                   ),
-                ],
+                  validator:
+                      (
+                        value,
+                      ) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your password';
+                        } else {
+                          return null;
+                        }
+                        // return null;
+                      },
+                ),
               ),
-            ),
-
-            SizedBox(
-              height: 3,
-            ),
-            !loginRequired
-                ? SizedBox(
-                    width:
-                        MediaQuery.of(
+              SizedBox(
+                height: 3,
+              ),
+              SizedBox(
+                width: 300,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
                           context,
-                        ).size.width *
-                        0.5,
-                    child: Container(
+                          MaterialPageRoute(
+                            builder:
+                                (
+                                  context,
+                                ) => const ForgetPasswordScreen(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "Forgot Password",
+                        style: TextStyle(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.primary,
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(
+                height: 3,
+              ),
+              !loginRequired
+                  ? SizedBox(
                       width:
                           MediaQuery.of(
                             context,
                           ).size.width *
-                          0.55,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Theme.of(
+                          0.5,
+                      child: Container(
+                        width:
+                            MediaQuery.of(
                               context,
-                            ).colorScheme.tertiary,
-                            Theme.of(
-                              context,
-                            ).colorScheme.secondary,
-                            Theme.of(
-                              context,
-                            ).colorScheme.primary,
-                          ],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          60,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color:
-                                Theme.of(
-                                  context,
-                                ).colorScheme.primary.withValues(
-                                  alpha: 0.35,
-                                ),
-                            blurRadius: 15,
-                            offset: const Offset(
-                              0,
-                              6,
-                            ),
+                            ).size.width *
+                            0.55,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Theme.of(
+                                context,
+                              ).colorScheme.tertiary,
+                              Theme.of(
+                                context,
+                              ).colorScheme.secondary,
+                              Theme.of(
+                                context,
+                              ).colorScheme.primary,
+                            ],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
                           ),
-                        ],
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          print(
-                            "LOGIN BUTTON CLICKED",
-                          );
-
-                          if (_formKey.currentState!.validate()) {
-                            context
-                                .read<
-                                  LogInBloc
-                                >()
-                                .add(
-                                  LogInRequired(
-                                    email: _emailController.text.trim(),
-                                    password: _passwordController.text.trim(),
+                          borderRadius: BorderRadius.circular(
+                            60,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color:
+                                  Theme.of(
+                                    context,
+                                  ).colorScheme.primary.withValues(
+                                    alpha: 0.35,
                                   ),
-                                );
-                          }
-                        },
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              60.0,
+                              blurRadius: 15,
+                              offset: const Offset(
+                                0,
+                                6,
+                              ),
+                            ),
+                          ],
+                        ),
+                        child: TextButton(
+                          onPressed: () {
+                            print(
+                              "LOGIN BUTTON CLICKED",
+                            );
+
+                            setState(
+                              () {
+                                emailError = null;
+                                passwordError = null;
+                                loginRequired = true;
+                              },
+                            );
+
+                            if (_formKey.currentState!.validate()) {
+                              context
+                                  .read<
+                                    LogInBloc
+                                  >()
+                                  .add(
+                                    LogInRequired(
+                                      email: _emailController.text.trim(),
+                                      password: _passwordController.text.trim(),
+                                    ),
+                                  );
+                            }
+                          },
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                60.0,
+                              ),
                             ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(
-                            8.0,
-                          ),
-                          child: Text(
-                            'Login',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: extraColors.textPrimary,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                          child: Padding(
+                            padding: const EdgeInsets.all(
+                              8.0,
+                            ),
+                            child: Text(
+                              'Login',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: extraColors.textPrimary,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                : const CircularProgressIndicator(),
-            Divider(
-              height: 40,
-              thickness: 1,
-              indent: 50,
-              endIndent: 50,
-            ),
-
-            Container(
-              width: double.infinity,
-              height: 50,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 50,
+                    )
+                  : const CircularProgressIndicator(),
+              Divider(
+                height: 40,
+                thickness: 1,
+                indent: 50,
+                endIndent: 50,
               ),
-              child: ElevatedButton.icon(
-                onPressed: () async {
-                  context
-                      .read<
-                        LogInBloc
-                      >()
-                      .add(
-                        LogInWithGoogleRequired(),
-                      );
-                },
-                icon: Image.asset(
-                  'assets/logos/google_logo.png',
-                  height: 50,
+
+              Container(
+                width: double.infinity,
+                height: 50,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 50,
                 ),
-                label: Text(
-                  "Continue with Google",
-                  style: TextStyle(
-                    color: extraColors.textPrimary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                child: ElevatedButton.icon(
+                  onPressed: () async {
+                    context
+                        .read<
+                          LogInBloc
+                        >()
+                        .add(
+                          LogInWithGoogleRequired(),
+                        );
+                  },
+                  icon: Image.asset(
+                    'assets/logos/google_logo.png',
+                    height: 50,
+                  ),
+                  label: Text(
+                    "Continue with Google",
+                    style: TextStyle(
+                      color: extraColors.textPrimary,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

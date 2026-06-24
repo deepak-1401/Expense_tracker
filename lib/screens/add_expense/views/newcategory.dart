@@ -1,3 +1,4 @@
+import 'package:budget_manager/core/utils/helpers/add_expense_page/category_validation_helper.dart';
 import 'package:budget_manager/theme/app_extra_colors.dart';
 import 'package:budget_manager/screens/add_expense/blocs/create_categoryblocs/create_category_bloc.dart';
 import 'package:budget_manager/screens/add_expense/views/icon.dart';
@@ -341,6 +342,50 @@ class _NewCategoryState
                 ),
 
                 onPressed: () {
+                  final error = CategoryValidationHelper.validate(
+                    categoryName: nameController.text,
+                    selectedIcon: selectedIcon,
+                    selectedColor: selectedColor,
+                  );
+
+                  if (error !=
+                      null) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          error,
+                        ),
+                      ),
+                    );
+                    return;
+                  }
+
+                  // final existingNames = categories
+                  //     .map(
+                  //       (
+                  //         category,
+                  //       ) => category.name.toLowerCase().trim(),
+                  //     )
+                  //     .toList();
+
+                  // final newName = nameController.text.toLowerCase().trim();
+
+                  // if (existingNames.contains(
+                  //   newName,
+                  // )) {
+                  //   ScaffoldMessenger.of(
+                  //     context,
+                  //   ).showSnackBar(
+                  //     const SnackBar(
+                  //       content: Text(
+                  //         'Category already exists',
+                  //       ),
+                  //     ),
+                  //   );
+                  //   return;
+                  // }
                   final category = Category(
                     categoryId: const Uuid().v1(),
 
